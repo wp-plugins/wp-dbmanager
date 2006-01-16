@@ -3,7 +3,7 @@
 Plugin Name: WP-DBManager
 Plugin URI: http://www.lesterchan.net/portfolio/programming.php
 Description: Manages your Wordpress database. Allows you to optimizee, backup, restore, delete backup database and run selected queries.	
-Version: 2.00
+Version: 2.01
 Author: GaMerZ
 Author URI: http://www.lesterchan.net
 */
@@ -27,11 +27,21 @@ Author URI: http://www.lesterchan.net
 */
 
 
-### Function: Poll Menu
+### Function: Database Manager Menu
 add_action('admin_menu', 'dbmanager_menu');
 function dbmanager_menu() {
 	if (function_exists('add_menu_page')) {
-		add_menu_page('Database', 'Database', 1, 'database-manager.php');
+		add_menu_page(__('Database'), __('Database'), 'manage_database', 'database-manager.php');
+	}
+}
+
+
+### Function: Database Manager Role
+add_action('admin_head', 'dbmanager_role');
+function dbmanager_role() {
+	if(function_exists('get_role')) {
+		$role = get_role('administrator');
+		$role->add_cap('manage_database');
 	}
 }
 ?>

@@ -2,7 +2,7 @@
 /*
 +----------------------------------------------------------------+
 |																							|
-|	WordPress 2.0 Plugin: WP-DBManager 2.00								|
+|	WordPress 2.0 Plugin: WP-DBManager 2.01								|
 |	Copyright (c) 2005 Lester "GaMerZ" Chan									|
 |																							|
 |	File Written By:																	|
@@ -19,6 +19,12 @@
 
 ### Require Admin Header
 require_once('./admin.php');
+
+
+### Check Whether User Can Manage Database
+if(!current_user_can('manage_database')) {
+	die('Access Denied');
+}
 
 
 ### Variables Variables Variables
