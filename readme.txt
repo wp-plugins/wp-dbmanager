@@ -1,10 +1,12 @@
 -> Database Manager For WordPress 2.0
 --------------------------------------------------
-Author	-> Lester 'GaMerZ' Chan
-Email	-> lesterch@singnet.com.sg
-Website	-> http://www.lesterchan.net/
-Demo	-> N/A
-Updated	-> 1st February 2006
+Author		-> Lester 'GaMerZ' Chan
+Email		-> lesterch@singnet.com.sg
+Website		-> http://www.lesterchan.net/
+Demo		-> N/A
+Documentation	-> http://dev.wp-plugins.org/wiki/wp-dbmanager
+Development	-> http://dev.wp-plugins.org/browser/wp-dbmanager/
+Updated		-> 1st February 2006
 --------------------------------------------------
 
 
