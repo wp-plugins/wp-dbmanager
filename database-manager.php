@@ -2,7 +2,7 @@
 /*
 +----------------------------------------------------------------+
 |																							|
-|	WordPress 2.0 Plugin: WP-DBManager 2.01								|
+|	WordPress 2.0 Plugin: WP-DBManager 2.02								|
 |	Copyright (c) 2005 Lester "GaMerZ" Chan									|
 |																							|
 |	File Written By:																	|
@@ -534,15 +534,15 @@ switch($mode) {
 				</tr>
 				<tr>
 					<td>Database Host</td>
-					<td><?=DB_HOST?></td>
+					<td><?php echo DB_HOST; ?></td>
 				</tr>
 				<tr>
 					<td>Database Name</td>
-					<td><?=DB_NAME?></td>
+					<td><?php echo DB_NAME; ?></td>
 				</tr>	
 				<tr>
 					<td>Database User</td>
-					<td><?=DB_USER?></td>
+					<td><?php echo DB_USER; ?></td>
 				</tr>
 				<tr>
 					<td>Database Type</td>
@@ -550,7 +550,7 @@ switch($mode) {
 				</tr>	
 				<tr>
 					<td>Database Version</td>
-					<td>v<?=$sqlversion?></td>
+					<td>v<?php echo $sqlversion; ?></td>
 				</tr>	
 			</table>
 		</div>
