@@ -1,4 +1,4 @@
--> Upgrade Instructions For Version 2.00 To Version 2.01
+-> Upgrade Instructions For Version 2.0x To Version 2.02
 ------------------------------------------------------------------
 // Open wp-admin folder
 

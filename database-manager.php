@@ -48,12 +48,20 @@ if(isset($_POST['cancel'])) {
 
 ### Format Bytes Into KB/MB
 function format_size($rawSize) {
-	if ($rawSize / 1048576 > 1)
+	if($rawSize / 1073741824 > 1) 
+		return round($rawSize/1048576, 1) . ' GB';
+	else if ($rawSize / 1048576 > 1)
 		return round($rawSize/1048576, 1) . ' MB';
 	else if ($rawSize / 1024 > 1)
 		return round($rawSize/1024, 1) . ' KB';
 	else
 		return round($rawSize, 1) . ' bytes';
+}
+
+
+### Get File Extension
+function file_ext($file_name) {
+	return substr(strrchr($file_name, '.'), 1);
 }
 
 
@@ -83,6 +91,7 @@ if($_POST['do']) {
 	// Lets Prepare The Variables
 	$database_file = trim($_POST['database_file']);
 	$optimize = $_POST['optimize'];
+	$emptydrop = $_POST['emptydrop'];
 	$delete = $_POST['delete'];
 	$nice_file_date = date('l, jS F Y @ H:i', substr($database_file, 0, 10));
 
@@ -151,14 +160,14 @@ if($_POST['do']) {
 		case 'Download':
 			if(!empty($database_file)) {
 				$file_path = $backup['path'].'/'.$database_file;
-				$nice_file_name = date('jS_F_Y', substr($database_file, 0, 10)).'-'.substr($database_file, 13);
+				//$nice_file_name = date('jS_F_Y', substr($database_file, 0, 10)).'-'.substr($database_file, 13);
 				header("Pragma: public");
 				header("Expires: 0");
 				header("Cache-Control: must-revalidate, post-check=0, pre-check=0"); 
 				header("Content-Type: application/force-download");
 				header("Content-Type: application/octet-stream");
 				header("Content-Type: application/download");
-				header("Content-Disposition: attachment; filename=".basename($nice_file_name).";");
+				header("Content-Disposition: attachment; filename=".basename($database_file).";");
 				header("Content-Transfer-Encoding: binary");
 				header("Content-Length: ".filesize($file_path));
 				@readfile($file_path);
@@ -167,21 +176,23 @@ if($_POST['do']) {
 			}
 			break;
 		case 'Optimize':
-			foreach($optimize as $key => $value) {
-				if($value == 'yes') {
-					$tables_string .=  ', '.$key;
+			if(!empty($optimize)) {
+				foreach($optimize as $key => $value) {
+					if($value == 'yes') {
+						$tables_string .=  ', '.$key;
+					}
 				}
+			} else {
+				$text = '<font color="red">No Tables Selected</font>';
 			}
 			$selected_tables = substr($tables_string, 2);
 			if(!empty($selected_tables)) {
 				$optimize2 = $wpdb->query("OPTIMIZE TABLE $selected_tables");
 				if(!$optimize2) {
-					$text = "<font color=\"red\">Table(s) '$selected_tables' Failed To Be Optimized</font>";
+					$text = "<font color=\"red\">Table(s) '$selected_tables' NOT Optimized</font>";
 				} else {
-					$text = "<font color=\"green\">Table(s) '$selected_tables' Optimized Successfully</font>";
+					$text = "<font color=\"green\">Table(s) '$selected_tables' Optimized</font>";
 				}
-			} else {
-				$text = '<font color="red">No Tables Selected</font>';
 			}
 			break;
 		case 'Run':
@@ -200,7 +211,7 @@ if($_POST['do']) {
 				}
 				if($sql_queries) {
 					foreach($sql_queries as $sql_query) {			
-						if (preg_match("/^\\s*(insert|update|replace|delete|create) /i",$sql_query)) {
+						if (preg_match("/^\\s*(insert|update|replace|delete|create|alter) /i",$sql_query)) {
 							$run_query = $wpdb->query($sql_query);
 							if(!$run_query) {
 								$text .= "<font color=\"red\">$sql_query</font><br />";
@@ -222,6 +233,31 @@ if($_POST['do']) {
 				$text = "<font color=\"red\">Empty Query</font>";
 			}
 			break;
+		case 'Empty/Drop':
+			$empty_tables = array();
+			if(!empty($emptydrop)) {
+				foreach($emptydrop as $key => $value) {
+					if($value == 'empty') {
+						$empty_tables[] = $key;
+					} elseif($value == 'drop') {
+						$drop_tables .=  ', '.$key;
+					}
+				}
+			} else {
+				$text = '<font color="red">No Tables Selected</font>';
+			}
+			$drop_tables = substr($drop_tables, 2);
+			if(!empty($empty_tables)) {
+				foreach($empty_tables as $empty_table) {
+					$empty_query = $wpdb->query("TRUNCATE $empty_table");
+					$text .= "<font color=\"green\">Table '$empty_table' Emptied</font><br />";
+				}
+			}
+			if(!empty($drop_tables)) {
+				$drop_query = $wpdb->query("DROP TABLE $drop_tables");
+				$text = "<font color=\"green\">Table(s) '$drop_tables' Dropped</font>";
+			}
+			break;
 	}
 }
 
@@ -240,28 +276,30 @@ switch($mode) {
 			<li><a href="database-manager.php?mode=optimize"><?php _e('Optimize DB'); ?></a></li>
 			<li><a href="database-manager.php?mode=restore"><?php _e('Restore/Download DB'); ?></a></li> 
 			<li><a href="database-manager.php?mode=delete"><?php _e('Delete Backup DB'); ?></a></li>
-			<li class="last"><a href="database-manager.php?mode=run"><?php _e('Run SQL Query'); ?></a></li>
+			<li><a href="database-manager.php?mode=run"><?php _e('Run SQL Query'); ?></a></li>
+			<li class="last"><a href="database-manager.php?mode=empty"><?php _e('Empty/Drop Tables'); ?></a></li>
 		</ul>
+		<?php if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.$text.'</p></div>'; } ?>
 		<!-- Backup Database -->
 		<div class="wrap">
 			<h2>Backup Database</h2>
-			<form action="<?=$_SERVER['PHP_SELF']?>" method="post">
+			<form action="<?php echo $_SERVER['PHP_SELF']; ?>?mode=backup" method="post">
 			<table width="100%" cellspacing="3" cellpadding="3" border="0">
 				<tr style='background-color: #eee'>
 					<th align="left" scope="row">Database Name:</th>
-					<td><?=DB_NAME?></td>
+					<td><?php echo DB_NAME; ?></td>
 				</tr>
 				<tr style='background-color: none'>
 					<th align="left" scope="row">Database Backup To:</th>
-					<td><?=$backup['path']?></td>
+					<td><?php echo $backup['path']; ?></td>
 				</tr>
 				<tr style='background-color: #eee'>
 					<th align="left" scope="row">Database Backup Date:</th>
-					<td><?=date('jS F Y', $backup['date'])?></td>
+					<td><?php echo date('jS F Y', $backup['date']); ?></td>
 				</tr>
 				<tr style='background-color: none'>
 					<th align="left" scope="row">Database Backup File Name:</th>
-					<td><?=$backup['filename']?> / <?=date('jS_F_Y', substr($backup['filename'], 0, 10)).'-'.substr($backup['filename'], 13);?></td>
+					<td><?php echo $backup['filename']; ?></td>
 				</tr>
 				<tr style='background-color: #eee'>
 					<th align="left" scope="row">Database Backup Type:</th>
@@ -269,7 +307,7 @@ switch($mode) {
 				</tr>
 				<tr style='background-color: none'>
 					<th align="left" scope="row">MYSQL Dump Location</th>
-					<td><?=$backup['mysqldumppath']?></td>
+					<td><?php echo $backup['mysqldumppath']; ?></td>
 				</tr>
 				<tr style='background-color: #eee'>
 					<th align="left" scope="row">GZIP Database Backup File?</th>
@@ -295,12 +333,14 @@ switch($mode) {
 			<li><a href="database-manager.php?mode=optimize" class="current"><?php _e('Optimize DB'); ?></a></li>
 			<li><a href="database-manager.php?mode=restore"><?php _e('Restore/Download DB'); ?></a></li> 
 			<li><a href="database-manager.php?mode=delete"><?php _e('Delete Backup DB'); ?></a></li>
-			<li class="last"><a href="database-manager.php?mode=run"><?php _e('Run SQL Query'); ?></a></li>
+			<li><a href="database-manager.php?mode=run"><?php _e('Run SQL Query'); ?></a></li>
+			<li class="last"><a href="database-manager.php?mode=empty"><?php _e('Empty/Drop Tables'); ?></a></li>
 		</ul>
+		<?php if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.$text.'</p></div>'; } ?>
 		<!-- Optimize Database -->
 		<div class="wrap">
 			<h2>Optimize Database</h2>
-			<form action="<?=$_SERVER['PHP_SELF']?>" method="post">
+			<form action="<?php echo $_SERVER['PHP_SELF']; ?>?mode=optimize" method="post">
 				<table width="100%" cellspacing="3" cellpadding="3" border="0">
 					<tr>
 					<th align="left" scope="col">Tables</th>
@@ -342,12 +382,14 @@ switch($mode) {
 			<li><a href="database-manager.php?mode=optimize"><?php _e('Optimize DB'); ?></a></li>
 			<li><a href="database-manager.php?mode=restore" class="current"><?php _e('Restore/Download DB'); ?></a></li> 
 			<li><a href="database-manager.php?mode=delete"><?php _e('Delete Backup DB'); ?></a></li>
-			<li class="last"><a href="database-manager.php?mode=run"><?php _e('Run SQL Query'); ?></a></li>
+			<li><a href="database-manager.php?mode=run"><?php _e('Run SQL Query'); ?></a></li>
+			<li class="last"><a href="database-manager.php?mode=empty"><?php _e('Empty/Drop Tables'); ?></a></li>
 		</ul>
+		<?php if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.$text.'</p></div>'; } ?>
 		<!-- Restore/Download Database -->
 		<div class="wrap">
 			<h2>Restore/Download Database</h2>
-			<form action="<?=$_SERVER['PHP_SELF']?>" method="post">
+			<form action="<?php echo $_SERVER['PHP_SELF']; ?>?mode=restore" method="post">
 				<table width="100%" cellspacing="3" cellpadding="3" border="0">
 					<tr>
 						<th align="left" scope="row" colspan="5">Choose A Backup Date To Restore Or Download</th>
@@ -364,7 +406,7 @@ switch($mode) {
 							if ($handle = opendir($backup['path'])) {
 								$database_files = array();
 								while (false !== ($file = readdir($handle))) { 
-									if ($file != '.' && $file != '..') {
+									if ($file != '.' && $file != '..' && (file_ext($file) == 'sql' || file_ext($file) == 'gz')) {
 										$database_files[] = $file;
 									} 
 								}
@@ -395,8 +437,8 @@ switch($mode) {
 					?>
 					</tr>
 					<tr>
-						<th align="left" colspan="3"><?=$no?> Backup File(s)</th>
-						<th align="left"><?=format_size($totalsize)?></th>
+						<th align="left" colspan="3"><?php echo $no; ?> Backup File(s)</th>
+						<th align="left"><?php echo format_size($totalsize); ?></th>
 						<td>&nbsp;</td>
 					</tr>
 					<tr>
@@ -418,12 +460,14 @@ switch($mode) {
 			<li><a href="database-manager.php?mode=optimize"><?php _e('Optimize DB'); ?></a></li>
 			<li><a href="database-manager.php?mode=restore"><?php _e('Restore/Download DB'); ?></a></li> 
 			<li><a href="database-manager.php?mode=delete" class="current"><?php _e('Delete Backup DB'); ?></a></li>
-			<li class="last"><a href="database-manager.php?mode=run"><?php _e('Run SQL Query'); ?></a></li>
+			<li><a href="database-manager.php?mode=run"><?php _e('Run SQL Query'); ?></a></li>
+			<li class="last"><a href="database-manager.php?mode=empty"><?php _e('Empty/Drop Tables'); ?></a></li>
 		</ul>
+		<?php if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.$text.'</p></div>'; } ?>
 		<!-- Delete Database Backup Files -->
 		<div class="wrap">
 			<h2>Delete Database Backup Files</h2>
-			<form action="<?=$_SERVER['PHP_SELF']?>" method="post">
+			<form action="<?php echo $_SERVER['PHP_SELF']; ?>?mode=delete" method="post">
 				<table width="100%" cellspacing="3" cellpadding="3" border="0">
 					<tr>
 						<th align="left" scope="row" colspan="5">Choose Database Backup Files To Delete</th>
@@ -440,7 +484,7 @@ switch($mode) {
 							if ($handle = opendir($backup['path'])) {
 								$database_files = array();
 								while (false !== ($file = readdir($handle))) { 
-									if ($file != '.' && $file != '..') { 
+									if ($file != '.' && $file != '..'  && (file_ext($file) == 'sql' || file_ext($file) == 'gz')) { 
 										$database_files[] = $file;
 									} 
 								}
@@ -471,8 +515,8 @@ switch($mode) {
 					?>
 					</tr>
 					<tr>
-						<th align="left" colspan="3"><?=$no?> Backup File(s)</th>
-						<th align="left"><?=format_size($totalsize)?></th>
+						<th align="left" colspan="3"><?php echo $no; ?> Backup File(s)</th>
+						<th align="left"><?php echo format_size($totalsize); ?></th>
 						<td>&nbsp;</td>
 					</tr>
 					<tr>
@@ -494,16 +538,70 @@ switch($mode) {
 			<li><a href="database-manager.php?mode=optimize"><?php _e('Optimize DB'); ?></a></li>
 			<li><a href="database-manager.php?mode=restore"><?php _e('Restore/Download DB'); ?></a></li> 
 			<li><a href="database-manager.php?mode=delete"><?php _e('Delete Backup DB'); ?></a></li>
-			<li class="last"><a href="database-manager.php?mode=run" class="current"><?php _e('Run SQL Query'); ?></a></li>
+			<li><a href="database-manager.php?mode=run" class="current"><?php _e('Run SQL Query'); ?></a></li>
+			<li class="last"><a href="database-manager.php?mode=empty"><?php _e('Empty/Drop Tables'); ?></a></li>
 		</ul>
+		<?php if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.$text.'</p></div>'; } ?>
 		<!-- Run SQL Query -->
 		<div class="wrap">
 			<h2>Run SQL Query</h2>
-			<form action="<?=$_SERVER['PHP_SELF']?>" method="post">
-				<p><b>Seperate Multiple Queries With A New Line</b><br /><font color="green">Use Only INSERT, UPDATE, REPLACE, DELETE and CREATE statements.</font></p>
+			<form action="<?php echo $_SERVER['PHP_SELF']; ?>?mode=run" method="post">
+				<p><b>Seperate Multiple Queries With A New Line</b><br /><font color="green">Use Only INSERT, UPDATE, REPLACE, DELETE, CREATE and ALTER statements.</font></p>
 				<p align="center"><textarea cols="150" rows="30" name="sql_query"></textarea></p>
 				<p align="center"><input type="submit" name="do" Value="Run" class="button">&nbsp;&nbsp;<input type="submit" name="cancel" Value="Cancel" class="button"></p>
-				<p>1. CREATE statement will return an error, which is perfectly normal due to the database class. To confirm that your table has been created check the Manage Database page.<br />2. UPDATE statement may return an error sometimes due to the newly updated value being the same as the previous value.</font></p>
+				<p>1. CREATE statement will return an error, which is perfectly normal due to the database class. To confirm that your table has been created check the Manage Database page.<br />2. UPDATE statement may return an error sometimes due to the newly updated value being the same as the previous value.<br />3. ALTER statement will return an error because there is no value returned.</font></p>
+			</form>
+		</div>
+<?php
+		break;
+	// Empty/Drop Tables
+	case 'empty':
+		$title = __('Empty/Drop Tables');
+		require("./admin-header.php");
+		$tables = $wpdb->get_results("SHOW TABLES");
+?>		<!-- Drop/Empty Tables -->
+		<ul id="submenu"> 
+			<li><a href="database-manager.php"><?php _e('Manage Database'); ?></a></li> 
+			<li><a href="database-manager.php?mode=backup"><?php _e('Backup DB'); ?></a></li>
+			<li><a href="database-manager.php?mode=optimize"><?php _e('Optimize DB'); ?></a></li>
+			<li><a href="database-manager.php?mode=restore"><?php _e('Restore/Download DB'); ?></a></li> 
+			<li><a href="database-manager.php?mode=delete"><?php _e('Delete Backup DB'); ?></a></li>
+			<li><a href="database-manager.php?mode=run"><?php _e('Run SQL Query'); ?></a></li>
+			<li class="last"><a href="database-manager.php?mode=empty" class="current"><?php _e('Empty/Drop Tables'); ?></a></li>
+		</ul>
+		<?php if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.$text.'</p></div>'; } ?>
+		<!-- Empty/Drop Tables -->
+		<div class="wrap">
+			<h2>Empty/Drop Tables</h2>
+			<form action="<?php echo $_SERVER['PHP_SELF']; ?>?mode=empty" method="post">
+				<table width="100%" cellspacing="3" cellpadding="3" border="0">
+					<tr>
+					<th align="left" scope="col">Tables</th>
+					<th align="left" scope="col">Empty</th>
+					<th align="left" scope="col">Drop</th>
+				</tr>
+						<?php
+							foreach($tables as $dbtable) {
+								if($no%2 == 0) {
+									$style = 'style=\'background-color: #eee\'';
+								} else {
+									$style = 'style=\'background-color: none\'';
+								}
+								$no++;
+								$table_name = '$dbtable->Tables_in_'.DB_NAME;
+								eval("\$table_name = \"$table_name\";");
+								echo "<tr $style><th align=\"left\" scope=\"row\">$table_name</th>\n";
+								echo "<td><input type=\"radio\" name=\"emptydrop[$table_name]\" value=\"empty\">&nbsp;Empty</td>";
+								echo "<td><input type=\"radio\" name=\"emptydrop[$table_name]\" value=\"drop\">&nbsp;Drop</td></tr>";
+							}
+						?>
+					<tr>
+						<td colspan="3">1. DROPPING a table means deleting the table. This action is not REVERSIBLE.<br />2. EMPTYING a table means all the rows in the table will be deleted. This action is not REVERSIBLE.</td>
+					</tr>
+					<tr>
+						<td colspan="3" align="center"><input type="submit" name="do" value="Empty/Drop" class="button" onclick="return confirm('You Are About To Empty Or Drop The Selected Databases.\nThis Action Is Not Reversible.\n\n Choose \'Cancel\' to stop, \'OK\' to delete.')">&nbsp;&nbsp;<input type="submit" name="cancel" Value="Cancel" class="button"></td>
+					</tr>
+				</table>
 			</form>
 		</div>
 <?php
@@ -521,7 +619,8 @@ switch($mode) {
 			<li><a href="database-manager.php?mode=optimize"><?php _e('Optimize DB'); ?></a></li>
 			<li><a href="database-manager.php?mode=restore"><?php _e('Restore/Download DB'); ?></a></li> 
 			<li><a href="database-manager.php?mode=delete"><?php _e('Delete Backup DB'); ?></a></li>
-			<li class="last"><a href="database-manager.php?mode=run"><?php _e('Run SQL Query'); ?></a></li>
+			<li><a href="database-manager.php?mode=run"><?php _e('Run SQL Query'); ?></a></li>
+			<li class="last"><a href="database-manager.php?mode=empty" class="current"><?php _e('Empty/Drop Tables'); ?></a></li>
 		</ul>
 		<?php if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.$text.'</p></div>'; } ?>
 		<!-- Database Information -->

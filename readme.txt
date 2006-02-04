@@ -12,7 +12,11 @@ Updated		-> 1st March 2006
 
 // Version 2.02 (01-03-2006)
 - NEW: Improved On 'manage_database' Capabilities
+- NEW: Added GigaBytes To File Size
+- NEW: Added ALTER Statement To Allowed Queries
+- NEW: Able To Empty/Drop Tables
 - FIXED: PHP Short Tags
+- FIXED: Redirect Back To The Same Page Instead Of Manage Database Page After Submitting Form
 
 // Version 2.01 (01-02-2006)
 - NEW: Added 'manage_database' Capabilities To Administrator Role
