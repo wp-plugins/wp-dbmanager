@@ -15,6 +15,11 @@ Updated		-> 1st March 2006
 - NEW: Added GigaBytes To File Size
 - NEW: Added ALTER Statement To Allowed Queries
 - NEW: Able To Empty/Drop Tables
+- NEW: Able To EMail Database Backup File
+- NEW: Splitted database-manager.php Into Individual Files
+- NEW: Merge Restore And Delete Backup Database
+- NEW: Included .htaccess File To Protect Backup Folder
+- FIXED: Using Old Method To Add Submenu
 - FIXED: PHP Short Tags
 - FIXED: Redirect Back To The Same Page Instead Of Manage Database Page After Submitting Form
 
