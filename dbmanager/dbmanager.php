@@ -39,7 +39,7 @@ function dbmanager_menu() {
 		add_submenu_page('dbmanager/database-manager.php', __('Optimize DB'), __('Optimize DB'), 'manage_database', 'dbmanager/database-optimize.php');
 		add_submenu_page('dbmanager/database-manager.php', __('Empty/Drop Tables'), __('Empty/Drop Tables'), 'manage_database', 'dbmanager/database-empty.php');
 		add_submenu_page('dbmanager/database-manager.php', __('Run SQL Query'), __('Run SQL Query'), 'manage_database', 'dbmanager/database-run.php');
-		add_submenu_page('dbmanager/database-manager.php',  __('DB Option'),  __('DB Option'), 'manage_database', 'dbmanager/dbmanager.php', 'dbmanager_options');
+		add_submenu_page('dbmanager/database-manager.php',  __('DB Options'),  __('DB Options'), 'manage_database', 'dbmanager/dbmanager.php', 'dbmanager_options');
 	}
 }
 
