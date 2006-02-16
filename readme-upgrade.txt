@@ -1,14 +1,27 @@
 -> Upgrade Instructions For Version 1.0x To Version 2.02
 ------------------------------------------------------------------
+// Open wp-admin folder
+
+Delete:
+------------------------------------------------------------------
+database-manager.php
+------------------------------------------------------------------
+
+
 // Open wp-content/plugins folder
 
-Overwrite:
+Delete:
+------------------------------------------------------------------
+dbmanager.php
+------------------------------------------------------------------
+
+Put:
 ------------------------------------------------------------------
 Folder: dbmanager
 ------------------------------------------------------------------
 
 
-// Deactivate And Activate WP-DBManager Plugin
+// Activate WP-DBManager Plugin
 
 
 // Open wp-content/backup-db folder
