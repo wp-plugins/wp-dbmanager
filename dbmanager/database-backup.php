@@ -61,70 +61,99 @@ $backup['filename'] = $backup['date'].'_-_'.DB_NAME.'.sql';
 ### MYSQL Base Dir
 $mysql_basedir = $wpdb->get_row("SHOW VARIABLES LIKE 'basedir'");
 $mysql_basedir = $mysql_basedir->Value;
+if($mysql_basedir == '/') { $mysql_basedir = '/usr/'; }
+$status_count = 0;
+$stats_function_disabled = 0;
 ?>
 <?php if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.$text.'</p></div>'; } ?>
 <!-- Checking Backup Status -->
 <div class="wrap">
 	<h2>Checking Backup Status</h2>
-	<table width="100%" cellspacing="3" cellpadding="3" border="0">
-		<tr style='background-color: #eee'>
-			<th width="40%" valign="top" align="left" scope="row">Is Backup Folder Valid?</th>
-			<td width="60%">
-				<?php
-					if(is_dir($backup['path'])) {
-						echo '<font color="green">Yes</font>';
-					} else {
-						echo '<font color="red">No. Please create \'backup-db\' folder in \'wp-content\' folder and CHMOD it to \'777\' or change the location of the backup folder under DB Option.</font>';
-					}
-				?>
-			</td>
-		</tr>
-		<tr style='background-color: none'>
-			<th width="40%" valign="top" align="left" scope="row">Backup Folder Writable?</th>
-			<td width="60%">
-				<?php
-					if(is_writable($backup['path'])) {
-						echo '<font color="green">Yes</font>';
-					} else {
-						echo '<font color="red">No. Please CHMOD it to \'777\'.</font>';
-					}
-				?>
-			</td>
-		</tr>
-		<tr style='background-color: #eee'>
-			<th width="40%" valign="top" align="left" scope="row">Is mysqldump Path Valid?</th>
-			<td width="60%">
-				<?php
-					if(file_exists($mysql_basedir.'bin/'.$backup['mysqldumppath']) || file_exists($backup['mysqldumppath'])) {
-						echo '<font color="green">Yes</font>';
-					} else {
-						echo '<font color="red">No. Please check your mysqldump path under DB Option.</font>';
-					}
-				?>
-				<br />
-				Ignore this if you are on a Linux Server, I am still trying to learn how to detect mysqldump on Linux Server
-			</td>
-		</tr>
-		<tr style='background-color: none'>
-			<th width="40%" valign="top" align="left" scope="row">Is mysql Path Valid?</th>
-			<td width="60%">
-				<?php
-					if(file_exists($mysql_basedir.'bin/'.$backup['mysqlpath']) || file_exists($backup['mysqlpath'])) {
-						echo '<font color="green">Yes</font>';
-					} else {
-						echo '<font color="red">No. Please check your mysql path under DB Option.</font>';
-					}
-				?>
-				<br />
-				Ignore this if you are on a Linux Server, I am still trying to learn how to detect mysql on Linux Server
-			</td>
-			<tr style='background-color: #eee'>
-			<th width="40%" valign="top" align="left" scope="row">Is passthru() Enabled?</th>
-			<td width="60%">
-			</td>
-		</tr>
-		</tr>
-	</table>
+	<p>
+		Checking Backup Folder (<b><?php echo $backup['path']; ?></b>) ...<br />
+		<?php
+			if(is_dir($backup['path'])) {
+				echo '<font color="green">Backup folder exists</font><br />';
+				$status_count++;
+			} else {
+				echo '<font color="red">Backup folder does NOT exist. Please create \'backup-db\' folder in \'wp-content\' folder and CHMOD it to \'777\' or change the location of the backup folder under DB Option.</font><br />';
+			}
+			if(is_writable($backup['path'])) {
+				echo '<font color="green">Backup folder is writable</font>';
+				$status_count++;
+			} else {
+				echo '<font color="red">Backup folder is NOT writable. Please CHMOD it to \'777\'.</font>';
+			}
+		?>
+	</p>
+	<p>		
+		<?php			
+			if(file_exists($mysql_basedir.'bin/'.$backup['mysqldumppath'])) {
+				echo 'Checking MYSQL Dump Path (<b>'.$mysql_basedir.'bin/'.$backup['mysqldumppath'].'</b>) ...<br />';
+				echo '<font color="green">MYSQL dump path exists.</font>';
+				$status_count++;
+			} else if(file_exists($backup['mysqldumppath'])) {
+				echo 'Checking MYSQL Dump Path (<b>'.$backup['mysqldumppath'].'</b>) ...<br />';
+				echo '<font color="green">MYSQL dump path exists.</font>';
+				$status_count++;
+			} else {
+				echo 'Checking MYSQL Dump Path ...<br />';
+				echo '<font color="red">MYSQL dump path does NOT exist. Please check your mysqldump path under DB Options. If uncertain, contact your server administrator.</font>';
+			}
+		?>
+	</p>
+	<p>
+		<?php
+			if(file_exists($mysql_basedir.'bin/'.$backup['mysqlpath'])) {
+				echo 'Checking MYSQL Path (<b>'.$mysql_basedir.'bin/'.$backup['mysqlpath'].'</b>) ...<br />';
+				echo '<font color="green">MYSQL path exists.</font>';
+				$status_count++;
+			} else if(file_exists($backup['mysqlpath'])) {
+				echo 'Checking MYSQL Path (<b>'.$backup['mysqlpath'].'</b>) ...<br />';
+				echo '<font color="green">MYSQL path exists.</font>';
+				$status_count++;
+			} else {
+				echo 'Checking MYSQL Path ...<br />';
+				echo '<font color="red">MYSQL path does NOT exist. Please check your mysql path under DB Options. If uncertain, contact your server administrator.</font>';
+			}
+		?>
+	</p>
+	<p>
+		Checking PHP Functions (<b>passthru()</b>, <b>system()</b> and <b>exec()</b>) ...<br />
+		<?php
+			if(function_exists('passthru')) {
+				echo '<font color="green">passthru() enabled.</font><br />';
+				$status_count++;
+			} else {
+				echo '<font color="red">passthru() disabled.</font><br />';
+				$stats_function_disabled++;
+			}
+			if(function_exists('system')) {
+				echo '<font color="green">system() enabled.</font><br />';
+			} else {
+				echo '<font color="red">system() disabled.</font><br />';
+				$stats_function_disabled++;
+			}
+			if(function_exists('exec')) {
+				echo '<font color="green">exec() enabled.</font>';
+			} else {
+				echo '<font color="red">exec() disabled.</font>';
+				$stats_function_disabled++;
+			}
+		?>	
+	</p>
+	<p>
+		<?php
+			if($status_count == 5) {
+				echo '<b><font color="green">Excellent. You Are Good To Go.</font></b>';
+			} else if($stats_function_disabled == 3) {
+				echo '<b><font color="red">I\'m sorry, your server administrator has disabled passthru(), system() and exec(), thus you cannot use this backup script. You may consider using the default WordPress database backup script instead.</font></b>';
+			} else {
+				echo '<b><font color="red">Please Rectify The Error Highlighted In Red Before Proceeding On.</font></b>';
+			}
+		?>
+	</p>
+	<p><i>Note: The checking of backup status is still undergoing testing, if you get a 'Good To Go' status but can't perform the backup or you get some errors but still can perform the backup, please drop me an <a href="mailto:gamerz84@hotmail.com?Subject=WP-DBManager: Checking Of Backup Status">email</a>.</i></p>
 </div>
 <!-- Backup Database -->
 <div class="wrap">
