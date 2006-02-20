@@ -90,7 +90,7 @@ $tables = $wpdb->get_results("SHOW TABLES");
 				<td colspan="3">1. DROPPING a table means deleting the table. This action is not REVERSIBLE.<br />2. EMPTYING a table means all the rows in the table will be deleted. This action is not REVERSIBLE.</td>
 			</tr>
 			<tr>
-				<td colspan="3" align="center"><input type="submit" name="do" value="Empty/Drop" class="button" onclick="return confirm('You Are About To Empty Or Drop The Selected Databases.\nThis Action Is Not Reversible.\n\n Choose \'Cancel\' to stop, \'OK\' to delete.')" />&nbsp;&nbsp;<input type="submit" name="cancel" Value="Cancel" class="button" /></td>
+				<td colspan="3" align="center"><input type="submit" name="do" value="Empty/Drop" class="button" onclick="return confirm('You Are About To Empty Or Drop The Selected Databases.\nThis Action Is Not Reversible.\n\n Choose \'Cancel\' to stop, \'OK\' to delete.')" />&nbsp;&nbsp;<input type="button" name="cancel" Value="<?php _e('Cancel'); ?>" class="button" onclick="javascript:history.go(-1)" /></td>
 			</tr>
 		</table>
 	</form>

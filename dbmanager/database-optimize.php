@@ -83,7 +83,7 @@ $tables = $wpdb->get_results("SHOW TABLES");
 				<td colspan="2" align="center">Database should be optimize once every month.</td>
 			</tr>
 			<tr>
-				<td colspan="2" align="center"><input type="submit" name="do" value="Optimize" class="button" />&nbsp;&nbsp;<input type="submit" name="cancel" Value="Cancel" class="button" /></td>
+				<td colspan="2" align="center"><input type="submit" name="do" value="Optimize" class="button" />&nbsp;&nbsp;<input type="button" name="cancel" Value="<?php _e('Cancel'); ?>" class="button" onclick="javascript:history.go(-1)" /></td>
 			</tr>
 		</table>
 	</form>

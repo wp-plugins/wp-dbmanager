@@ -34,13 +34,6 @@ $backup['mysqlpath'] = $backup_options['mysqlpath'];
 $backup['path'] = $backup_options['path'];
 
 
-### Cancel
-if(isset($_POST['cancel'])) {
-	Header('Location: '.$base_page);
-	exit();
-}
-
-
 ### Format Bytes Into KB/MB
 function format_size($rawSize) {
 	if($rawSize / 1073741824 > 1) 

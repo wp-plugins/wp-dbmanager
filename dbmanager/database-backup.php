@@ -189,7 +189,7 @@ $stats_function_disabled = 0;
 			<td><input type="radio" name="gzip" value="1">Yes&nbsp;&nbsp;<input type="radio" name="gzip" value="0" checked="checked" />No</td>
 		</tr>
 		<tr>
-			<td colspan="2" align="center"><input type="submit" name="do" value="Backup" class="button" />&nbsp;&nbsp;<input type="submit" name="cancel" Value="Cancel" class="button" /></td>
+			<td colspan="2" align="center"><input type="submit" name="do" value="Backup" class="button" />&nbsp;&nbsp;<input type="button" name="cancel" Value="<?php _e('Cancel'); ?>" class="button" onclick="javascript:history.go(-1)" /></td>
 		</tr>
 	</table>
 	</form>
