@@ -70,15 +70,15 @@ $stats_function_disabled = 0;
 <div class="wrap">
 	<h2>Checking Backup Status</h2>
 	<p>
-		Checking Backup Folder (<b><?php echo $backup['path']; ?></b>) ...<br />
+		Checking Backup Folder (<b><?php echo stripslashes($backup['path']); ?></b>) ...<br />
 		<?php
-			if(is_dir($backup['path'])) {
+			if(is_dir(stripslashes($backup['path']))) {
 				echo '<font color="green">Backup folder exists</font><br />';
 				$status_count++;
 			} else {
 				echo '<font color="red">Backup folder does NOT exist. Please create \'backup-db\' folder in \'wp-content\' folder and CHMOD it to \'777\' or change the location of the backup folder under DB Option.</font><br />';
 			}
-			if(is_writable($backup['path'])) {
+			if(is_writable(stripslashes($backup['path']))) {
 				echo '<font color="green">Backup folder is writable</font>';
 				$status_count++;
 			} else {
@@ -88,12 +88,12 @@ $stats_function_disabled = 0;
 	</p>
 	<p>		
 		<?php			
-			if(file_exists($mysql_basedir.'bin/'.$backup['mysqldumppath'])) {
-				echo 'Checking MYSQL Dump Path (<b>'.$mysql_basedir.'bin/'.$backup['mysqldumppath'].'</b>) ...<br />';
+			if(file_exists($mysql_basedir.'bin/'.stripslashes($backup['mysqldumppath']))) {
+				echo 'Checking MYSQL Dump Path (<b>'.$mysql_basedir.'bin/'.stripslashes($backup['mysqldumppath']).'</b>) ...<br />';
 				echo '<font color="green">MYSQL dump path exists.</font>';
 				$status_count++;
-			} else if(file_exists($backup['mysqldumppath'])) {
-				echo 'Checking MYSQL Dump Path (<b>'.$backup['mysqldumppath'].'</b>) ...<br />';
+			} else if(file_exists(stripslashes($backup['mysqldumppath']))) {
+				echo 'Checking MYSQL Dump Path (<b>'.stripslashes($backup['mysqldumppath']).'</b>) ...<br />';
 				echo '<font color="green">MYSQL dump path exists.</font>';
 				$status_count++;
 			} else {
@@ -104,12 +104,12 @@ $stats_function_disabled = 0;
 	</p>
 	<p>
 		<?php
-			if(file_exists($mysql_basedir.'bin/'.$backup['mysqlpath'])) {
-				echo 'Checking MYSQL Path (<b>'.$mysql_basedir.'bin/'.$backup['mysqlpath'].'</b>) ...<br />';
+			if(file_exists($mysql_basedir.'bin/'.stripslashes($backup['mysqlpath']))) {
+				echo 'Checking MYSQL Path (<b>'.$mysql_basedir.'bin/'.stripslashes($backup['mysqlpath']).'</b>) ...<br />';
 				echo '<font color="green">MYSQL path exists.</font>';
 				$status_count++;
-			} else if(file_exists($backup['mysqlpath'])) {
-				echo 'Checking MYSQL Path (<b>'.$backup['mysqlpath'].'</b>) ...<br />';
+			} else if(file_exists(stripslashes($backup['mysqlpath']))) {
+				echo 'Checking MYSQL Path (<b>'.stripslashes($backup['mysqlpath']).'</b>) ...<br />';
 				echo '<font color="green">MYSQL path exists.</font>';
 				$status_count++;
 			} else {
@@ -166,7 +166,7 @@ $stats_function_disabled = 0;
 		</tr>
 		<tr style='background-color: none'>
 			<th align="left" scope="row">Database Backup To:</th>
-			<td><?php echo $backup['path']; ?></td>
+			<td><?php echo stripslashes($backup['path']); ?></td>
 		</tr>
 		<tr style='background-color: #eee'>
 			<th align="left" scope="row">Database Backup Date:</th>
@@ -182,7 +182,7 @@ $stats_function_disabled = 0;
 		</tr>
 		<tr style='background-color: none'>
 			<th align="left" scope="row">MYSQL Dump Location:</th>
-			<td><?php echo $backup['mysqldumppath']; ?></td>
+			<td><?php echo stripslashes($backup['mysqldumppath']); ?></td>
 		</tr>
 		<tr style='background-color: #eee'>
 			<th align="left" scope="row">GZIP Database Backup File?</th>

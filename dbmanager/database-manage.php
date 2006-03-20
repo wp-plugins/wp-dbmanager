@@ -19,8 +19,8 @@
 
 ### Download Database
 if(!empty($_GET['file'])) {
-	require('../../../wp-config.php');
-	require(ABSPATH.'wp-admin/admin.php');
+	require_once('../../../wp-config.php');
+	auth_redirect();
 	if(strpos($_SERVER['HTTP_REFERER'], get_settings('siteurl').'/wp-admin/admin.php?page=dbmanager/database-manage.php') !== false) {
 		$backup_options = get_settings('dbmanager_options');
 		$file_path = $backup_options['path'].'/'.$_GET['file'];

@@ -6,9 +6,14 @@ Website		-> http://www.lesterchan.net/
 Demo		-> N/A
 Documentation	-> http://dev.wp-plugins.org/wiki/wp-dbmanager
 Development	-> http://dev.wp-plugins.org/browser/wp-dbmanager/
-Updated		-> 1st March 2006
+Updated		-> 1st April 2006
 --------------------------------------------------
 
+
+// Version 2.03 (01-04-2006)
+- FIXED: Run Query Box Too Big
+- FIXED: Header Sent Error
+- FIXED: Extra Slashes For Mysql/Mysql Dump Path 
 
 // Version 2.02 (01-03-2006)
 - NEW: Improved On 'manage_database' Capabilities

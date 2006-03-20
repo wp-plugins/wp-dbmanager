@@ -72,7 +72,7 @@ if($_POST['do']) {
 	<h2>Run SQL Query</h2>
 	<form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
 		<p><b>Seperate Multiple Queries With A New Line</b><br /><font color="green">Use Only INSERT, UPDATE, REPLACE, DELETE, CREATE and ALTER statements.</font></p>
-		<p align="center"><textarea cols="150" rows="30" name="sql_query"></textarea></p>
+		<p align="center"><textarea cols="120" rows="30" name="sql_query"></textarea></p>
 		<p align="center"><input type="submit" name="do" Value="Run" class="button" />&nbsp;&nbsp;<input type="button" name="cancel" Value="<?php _e('Cancel'); ?>" class="button" onclick="javascript:history.go(-1)" /></p>
 		<p>1. CREATE statement will return an error, which is perfectly normal due to the database class. To confirm that your table has been created check the Manage Database page.<br />2. UPDATE statement may return an error sometimes due to the newly updated value being the same as the previous value.<br />3. ALTER statement will return an error because there is no value returned.</font></p>
 	</form>

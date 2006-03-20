@@ -95,19 +95,19 @@ function dbmanager_options() {
 			<tr>
 				<td valign="top"><b>Path To mysqldump:</b></td>
 				<td>
-					<input type="text" name="db_mysqldumppath" size="100" maxlength="100" value="<?php echo $backup_options['mysqldumppath']; ?>" /><br />The absolute path to mysqldump without trailing slash. If unsure, please email your server administrator about this.
+					<input type="text" name="db_mysqldumppath" size="100" maxlength="100" value="<?php echo stripslashes($backup_options['mysqldumppath']); ?>" /><br />The absolute path to mysqldump without trailing slash. If unsure, please email your server administrator about this.
 				</td>
 			</tr>
 			<tr>
 				<td valign="top"><b>Path To mysql:</b></td>
 				<td>
-					<input type="text" name="db_mysqlpath" size="100" maxlength="100" value="<?php echo $backup_options['mysqlpath']; ?>" /><br />The absolute path to mysql without trailing slash. If unsure, please email your server administrator about this.
+					<input type="text" name="db_mysqlpath" size="100" maxlength="100" value="<?php echo stripslashes($backup_options['mysqlpath']); ?>" /><br />The absolute path to mysql without trailing slash. If unsure, please email your server administrator about this.
 				</td>
 			</tr>
 			<tr>
 				<td valign="top"><b>Path To Backup:</b></td>
 				<td>
-					<input type="text" name="db_path" size="100" maxlength="100" value="<?php echo $backup_options['path']; ?>" />
+					<input type="text" name="db_path" size="100" maxlength="100" value="<?php echo stripslashes($backup_options['path']); ?>" />
 					<br />The absolute path to your database backup folder without trailing slash. Make sure the folder is writable.
 				</td>
 			</tr>
