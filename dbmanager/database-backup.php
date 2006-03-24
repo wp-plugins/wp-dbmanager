@@ -20,7 +20,6 @@
 ### Require Database Config
 require('database-config.php');
 
-
 ### Form Processing 
 if($_POST['do']) {
 	// Decide What To Do
@@ -38,16 +37,16 @@ if($_POST['do']) {
 			}
 			passthru($backup['command'], $error);
 			if(!is_writable($backup['path'])) {
-				$text = "<font color=\"red\">Database Failed To Backup On '".date('l, jS F Y @ H:i')."'. Backup Folder Not Writable</font>";
+				$text = "<font color=\"red\">Database Failed To Backup On '$current_date'. Backup Folder Not Writable.</font>";
 			} elseif(filesize($backup['filepath']) == 0) {
 				unlink($backup['filepath']);
-				$text = "<font color=\"red\">Database Failed To Backup On '".date('l, jS F Y @ H:i')."'. Backup File Size Is 0KB</font>";
+				$text = "<font color=\"red\">Database Failed To Backup On '$current_date'. Backup File Size Is 0KB.</font>";
 			} elseif(!is_file($backup['filepath'])) {
-				$text = "<font color=\"red\">Database Failed To Backup On '".date('l, jS F Y @ H:i')."'. Invalid Backup File Path</font>";
+				$text = "<font color=\"red\">Database Failed To Backup On '$current_date'. Invalid Backup File Path.</font>";
 			} elseif($error) {
-				$text = "<font color=\"red\">Database Failed To Backup On '".date('l, jS F Y @ H:i')."'</font>";
+				$text = "<font color=\"red\">Database Failed To Backup On '$current_date'.</font>";
 			} else {
-				$text = "<font color=\"green\">Database Backed Up Successfully On '".date('l, jS F Y @ H:i')."'</font>";
+				$text = "<font color=\"green\">Database Backed Up Successfully On '$current_date'.</font>";
 			}
 			break;
 	}
@@ -170,7 +169,7 @@ $stats_function_disabled = 0;
 		</tr>
 		<tr style='background-color: #eee'>
 			<th align="left" scope="row">Database Backup Date:</th>
-			<td><?php echo date('jS F Y', $backup['date']); ?></td>
+			<td><?php echo gmdate('l, jS F Y @ H:i', $backup['date']); ?></td>
 		</tr>
 		<tr style='background-color: none'>
 			<th align="left" scope="row">Database Backup File Name:</th>

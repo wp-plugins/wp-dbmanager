@@ -47,7 +47,7 @@ require('database-config.php');
 if($_POST['do']) {
 	// Lets Prepare The Variables
 	$database_file = trim($_POST['database_file']);
-	$nice_file_date = date('l, jS F Y @ H:i', substr($database_file, 0, 10));
+	$nice_file_date = gmdate('l, jS F Y @ H:i', substr($database_file, 0, 10));
 
 	// Decide What To Do
 	switch($_POST['do']) {
@@ -73,7 +73,7 @@ if($_POST['do']) {
 				// Get And Read The Database Backup File
 				$file_path = $backup['path'].'/'.$database_file;
 				$file_size = format_size(filesize($file_path));
-				$file_date = date('jS F Y', substr($database_file, 0, 10));
+				$file_date = gmdate('l, jS F Y @ H:i', substr($database_file, 0, 10));
 				$file = fopen($file_path,'rb');
 				$file_data = fread($file,filesize($file_path));
 				fclose($file);
@@ -106,9 +106,9 @@ if($_POST['do']) {
 										"Content-Transfer-Encoding: base64\n\n" .
 										$file_data."\n\n--{$mime_boundary}--\n";
 				if(mail($mail_to, $mail_subject, $mail_message, $mail_header)) {
-					$text .= "<font color=\"green\">Database Backup File For $file_date Successfully E-Mailed To $mail_to</font><br />";
+					$text .= "<font color=\"green\">Database Backup File For '$file_date' Successfully E-Mailed To '$mail_to'</font><br />";
 				} else {
-					$text = "<font color=\"red\">Unable To E-Mail Database Backup File For $file_date To $mail_to</font>";
+					$text = "<font color=\"red\">Unable To E-Mail Database Backup File For '$file_date' To '$mail_to'</font>";
 				}
 			} else {
 				$text = '<font color="red">No Backup Database File Selected</font>';
@@ -123,7 +123,7 @@ if($_POST['do']) {
 			break;
 		case 'Delete':
 			if(!empty($database_file)) {
-				$nice_file_date = date('l, jS F Y @ H:i', substr($database_file, 0, 10));
+				$nice_file_date = gmdate('l, jS F Y @ H:i', substr($database_file, 0, 10));
 				if(is_file($backup['path'].'/'.$database_file)) {
 					if(!unlink($backup['path'].'/'.$database_file)) {
 						$text .= "<font color=\"red\">Unable To Delete Database Backup File On '$nice_file_date'</font><br />";
@@ -174,7 +174,7 @@ if($_POST['do']) {
 							}
 							$no++;
 							$database_text = substr($database_files[$i], 13);
-							$date_text = date('l, jS F Y @ H:i', substr($database_files[$i], 0, 10));
+							$date_text = gmdate('l, jS F Y @ H:i', substr($database_files[$i], 0, 10));
 							$size_text = filesize($backup['path'].'/'.$database_files[$i]);
 							echo "<tr $style>\n<td>$no</td>";
 							echo "<td>$database_text</td>";

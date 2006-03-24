@@ -13,7 +13,8 @@ Updated		-> 1st April 2006
 // Version 2.03 (01-04-2006)
 - FIXED: Run Query Box Too Big
 - FIXED: Header Sent Error
-- FIXED: Extra Slashes For Mysql/Mysql Dump Path 
+- FIXED: Extra Slashes For Mysql/Mysql Dump Path
+- FIXED: Mismatch Date Due To GMT
 
 // Version 2.02 (01-03-2006)
 - NEW: Improved On 'manage_database' Capabilities
