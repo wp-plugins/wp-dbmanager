@@ -1,3 +1,16 @@
+-> Upgrade Instructions For Version 2.02 To Version 2.03
+------------------------------------------------------------------
+// Open wp-content/plugins folder
+
+Overwrite:
+------------------------------------------------------------------
+Folder: dbmanager
+------------------------------------------------------------------
+
+
+
+
+
 -> Upgrade Instructions For Version 1.0x To Version 2.02
 ------------------------------------------------------------------
 // Deactivate WP-DBManager plugin
