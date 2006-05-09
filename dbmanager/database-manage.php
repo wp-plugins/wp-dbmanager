@@ -2,7 +2,7 @@
 /*
 +----------------------------------------------------------------+
 |																							|
-|	WordPress 2.0 Plugin: WP-DBManager 2.03								|
+|	WordPress 2.0 Plugin: WP-DBManager 2.04								|
 |	Copyright (c) 2005 Lester "GaMerZ" Chan									|
 |																							|
 |	File Written By:																	|
@@ -115,9 +115,7 @@ if($_POST['do']) {
 			}
 			break;
 		case 'Download':
-			if(!empty($database_file)) {
-				header('Location: '.get_settings('siteurl').'/wp-content/plugins/dbmanager/database-manage.php?file='.$database_file);
-			} else {
+			if(empty($database_file)) {
 				$text = '<font color="red">No Backup Database File Selected</font>';
 			}
 			break;
@@ -190,7 +188,6 @@ if($_POST['do']) {
 					echo '<tr><td align="center" colspan="5">There Are No Database Backup Files Available</td></tr>';
 				}
 			?>
-			</tr>
 			<tr>
 				<th align="left" colspan="3"><?php echo $no; ?> Backup File(s)</th>
 				<th align="left"><?php echo format_size($totalsize); ?></th>
@@ -200,7 +197,7 @@ if($_POST['do']) {
 				<td colspan="5">E-mail database backup file to: <input type="text" name="email_to" size="30" maxlength="50" value="<?php echo get_settings('admin_email'); ?>" />&nbsp;&nbsp;<input type="submit" name="do" value="E-Mail" class="button" /></td>
 			</tr>
 			<tr>
-				<td colspan="5" align="center"><input type="submit" name="do" value="Download" class="button" />&nbsp;&nbsp;<input type="submit" class="button" name="do" value="Restore" onclick="return confirm('You Are About To Restore A Database.\nThis Action Is Not Reversible.\nAny Data Inserted After The Backup Date Will Be Gone.\n\n Choose \'Cancel\' to stop, \'OK\' to restore.')" class="button" />&nbsp;&nbsp;<input type="submit" class="button" name="do" value="Delete" onclick="return confirm('You Are About To Delete The Selected Database Backup Files.\nThis Action Is Not Reversible.\n\n Choose \'Cancel\' to stop, \'OK\' to delete.')" />&nbsp;&nbsp;<input type="button" name="cancel" Value="<?php _e('Cancel'); ?>" class="button" onclick="javascript:history.go(-1)" /></td>
+				<td colspan="5" align="center"><input type="submit" name="do" value="Download" class="button" />&nbsp;&nbsp;<input type="submit" name="do" value="Restore" onclick="return confirm('You Are About To Restore A Database.\nThis Action Is Not Reversible.\nAny Data Inserted After The Backup Date Will Be Gone.\n\n Choose \'Cancel\' to stop, \'OK\' to restore.')" class="button" />&nbsp;&nbsp;<input type="submit" class="button" name="do" value="Delete" onclick="return confirm('You Are About To Delete The Selected Database Backup Files.\nThis Action Is Not Reversible.\n\n Choose \'Cancel\' to stop, \'OK\' to delete.')" />&nbsp;&nbsp;<input type="button" name="cancel" Value="<?php _e('Cancel'); ?>" class="button" onclick="javascript:history.go(-1)" /></td>
 			</tr>					
 		</table>
 	</form>

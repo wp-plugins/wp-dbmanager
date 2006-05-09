@@ -1,4 +1,4 @@
--> Upgrade Instructions For Version 2.02 To Version 2.03
+-> Upgrade Instructions For Version 2.02+ To Version 2.04
 ------------------------------------------------------------------
 // Open wp-content/plugins folder
 

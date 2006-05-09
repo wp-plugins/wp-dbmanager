@@ -2,7 +2,7 @@
 /*
 +----------------------------------------------------------------+
 |																							|
-|	WordPress 2.0 Plugin: WP-DBManager 2.03								|
+|	WordPress 2.0 Plugin: WP-DBManager 2.04								|
 |	Copyright (c) 2005 Lester "GaMerZ" Chan									|
 |																							|
 |	File Written By:																	|
@@ -76,7 +76,7 @@ $tables = $wpdb->get_results("SHOW TABLES");
 						$table_name = '$dbtable->Tables_in_'.DB_NAME;
 						eval("\$table_name = \"$table_name\";");
 						echo "<tr $style><th align=\"left\" scope=\"row\">$table_name</th>\n";
-						echo "<td><input type=\"radio\" name=\"optimize[$table_name]\" value=\"no\">No&nbsp;&nbsp;<input type=\"radio\" name=\"optimize[$table_name]\" value=\"yes\" checked=\"checked\">Yes</td></tr>";
+						echo "<td><input type=\"radio\" name=\"optimize[$table_name]\" value=\"no\" />No&nbsp;&nbsp;<input type=\"radio\" name=\"optimize[$table_name]\" value=\"yes\" checked=\"checked\" />Yes</td></tr>";
 					}
 				?>
 			<tr>

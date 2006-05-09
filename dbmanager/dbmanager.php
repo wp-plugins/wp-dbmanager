@@ -3,7 +3,7 @@
 Plugin Name: WP-DBManager
 Plugin URI: http://www.lesterchan.net/portfolio/programming.php
 Description: Manages your Wordpress database. Allows you to optimizee, backup, restore, delete backup database and run selected queries.	
-Version: 2.03
+Version: 2.04
 Author: GaMerZ
 Author URI: http://www.lesterchan.net
 */
@@ -63,6 +63,29 @@ function dbmanager_init() {
 	$role = get_role('administrator');
 	if(!$role->has_cap('manage_database')) {
 		$role->add_cap('manage_database');
+	}
+}
+
+
+### Function: Download Database
+add_action('init', 'download_database');
+function download_database() {
+	if($_POST['do'] == 'Download' && !empty($_POST['database_file'])) {
+		if(strpos($_SERVER['HTTP_REFERER'], get_settings('siteurl').'/wp-admin/admin.php?page=dbmanager/database-manage.php') !== false) {
+			$backup_options = get_settings('dbmanager_options');
+			$file_path = $backup_options['path'].'/'.$_POST['database_file'];
+			header("Pragma: public");
+			header("Expires: 0");
+			header("Cache-Control: must-revalidate, post-check=0, pre-check=0"); 
+			header("Content-Type: application/force-download");
+			header("Content-Type: application/octet-stream");
+			header("Content-Type: application/download");
+			header("Content-Disposition: attachment; filename=".basename($file_path).";");
+			header("Content-Transfer-Encoding: binary");
+			header("Content-Length: ".filesize($file_path));
+			@readfile($file_path);
+		}
+		exit();
 	}
 }
 

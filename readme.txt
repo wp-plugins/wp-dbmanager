@@ -6,9 +6,13 @@ Website		-> http://www.lesterchan.net/
 Demo		-> N/A
 Documentation	-> http://dev.wp-plugins.org/wiki/wp-dbmanager
 Development	-> http://dev.wp-plugins.org/browser/wp-dbmanager/
-Updated		-> 1st April 2006
+Updated		-> 10th May 2006
 --------------------------------------------------
 
+
+// Version 2.04 (10-05-2006)
+- FIXED: Unable To Download Backup DB Due To Header Sent Error
+- FIXED: Some XHTML Code Fixes
 
 // Version 2.03 (01-04-2006)
 - FIXED: Run Query Box Too Big

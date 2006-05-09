@@ -2,7 +2,7 @@
 /*
 +----------------------------------------------------------------+
 |																							|
-|	WordPress 2.0 Plugin: WP-DBManager 2.03								|
+|	WordPress 2.0 Plugin: WP-DBManager 2.04								|
 |	Copyright (c) 2005 Lester "GaMerZ" Chan									|
 |																							|
 |	File Written By:																	|
@@ -185,7 +185,7 @@ $stats_function_disabled = 0;
 		</tr>
 		<tr style='background-color: #eee'>
 			<th align="left" scope="row">GZIP Database Backup File?</th>
-			<td><input type="radio" name="gzip" value="1">Yes&nbsp;&nbsp;<input type="radio" name="gzip" value="0" checked="checked" />No</td>
+			<td><input type="radio" name="gzip" value="1" />Yes&nbsp;&nbsp;<input type="radio" name="gzip" value="0" checked="checked" />No</td>
 		</tr>
 		<tr>
 			<td colspan="2" align="center"><input type="submit" name="do" value="Backup" class="button" />&nbsp;&nbsp;<input type="button" name="cancel" Value="<?php _e('Cancel'); ?>" class="button" onclick="javascript:history.go(-1)" /></td>
