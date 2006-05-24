@@ -3,13 +3,13 @@
 Plugin Name: WP-DBManager
 Plugin URI: http://www.lesterchan.net/portfolio/programming.php
 Description: Manages your Wordpress database. Allows you to optimizee, backup, restore, delete backup database and run selected queries.	
-Version: 2.04
+Version: 2.05
 Author: GaMerZ
 Author URI: http://www.lesterchan.net
 */
 
 
-/*  Copyright 2005  Lester Chan  (email : gamerz84@hotmail.com)
+/*  Copyright 2006  Lester Chan  (email : gamerz84@hotmail.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -135,9 +135,7 @@ function dbmanager_options() {
 				</td>
 			</tr>
 			<tr>
-				<td width="100%" colspan="2">
-					<p class="submit"><input type="submit" name="Submit" value="<?php _e('Update Options'); ?> &raquo;" /></p>
-				</td>
+				<td width="100%" colspan="2" align="center"><input type="submit" name="Submit" class="button" value="<?php _e('Update Options'); ?>" />&nbsp;&nbsp;<input type="button" name="cancel" value="Cancel" class="button" onclick="javascript:history.go(-1)" /></td>
 			</tr>
 		</table>
 	</form>

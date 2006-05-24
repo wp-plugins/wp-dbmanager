@@ -2,7 +2,7 @@
 /*
 +----------------------------------------------------------------+
 |																							|
-|	WordPress 2.0 Plugin: WP-DBManager 2.04								|
+|	WordPress 2.0 Plugin: WP-DBManager 2.05								|
 |	Copyright (c) 2005 Lester "GaMerZ" Chan									|
 |																							|
 |	File Written By:																	|
@@ -58,7 +58,7 @@ if($_POST['do']) {
 
 
 ### Show Tables
-$tables = $wpdb->get_results("SHOW TABLES");
+$tables = $wpdb->get_col("SHOW TABLES");
 ?>
 <?php if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.$text.'</p></div>'; } ?>
 <!-- Empty/Drop Tables -->
@@ -72,15 +72,13 @@ $tables = $wpdb->get_results("SHOW TABLES");
 			<th align="left" scope="col">Drop</th>
 		</tr>
 				<?php
-					foreach($tables as $dbtable) {
+					foreach($tables as $table_name) {
 						if($no%2 == 0) {
 							$style = 'style=\'background-color: #eee\'';
 						} else {
 							$style = 'style=\'background-color: none\'';
 						}
 						$no++;
-						$table_name = '$dbtable->Tables_in_'.DB_NAME;
-						eval("\$table_name = \"$table_name\";");
 						echo "<tr $style><th align=\"left\" scope=\"row\">$table_name</th>\n";
 						echo "<td><input type=\"radio\" name=\"emptydrop[$table_name]\" value=\"empty\" />&nbsp;Empty</td>";
 						echo "<td><input type=\"radio\" name=\"emptydrop[$table_name]\" value=\"drop\" />&nbsp;Drop</td></tr>";
@@ -90,7 +88,7 @@ $tables = $wpdb->get_results("SHOW TABLES");
 				<td colspan="3">1. DROPPING a table means deleting the table. This action is not REVERSIBLE.<br />2. EMPTYING a table means all the rows in the table will be deleted. This action is not REVERSIBLE.</td>
 			</tr>
 			<tr>
-				<td colspan="3" align="center"><input type="submit" name="do" value="Empty/Drop" class="button" onclick="return confirm('You Are About To Empty Or Drop The Selected Databases.\nThis Action Is Not Reversible.\n\n Choose \'Cancel\' to stop, \'OK\' to delete.')" />&nbsp;&nbsp;<input type="button" name="cancel" Value="<?php _e('Cancel'); ?>" class="button" onclick="javascript:history.go(-1)" /></td>
+				<td colspan="3" align="center"><input type="submit" name="do" value="Empty/Drop" class="button" onclick="return confirm('You Are About To Empty Or Drop The Selected Databases.\nThis Action Is Not Reversible.\n\n Choose \'Cancel\' to stop, \'OK\' to delete.')" />&nbsp;&nbsp;<input type="button" name="cancel" value="<?php _e('Cancel'); ?>" class="button" onclick="javascript:history.go(-1)" /></td>
 			</tr>
 		</table>
 	</form>

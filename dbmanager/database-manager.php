@@ -77,7 +77,8 @@ if($sqlversion >= '3.23') {
 			$style = 'style=\'background-color: none\'';
 		}
 		$no++;
-		echo "<tr $style>\n<td>$no</td>\n";
+		echo "<tr $style>\n";
+		echo "<td>$no</td>\n";
 		echo "<td>$tablestatus->Name</td>\n";
 		echo "<td>".number_format($tablestatus->Rows)."</td>\n";
 		echo "<td>".format_size($tablestatus->Data_length)."</td>\n";
@@ -87,13 +88,16 @@ if($sqlversion >= '3.23') {
 		$data_usage += $tablestatus->Data_length;
 		$index_usage +=  $tablestatus->Index_length;
 		$overhead_usage += $tablestatus->Data_free;
-	}
-	echo "<tr><th align=\"left\" scope=\"row\">Total:</th>\n";
+		echo "</tr>\n";
+	}	
+	echo "<tr>\n";
+	echo "<th align=\"left\" scope=\"row\">Total:</th>\n";
 	echo "<th align=\"left\" scope=\"row\">$no Tables</th>\n";
 	echo "<th align=\"left\" scope=\"row\">".number_format($row_usage)."</th>\n";
 	echo "<th align=\"left\" scope=\"row\">".format_size($data_usage)."</th>\n";
 	echo "<th align=\"left\" scope=\"row\">".format_size($index_usage)."</th>";
-	echo "<th align=\"left\" scope=\"row\">".format_size($overhead_usage)."</th></tr>";
+	echo "<th align=\"left\" scope=\"row\">".format_size($overhead_usage)."</th>";
+	echo "</tr>";
 } else {
 	echo '<tr><td colspan="6" align="center"><b>Could Not Show Table Status Due To Your MYSQL Version Is Lower Than 3.23.</b></td></tr>';
 }

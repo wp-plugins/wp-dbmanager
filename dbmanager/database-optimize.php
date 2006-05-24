@@ -2,7 +2,7 @@
 /*
 +----------------------------------------------------------------+
 |																							|
-|	WordPress 2.0 Plugin: WP-DBManager 2.04								|
+|	WordPress 2.0 Plugin: WP-DBManager 2.05								|
 |	Copyright (c) 2005 Lester "GaMerZ" Chan									|
 |																							|
 |	File Written By:																	|
@@ -53,7 +53,7 @@ if($_POST['do']) {
 
 
 ### Show Tables
-$tables = $wpdb->get_results("SHOW TABLES");
+$tables = $wpdb->get_col("SHOW TABLES");
 ?>
 <?php if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.$text.'</p></div>'; } ?>
 <!-- Optimize Database -->
@@ -66,15 +66,13 @@ $tables = $wpdb->get_results("SHOW TABLES");
 				<th align="left" scope="col">Options</th>
 			</tr>
 				<?php
-					foreach($tables as $dbtable) {
+					foreach($tables as $table_name) {
 						if($no%2 == 0) {
 							$style = 'style=\'background-color: #eee\'';
 						} else {
 							$style = 'style=\'background-color: none\'';
 						}
 						$no++;
-						$table_name = '$dbtable->Tables_in_'.DB_NAME;
-						eval("\$table_name = \"$table_name\";");
 						echo "<tr $style><th align=\"left\" scope=\"row\">$table_name</th>\n";
 						echo "<td><input type=\"radio\" name=\"optimize[$table_name]\" value=\"no\" />No&nbsp;&nbsp;<input type=\"radio\" name=\"optimize[$table_name]\" value=\"yes\" checked=\"checked\" />Yes</td></tr>";
 					}
@@ -83,7 +81,7 @@ $tables = $wpdb->get_results("SHOW TABLES");
 				<td colspan="2" align="center">Database should be optimize once every month.</td>
 			</tr>
 			<tr>
-				<td colspan="2" align="center"><input type="submit" name="do" value="Optimize" class="button" />&nbsp;&nbsp;<input type="button" name="cancel" Value="<?php _e('Cancel'); ?>" class="button" onclick="javascript:history.go(-1)" /></td>
+				<td colspan="2" align="center"><input type="submit" name="do" value="Optimize" class="button" />&nbsp;&nbsp;<input type="button" name="cancel" value="<?php _e('Cancel'); ?>" class="button" onclick="javascript:history.go(-1)" /></td>
 			</tr>
 		</table>
 	</form>
