@@ -2,7 +2,7 @@
 <html>
 <head>	
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	<title>WP-DBManager 2.05 Readme</title>
+	<title>WP-DBManager 2.10 Readme</title>
 	<style type="text/css" media="screen">
 		/* Default Style */
 		BODY {
@@ -180,7 +180,7 @@
 <body>
 <div id="Container">
 	<!-- Title -->
-	<div id="Title">WP-DBManager 2.05&nbsp;&nbsp;&nbsp;<span style="color: #aaaaaa;">Readme</span></div>
+	<div id="Title">WP-DBManager 2.10&nbsp;&nbsp;&nbsp;<span style="color: #aaaaaa;">Readme</span></div>
 
 	<!-- Tabs -->
 	<ul id="Tabs">
@@ -201,7 +201,7 @@
 				<b>EMail:</b><br /><b>&raquo;</b>
 				<script type="text/javascript">
 					/* <![CDATA[*/
-					document.write(' <a href="mailto:gamerz84@hotmail.com?Subject=WP-DBManager%202.05%20Support" title="EMail To gamerz84@hotmail.com">gamerz84@hotmail.com</a>');
+					document.write(' <a href="mailto:gamerz84@hotmail.com?Subject=WP-DBManager%202.10%20Support" title="EMail To gamerz84@hotmail.com">gamerz84@hotmail.com</a>');
 					/* ]]> */
 				</script>
 			</p>
@@ -209,10 +209,20 @@
 			<p><b>Demo:</b><br /><b>&raquo;</b> N/A</p>
 			<p><b>Documentation:</b><br /><b>&raquo;</b> <a href="http://dev.wp-plugins.org/wiki/wp-dbmanager" title="http://dev.wp-plugins.org/wiki/wp-dbmanager">http://dev.wp-plugins.org/wiki/wp-dbmanager</a></p>
 			<p><b>Development:</b><br /><b>&raquo;</b> <a href="http://dev.wp-plugins.org/browser/wp-dbmanager/" title="http://dev.wp-plugins.org/browser/wp-dbmanager/">http://dev.wp-plugins.org/browser/wp-dbmanager/</a></p>
-			<p><b>Support Forums:</b><br /><b>&raquo;</b> <a href="http://forums.lesterchan.net/viewforum.php?f=14" title="http://forums.lesterchan.net/viewforum.php?f=14">http://forums.lesterchan.net/viewforum.php?f=14</a></p>
-			<p><b>Updated:</b><br /><b>&raquo;</b> 1st June 2006</p>
+			<p><b>Support Forums:</b><br /><b>&raquo;</b> <a href="http://forums.lesterchan.net/index.php?board=11.0" title="http://forums.lesterchan.net/index.php?board=11.0">http://forums.lesterchan.net/index.php?board=11.0</a></p>
+			<p><b>Updated:</b><br /><b>&raquo;</b> 1st February 2007</p>
+			<p><b>Note:</b><br /><b>&raquo;</b> The <b>Installation</b>, <b>Upgrade</b>, <b>Usage</b> Tab at the top of the page.</p>
 			<div class="SubSubTitle">Changelog</div>
 			<ul>
+				<li>
+					<b>Version 2.10 (01-02-2007)</b>
+					<ul>
+						<li>NEW: Works For WordPress 2.1 Only</li>
+						<li>NEW: Removed database-config.php</li>
+						<li>NEW: Localize WP-DBManager</li>
+						<li>NEW: Added The Ability To Auto Detect MYSQL And MYSQL Dump Path</li>
+					</ul>
+				</li>
 				<li>
 					<b>Version 2.05 (01-06-2006)</b>
 					<ul>
@@ -300,14 +310,27 @@
 		<!-- Upgrade Instructions -->	
 		<div id="Upgrade" style="display: none;">
 			<div class="SubTitle">&raquo; Upgrade Instructions</div>
-			<div class="SubSubTitle">From v2.0x To v2.05</div>
+			<div class="SubSubTitle">From v2.0x To v2.10</div>
 			<ol>
+				<li>
+					<b>Deactivate</b> WP-DBManager Plugin
+				</li>
 				<li>
 					Open <b>wp-content/plugins</b> Folder
 				</li>
 				<li>
-					Overwrite:
+					Put/Overwrite:
 					<blockquote>Folder: dbmanager</blockquote>
+				</li>
+				<li>
+					Delete:
+					<blockquote>File: wp-content/plugins/dbmanager/database-config.php</blockquote>
+				</li>
+				<li>
+					<b>Activate</b> WP-DBManager Plugin
+				</li>
+				<li>
+					Refer To <b>Usage</b> For Further Instructions
 				</li>
 			</ol>
 		</div>
@@ -324,6 +347,6 @@
 		</div>
 	</div>
 </div>
-<p id="Copyright">WP-DBManager 2.05<br />Copyright &copy; 2006 Lester 'GaMerZ' Chan. All Rights Reserved.</p>
+<p id="Copyright">WP-DBManager 2.10<br />Copyright &copy; 2007 Lester 'GaMerZ' Chan. All Rights Reserved.</p>
 </body>
 </html>

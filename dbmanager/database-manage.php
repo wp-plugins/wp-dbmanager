@@ -2,8 +2,8 @@
 /*
 +----------------------------------------------------------------+
 |																							|
-|	WordPress 2.0 Plugin: WP-DBManager 2.05								|
-|	Copyright (c) 2005 Lester "GaMerZ" Chan									|
+|	WordPress 2.1 Plugin: WP-DBManager 2.10								|
+|	Copyright (c) 2007 Lester "GaMerZ" Chan									|
 |																							|
 |	File Written By:																	|
 |	- Lester "GaMerZ" Chan															|
@@ -17,8 +17,22 @@
 */
 
 
-### Require Database Config
-require('database-config.php');
+### Check Whether User Can Manage Database
+if(!current_user_can('manage_database')) {
+	die('Access Denied');
+}
+
+
+### Variables Variables Variables
+$base_name = plugin_basename('dbmanager/database-manager.php');
+$base_page = 'admin.php?page='.$base_name;
+$current_date = gmdate('l, jS F Y @ H:i', (time() + (get_settings('gmt_offset') * 3600)));
+$backup = array();
+$backup_options = get_settings('dbmanager_options');
+$backup['date'] = current_time('timestamp');
+$backup['mysqldumppath'] = $backup_options['mysqldumppath'];
+$backup['mysqlpath'] = $backup_options['mysqlpath'];
+$backup['path'] = $backup_options['path'];
 
 
 ### Form Processing 
@@ -29,24 +43,24 @@ if($_POST['do']) {
 
 	// Decide What To Do
 	switch($_POST['do']) {
-		case 'Restore':
+		case __('Restore', 'wp-dbmanager'):
 			if(!empty($database_file)) {
 				if(stristr($database_file, '.gz')) {
-					$backup['command'] = 'gunzip < '.$backup['path'].'/'.$database_file.' | '.$backup['mysqlpath'].' --host='.DB_HOST.' --user='.DB_USER.' --password='.DB_PASSWORD.' '.DB_NAME;
+					$backup['command'] = 'gunzip < '.$backup['path'].'/'.$database_file.' | '.$backup['mysqlpath'].' --host="'.DB_HOST.'" --user="'.DB_USER.'" --password="'.DB_PASSWORD.'" '.DB_NAME;
 				} else {
-					$backup['command'] = $backup['mysqlpath'].' --host='.DB_HOST.' --user='.DB_USER.' --password='.DB_PASSWORD.' '.DB_NAME.' < '.$backup['path'].'/'.$database_file;
+					$backup['command'] = $backup['mysqlpath'].' --host="'.DB_HOST.'" --user="'.DB_USER.'" --password="'.DB_PASSWORD.'" '.DB_NAME.' < '.$backup['path'].'/'.$database_file;
 				}
 				passthru($backup['command'], $error);
 				if($error) {
-					$text = "<font color=\"red\">Database On '$nice_file_date' Failed To Restore</font>";
+					$text = '<font color="red">'.sprintf(__('Database On \'%s\' Failed To Restore', 'wp-dbmanager'), $nice_file_date).'</font>';
 				} else {
-					$text = "<font color=\"green\">Database On '$nice_file_date' Restored Successfully</font>";
+					$text = '<font color="green">'.sprintf(__('Database On \'%s\' Restored Successfully', 'wp-dbmanager'), $nice_file_date).'</font>';
 				}
 			} else {
-				$text = '<font color="red">No Backup Database File Selected</font>';
+				$text = '<font color="red">'.__('No Backup Database File Selected', 'wp-dbmanager').'</font>';
 			}
 			break;
-		case 'E-Mail':
+		case __('E-Mail', 'wp-dbmanager'):
 			if(!empty($database_file)) {
 				// Get And Read The Database Backup File
 				$file_path = $backup['path'].'/'.$database_file;
@@ -62,7 +76,7 @@ if($_POST['do']) {
 				} else {
 					$mail_to = get_settings('admin_email');
 				}
-				$mail_subject = get_bloginfo('name').' Database Backup File For '.$file_date;
+				$mail_subject = sprintf(__('%s Database Backup File For %s', 'wp-dbmanager'), get_bloginfo('name'), $file_date);
 				$mail_header = 'From: '.get_bloginfo('name').' Administrator <'.get_settings('admin_email').'>';
 				// MIME Boundary
 				$random_time = md5(time());
@@ -71,7 +85,14 @@ if($_POST['do']) {
 				$mail_header .= "\nMIME-Version: 1.0\n" .
 										"Content-Type: multipart/mixed;\n" .
 										" boundary=\"{$mime_boundary}\"";
-				$mail_message = "Website Name: ".get_bloginfo('name')."\nWebsite URL: ".get_bloginfo('siteurl')."\nBackup File Name: $database_file\nBackup File Date: $file_date\nBackup File Size: $file_size\n\nWith Regards,\n".get_bloginfo('name')." Administrator\n".get_bloginfo('siteurl');
+				$mail_message = __('Website Name:', 'wp-dbmanager').' '.get_bloginfo('name')."\n".
+										__('Website URL:', 'wp-dbmanager').' '.get_bloginfo('siteurl')."\n".
+										__('Backup File Name:', 'wp-dbmanager').' '.$database_file."\n".
+										__('Backup File Date:', 'wp-dbmanager').' '.$file_date."\n".
+										__('Backup File Size:', 'wp-dbmanager').' '.$file_size."\n\n".
+										__('With Regards,', 'wp-dbmanager')."\n".
+										get_bloginfo('name').' '. __('Administrator', 'wp-dbmanager')."\n".
+										get_bloginfo('siteurl');
 				$mail_message = "This is a multi-part message in MIME format.\n\n" .
 										"--{$mime_boundary}\n" .
 										"Content-Type: text/plain; charset=\"utf-8\"\n" .
@@ -84,33 +105,33 @@ if($_POST['do']) {
 										"Content-Transfer-Encoding: base64\n\n" .
 										$file_data."\n\n--{$mime_boundary}--\n";
 				if(mail($mail_to, $mail_subject, $mail_message, $mail_header)) {
-					$text .= "<font color=\"green\">Database Backup File For '$file_date' Successfully E-Mailed To '$mail_to'</font><br />";
+					$text .= '<font color="green">'.sprintf(__('Database Backup File For \'%s\' Successfully E-Mailed To \'%s\'', 'wp-dbmanager'), $file_date, $mail_to).'</font><br />';
 				} else {
-					$text = "<font color=\"red\">Unable To E-Mail Database Backup File For '$file_date' To '$mail_to'</font>";
+					$text = '<font color="red">'.sprintf(__('Unable To E-Mail Database Backup File For \'%s\' To \'%s\'', 'wp-dbmanager'), $file_date, $mail_to).'</font>';
 				}
 			} else {
-				$text = '<font color="red">No Backup Database File Selected</font>';
+				$text = '<font color="red">'.__('No Backup Database File Selected', 'wp-dbmanager').'</font>';
 			}
 			break;
-		case 'Download':
+		case __('Download', 'wp-dbmanager'):
 			if(empty($database_file)) {
-				$text = '<font color="red">No Backup Database File Selected</font>';
+				$text = '<font color="red">'.__('No Backup Database File Selected', 'wp-dbmanager').'</font>';
 			}
 			break;
-		case 'Delete':
+		case __('Delete', 'wp-dbmanager'):
 			if(!empty($database_file)) {
 				$nice_file_date = gmdate('l, jS F Y @ H:i', substr($database_file, 0, 10));
 				if(is_file($backup['path'].'/'.$database_file)) {
 					if(!unlink($backup['path'].'/'.$database_file)) {
-						$text .= "<font color=\"red\">Unable To Delete Database Backup File On '$nice_file_date'</font><br />";
+						$text .= '<font color="red">'.sprintf(__('Unable To Delete Database Backup File On \'%s\'', 'wp-dbmanager'), $nice_file_date).'</font><br />';
 					} else {
-						$text .= "<font color=\"green\">Database Backup File On '$nice_file_date' Deleted Successfully</font><br />";
+						$text .= '<font color="green">'.sprintf(__('Database Backup File On \'%s\' Deleted Successfully', 'wp-dbmanager'), $nice_file_date).'</font><br />';
 					}
 				} else {
-					$text = "<font color=\"red\">Invalid Database Backup File On '$nice_file_date'</font>";
+					$text = '<font color="red">'.sprintf(__('Invalid Database Backup File On \'%s\'', 'wp-dbmanager'), $nice_file_date).'</font>';
 				}
 			} else {
-				$text = '<font color="red">No Backup Database File Selected</font>';
+				$text = '<font color="red">'.__('No Backup Database File Selected', 'wp-dbmanager').'</font>';
 			}
 			break;
 	}
@@ -119,18 +140,16 @@ if($_POST['do']) {
 <?php if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.$text.'</p></div>'; } ?>
 <!-- Manage Backup Database -->
 <div class="wrap">
-	<h2>Manage Backup Database</h2>
+	<h2><?php _e('Manage Backup Database', 'wp-dbmanager'); ?></h2>
+	<p><?php _e('Choose A Backup Date To E-Mail, Restore, Download Or Delete', 'wp-dbmanager'); ?></p>
 	<form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
 		<table width="100%" cellspacing="3" cellpadding="3" border="0">
-			<tr>
-				<th align="left" scope="row" colspan="5">Choose A Backup Date To E-Mail, Restore, Download Or Delete</th>
-			</tr>
-			<tr>
-				<th align="left" scope="col">No.</th>
-				<th align="left" scope="col">Database File</th>
-				<th align="left" scope="col">Date/Time</th>
-				<th align="left" scope="col">Size</th>
-				<th align="left" scope="col">Select</th>
+			<tr class="thead">
+				<th align="left"><?php _e('No.', 'wp-dbmanager'); ?></th>
+				<th align="left"><?php _e('Database File', 'wp-dbmanager'); ?></th>
+				<th align="left"><?php _e('Date/Time', 'wp-dbmanager'); ?></th>
+				<th align="left"><?php _e('Size', 'wp-dbmanager'); ?></th>
+				<th align="left"><?php _e('Select', 'wp-dbmanager'); ?></th>
 			</tr>
 			<?php
 				if(!is_emtpy_folder($backup['path'])) {
@@ -144,9 +163,9 @@ if($_POST['do']) {
 						closedir($handle);
 						for($i = (sizeof($database_files)-1); $i > -1; $i--) {
 							if($no%2 == 0) {
-								$style = 'style=\'background-color: #eee\'';
+								$style = 'style=\'background: none\'';								
 							} else {
-								$style = 'style=\'background-color: none\'';
+								$style = 'style=\'background-color: #eee\'';
 							}
 							$no++;
 							$database_text = substr($database_files[$i], 13);
@@ -160,22 +179,26 @@ if($_POST['do']) {
 							$totalsize += $size_text;
 						}
 					} else {
-						echo '<tr><td align="center" colspan="5">There Are No Database Backup Files Available</td></tr>';
+						echo '<tr><td align="center" colspan="5">'.__('There Are No Database Backup Files Available.', 'wp-dbmanager').'</td></tr>';
 					}
 				} else {
-					echo '<tr><td align="center" colspan="5">There Are No Database Backup Files Available</td></tr>';
+					echo '<tr><td align="center" colspan="5">'.__('There Are No Database Backup Files Available.', 'wp-dbmanager').'</td></tr>';
 				}
 			?>
-			<tr>
-				<th align="left" colspan="3"><?php echo $no; ?> Backup File(s)</th>
+			<tr class="thead">
+				<th align="left" colspan="3"><?php echo $no; ?> <?php _e('Backup File(s)', 'wp-dbmanager'); ?></th>
 				<th align="left"><?php echo format_size($totalsize); ?></th>
 				<td>&nbsp;</td>
 			</tr>
 			<tr>
-				<td colspan="5">E-mail database backup file to: <input type="text" name="email_to" size="30" maxlength="50" value="<?php echo get_settings('admin_email'); ?>" />&nbsp;&nbsp;<input type="submit" name="do" value="E-Mail" class="button" /></td>
+				<td colspan="5"><?php _e('E-mail database backup file to:', 'wp-dbmanager'); ?> <input type="text" name="email_to" size="30" maxlength="50" value="<?php echo get_settings('admin_email'); ?>" />&nbsp;&nbsp;<input type="submit" name="do" value="<?php _e('E-Mail', 'wp-dbmanager'); ?>" class="button" /></td>
 			</tr>
 			<tr>
-				<td colspan="5" align="center"><input type="submit" name="do" value="Download" class="button" />&nbsp;&nbsp;<input type="submit" name="do" value="Restore" onclick="return confirm('You Are About To Restore A Database.\nThis Action Is Not Reversible.\nAny Data Inserted After The Backup Date Will Be Gone.\n\n Choose \'Cancel\' to stop, \'OK\' to restore.')" class="button" />&nbsp;&nbsp;<input type="submit" class="button" name="do" value="Delete" onclick="return confirm('You Are About To Delete The Selected Database Backup Files.\nThis Action Is Not Reversible.\n\n Choose \'Cancel\' to stop, \'OK\' to delete.')" />&nbsp;&nbsp;<input type="button" name="cancel" value="<?php _e('Cancel'); ?>" class="button" onclick="javascript:history.go(-1)" /></td>
+				<td colspan="5" align="center">
+					<input type="submit" name="do" value="<?php _e('Download', 'wp-dbmanager'); ?>" class="button" />&nbsp;&nbsp;
+					<input type="submit" name="do" value="<?php _e('Restore', 'wp-dbmanager'); ?>" onclick="return confirm('<?php _e('You Are About To Restore A Database.\nThis Action Is Not Reversible.\nAny Data Inserted After The Backup Date Will Be Gone.\n\n Choose [Cancel] to stop, [Ok] to restore.', 'wp-dbmanager'); ?>')" class="button" />&nbsp;&nbsp;
+					<input type="submit" class="button" name="do" value="<?php _e('Delete', 'wp-dbmanager'); ?>" onclick="return confirm('<?php _e('You Are About To Delete The Selected Database Backup Files.\nThis Action Is Not Reversible.\n\n Choose [Cancel] to stop, [Ok] to delete.', 'wp-dbmanager'); ?>')" />&nbsp;&nbsp;
+					<input type="button" name="cancel" value="<?php _e('Cancel', 'wp-dbmanager'); ?>" class="button" onclick="javascript:history.go(-1)" /></td>
 			</tr>					
 		</table>
 	</form>

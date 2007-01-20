@@ -2,8 +2,8 @@
 /*
 +----------------------------------------------------------------+
 |																							|
-|	WordPress 2.0 Plugin: WP-DBManager 2.05								|
-|	Copyright (c) 2005 Lester "GaMerZ" Chan									|
+|	WordPress 2.1 Plugin: WP-DBManager 2.10								|
+|	Copyright (c) 2007 Lester "GaMerZ" Chan									|
 |																							|
 |	File Written By:																	|
 |	- Lester "GaMerZ" Chan															|
@@ -17,15 +17,29 @@
 */
 
 
-### Require Database Config
-require('database-config.php');
+### Check Whether User Can Manage Database
+if(!current_user_can('manage_database')) {
+	die('Access Denied');
+}
+
+
+### Variables Variables Variables
+$base_name = plugin_basename('dbmanager/database-manager.php');
+$base_page = 'admin.php?page='.$base_name;
+$current_date = gmdate('l, jS F Y @ H:i', (time() + (get_settings('gmt_offset') * 3600)));
+$backup = array();
+$backup_options = get_settings('dbmanager_options');
+$backup['date'] = current_time('timestamp');
+$backup['mysqldumppath'] = $backup_options['mysqldumppath'];
+$backup['mysqlpath'] = $backup_options['mysqlpath'];
+$backup['path'] = $backup_options['path'];
 
 
 ### Form Processing 
 if($_POST['do']) {
 	// Decide What To Do
 	switch($_POST['do']) {
-		case 'Run':
+		case __('Run', 'wp-dbmanager'):
 			$sql_queries2 = trim($_POST['sql_query']);
 			$totalquerycount = 0;
 			$successquery = 0;
@@ -55,12 +69,12 @@ if($_POST['do']) {
 							$totalquerycount++;						
 						}
 					}
-					$text .= "<font color=\"blue\">$successquery/$totalquerycount Query(s) Executed Successfully</font>";
+					$text .= "<font color=\"blue\">$successquery/$totalquerycount ".__('Query(s) Executed Successfully', 'wp-dbmanager').'</font>';
 				} else {
-					$text = "<font color=\"red\">Empty Query</font>";
+					$text = '<font color="red">'.__('Empty Query', 'wp-dbmanager').'</font>';
 				}
 			} else {
-				$text = "<font color=\"red\">Empty Query</font>";
+				$text = '<font color="red">'.__('Empty Query', 'wp-dbmanager').'</font>';
 			}
 			break;
 	}
@@ -69,11 +83,17 @@ if($_POST['do']) {
 <?php if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.$text.'</p></div>'; } ?>
 <!-- Run SQL Query -->
 <div class="wrap">
-	<h2>Run SQL Query</h2>
+	<h2><?php _e('Run SQL Query', 'wp-dbmanager'); ?></h2>
 	<form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
-		<p><b>Seperate Multiple Queries With A New Line</b><br /><font color="green">Use Only INSERT, UPDATE, REPLACE, DELETE, CREATE and ALTER statements.</font></p>
+		<p>
+			<strong><?php _e('Seperate Multiple Queries With A New Line', 'wp-dbmanager'); ?></strong><br />
+			<font color="green"><?php _e('Use Only INSERT, UPDATE, REPLACE, DELETE, CREATE and ALTER statements.', 'wp-dbmanager'); ?></font>
+		</p>
 		<p align="center"><textarea cols="120" rows="30" name="sql_query"></textarea></p>
-		<p align="center"><input type="submit" name="do" value="Run" class="button" />&nbsp;&nbsp;<input type="button" name="cancel" value="<?php _e('Cancel'); ?>" class="button" onclick="javascript:history.go(-1)" /></p>
-		<p>1. CREATE statement will return an error, which is perfectly normal due to the database class. To confirm that your table has been created check the Manage Database page.<br />2. UPDATE statement may return an error sometimes due to the newly updated value being the same as the previous value.<br />3. ALTER statement will return an error because there is no value returned.</p>
+		<p align="center"><input type="submit" name="do" value="<?php _e('Run', 'wp-dbmanager'); ?>" class="button" />&nbsp;&nbsp;<input type="button" name="cancel" value="<?php _e('Cancel', 'wp-dbmanager'); ?>" class="button" onclick="javascript:history.go(-1)" /></p>
+		<p>
+			<?php _e('1. CREATE statement will return an error, which is perfectly normal due to the database class. To confirm that your table has been created check the Manage Database page.', 'wp-dbmanager'); ?><br />
+			<?php _e('2. UPDATE statement may return an error sometimes due to the newly updated value being the same as the previous value.', 'wp-dbmanager'); ?><br />
+			<?php _e('3. ALTER statement will return an error because there is no value returned.', 'wp-dbmanager'); ?></p>
 	</form>
 </div>
