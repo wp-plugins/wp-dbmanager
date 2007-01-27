@@ -26,9 +26,9 @@ if(!current_user_can('manage_database')) {
 ### Variables Variables Variables
 $base_name = plugin_basename('dbmanager/database-manager.php');
 $base_page = 'admin.php?page='.$base_name;
-$current_date = gmdate('l, jS F Y @ H:i', (time() + (get_settings('gmt_offset') * 3600)));
+$current_date = gmdate('l, jS F Y @ H:i', (time() + (get_option('gmt_offset') * 3600)));
 $backup = array();
-$backup_options = get_settings('dbmanager_options');
+$backup_options = get_option('dbmanager_options');
 $backup['date'] = current_time('timestamp');
 $backup['mysqldumppath'] = $backup_options['mysqldumppath'];
 $backup['mysqlpath'] = $backup_options['mysqlpath'];
@@ -74,10 +74,10 @@ if($_POST['do']) {
 				if(!empty($_POST['email_to'])) {
 					$mail_to = trim($_POST['email_to']);
 				} else {
-					$mail_to = get_settings('admin_email');
+					$mail_to = get_option('admin_email');
 				}
 				$mail_subject = sprintf(__('%s Database Backup File For %s', 'wp-dbmanager'), get_bloginfo('name'), $file_date);
-				$mail_header = 'From: '.get_bloginfo('name').' Administrator <'.get_settings('admin_email').'>';
+				$mail_header = 'From: '.get_bloginfo('name').' Administrator <'.get_option('admin_email').'>';
 				// MIME Boundary
 				$random_time = md5(time());
 				$mime_boundary = "==WP-DBManager- $random_time";
@@ -191,7 +191,7 @@ if($_POST['do']) {
 				<td>&nbsp;</td>
 			</tr>
 			<tr>
-				<td colspan="5"><?php _e('E-mail database backup file to:', 'wp-dbmanager'); ?> <input type="text" name="email_to" size="30" maxlength="50" value="<?php echo get_settings('admin_email'); ?>" />&nbsp;&nbsp;<input type="submit" name="do" value="<?php _e('E-Mail', 'wp-dbmanager'); ?>" class="button" /></td>
+				<td colspan="5"><?php _e('E-mail database backup file to:', 'wp-dbmanager'); ?> <input type="text" name="email_to" size="30" maxlength="50" value="<?php echo get_option('admin_email'); ?>" />&nbsp;&nbsp;<input type="submit" name="do" value="<?php _e('E-Mail', 'wp-dbmanager'); ?>" class="button" /></td>
 			</tr>
 			<tr>
 				<td colspan="5" align="center">

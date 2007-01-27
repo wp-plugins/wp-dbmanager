@@ -151,8 +151,8 @@ function dbmanager_init() {
 add_action('init', 'download_database');
 function download_database() {
 	if($_POST['do'] == 'Download' && !empty($_POST['database_file'])) {
-		if(strpos($_SERVER['HTTP_REFERER'], get_settings('siteurl').'/wp-admin/admin.php?page=dbmanager/database-manage.php') !== false) {
-			$backup_options = get_settings('dbmanager_options');
+		if(strpos($_SERVER['HTTP_REFERER'], get_option('siteurl').'/wp-admin/admin.php?page=dbmanager/database-manage.php') !== false) {
+			$backup_options = get_option('dbmanager_options');
 			$file_path = $backup_options['path'].'/'.$_POST['database_file'];
 			header("Pragma: public");
 			header("Expires: 0");
@@ -175,7 +175,7 @@ function dbmanager_options() {
 	global $wpdb;
 	$text = '';
 	$backup_options = array();
-	$backup_options = get_settings('dbmanager_options');
+	$backup_options = get_option('dbmanager_options');
 	if($_POST['Submit']) {
 		$backup_options['mysqldumppath'] = trim($_POST['db_mysqldumppath']);
 		$backup_options['mysqlpath'] = trim($_POST['db_mysqlpath']);
