@@ -2,7 +2,7 @@
 /*
 +----------------------------------------------------------------+
 |																							|
-|	WordPress 2.1 Plugin: WP-DBManager 2.10								|
+|	WordPress 2.1 Plugin: WP-DBManager 2.11								|
 |	Copyright (c) 2007 Lester "GaMerZ" Chan									|
 |																							|
 |	File Written By:																	|
@@ -161,6 +161,7 @@ if($_POST['do']) {
 							} 
 						}
 						closedir($handle);
+						sort($database_files);
 						for($i = (sizeof($database_files)-1); $i > -1; $i--) {
 							if($no%2 == 0) {
 								$style = 'style=\'background: none\'';								
