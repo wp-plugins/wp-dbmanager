@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP-DBManager\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-05-06 17:52+0800\n"
+"PO-Revision-Date: 2007-05-10 16:56+0800\n"
 "Last-Translator: Lester 'GaMerZ' Chan <gamerz84@hotmail.com>\n"
 "Language-Team: Lester Chan <gamerz84@hotmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -184,7 +184,7 @@ msgstr ""
 #: database-optimize.php:90
 #: database-repair.php:83
 #: database-run.php:93
-#: dbmanager.php:351
+#: dbmanager.php:375
 msgid "Cancel"
 msgstr ""
 
@@ -576,114 +576,129 @@ msgstr ""
 msgid "DB Options"
 msgstr ""
 
-#: dbmanager.php:285
+#: dbmanager.php:290
 msgid "DB Options Updated"
 msgstr ""
 
-#: dbmanager.php:288
+#: dbmanager.php:293
 msgid "No DB Option Updated"
 msgstr ""
 
-#: dbmanager.php:314
+#: dbmanager.php:323
 msgid "Database Options"
 msgstr ""
 
-#: dbmanager.php:318
+#: dbmanager.php:327
 msgid "Path To mysqldump:"
 msgstr ""
 
-#: dbmanager.php:320
+#: dbmanager.php:329
 msgid "The absolute path to mysqldump without trailing slash. If unsure, please email your server administrator about this."
 msgstr ""
 
-#: dbmanager.php:324
+#: dbmanager.php:333
 msgid "Path To mysql:"
 msgstr ""
 
-#: dbmanager.php:326
+#: dbmanager.php:335
 msgid "The absolute path to mysql without trailing slash. If unsure, please email your server administrator about this."
 msgstr ""
 
-#: dbmanager.php:330
+#: dbmanager.php:339
 msgid "Path To Backup:"
 msgstr ""
 
-#: dbmanager.php:333
+#: dbmanager.php:342
 msgid "The absolute path to your database backup folder without trailing slash. Make sure the folder is writable."
 msgstr ""
 
-#: dbmanager.php:337
+#: dbmanager.php:346
 msgid "Automatic Backing Up Of DB:"
 msgstr ""
 
-#: dbmanager.php:339
-#: dbmanager.php:346
+#: dbmanager.php:348
+#: dbmanager.php:363
 msgid "Every"
 msgstr ""
 
-#: dbmanager.php:339
-#: dbmanager.php:346
-msgid "days"
-msgstr ""
-
-#: dbmanager.php:339
-#: dbmanager.php:346
-msgid "(0 to disable this feature)"
-msgstr ""
-
-#: dbmanager.php:339
-msgid "E-mail backup to:"
-msgstr ""
-
-#: dbmanager.php:339
-msgid "(Leave black to disable this feature)"
-msgstr ""
-
-#: dbmanager.php:340
-msgid "WP-DBManager can automatically backup your database after every X number of days."
-msgstr ""
-
-#: dbmanager.php:344
-msgid "Automatic Optimizing Of DB:"
-msgstr ""
-
-#: dbmanager.php:347
-msgid "WP-DBManager can automatically optimize your database after every X number of days."
+#: dbmanager.php:350
+#: dbmanager.php:365
+msgid "Disable"
 msgstr ""
 
 #: dbmanager.php:351
-msgid "Update Options"
+#: dbmanager.php:366
+msgid "Hour(s)"
+msgstr ""
+
+#: dbmanager.php:352
+#: dbmanager.php:367
+msgid "Day(s)"
+msgstr ""
+
+#: dbmanager.php:353
+#: dbmanager.php:368
+msgid "Week(s)"
+msgstr ""
+
+#: dbmanager.php:354
+#: dbmanager.php:369
+msgid "Month(s)"
 msgstr ""
 
 #: dbmanager.php:356
-msgid "Windows Server"
+msgid "E-mail backup to:"
+msgstr ""
+
+#: dbmanager.php:356
+msgid "(Leave black to disable this feature)"
 msgstr ""
 
 #: dbmanager.php:357
-msgid "For mysqldump path, you can try '<strong>mysqldump.exe</strong>'."
-msgstr ""
-
-#: dbmanager.php:358
-msgid "For mysql path, you can try '<strong>mysql.exe</strong>'."
-msgstr ""
-
-#: dbmanager.php:360
-msgid "Linux Server"
+msgid "WP-DBManager can automatically backup your database after a certain period."
 msgstr ""
 
 #: dbmanager.php:361
+msgid "Automatic Optimizing Of DB:"
+msgstr ""
+
+#: dbmanager.php:371
+msgid "WP-DBManager can automatically optimize your database after a certain period."
+msgstr ""
+
+#: dbmanager.php:375
+msgid "Update Options"
+msgstr ""
+
+#: dbmanager.php:380
+msgid "Windows Server"
+msgstr ""
+
+#: dbmanager.php:381
+msgid "For mysqldump path, you can try '<strong>mysqldump.exe</strong>'."
+msgstr ""
+
+#: dbmanager.php:382
+msgid "For mysql path, you can try '<strong>mysql.exe</strong>'."
+msgstr ""
+
+#: dbmanager.php:384
+msgid "Linux Server"
+msgstr ""
+
+#: dbmanager.php:385
 msgid "For mysqldump path, normally is just '<strong>mysqldump</strong>'."
 msgstr ""
 
-#: dbmanager.php:362
+#: dbmanager.php:386
 msgid "For mysql path, normally is just '<strong>mysql</strong>'."
 msgstr ""
 
-#: dbmanager.php:365
+#: dbmanager.php:389
 msgid "Note"
 msgstr ""
 
-#: dbmanager.php:366
+#: dbmanager.php:390
 msgid "The 'Auto Detect' function does not work for some servers. If it does not work for you, please contact your server administrator for the MYSQL and MYSQL DUMP paths."
 msgstr ""
 

@@ -58,7 +58,7 @@ function cron_dbmanager_backup() {
 	global $wpdb;
 	$backup_options = get_option('dbmanager_options');
 	$backup_email = stripslashes($backup_options['backup_email']);
-	if(intval($backup_options['backup']) > 0) {
+	if(intval($backup_options['backup_period']) > 0) {
 		$current_date = gmdate('l, jS F Y @ H:i', (time() + (get_option('gmt_offset') * 3600)));
 		$backup = array();
 		$backup['date'] = current_time('timestamp');
@@ -116,7 +116,8 @@ function cron_dbmanager_optimize() {
 	global $wpdb;
 	$backup_options = get_option('dbmanager_options');
 	$optimize = intval($backup_options['optimize']);
-	if($optimize > 0) {
+	$optimize_period = intval($backup_options['optimize_period']);
+	if($optimize_period > 0) {
 		$optimize_tables = array();
 		$tables = $wpdb->get_col("SHOW TABLES");
 			foreach($tables as $table_name) {
@@ -128,17 +129,17 @@ function cron_dbmanager_optimize() {
 }
 function cron_dbmanager_reccurences() {
 	$backup_options = get_option('dbmanager_options');
-	$backup = intval($backup_options['backup']);
-	$optimize = intval($backup_options['optimize']);
+	$backup = intval($backup_options['backup'])*intval($backup_options['backup_period']);
+	$optimize = intval($backup_options['optimize'])*intval($backup_options['optimize_period']);
 	if($backup == 0) {
-		$backup = 1;
+		$backup = 31536000;
 	}
 	if($optimize == 0) {
-		$optimize = 1;
+		$optimize = 31536000;
 	}
 	return array(
-		'dbmanager_backup' => array('interval' => $backup*86400, 'display' => 'WP-DBManager Backup Schedule'),
-		'dbmanager_optimize' => array('interval' => $optimize*86400, 'display' => 'WP-DBManager Optimize Schedule')
+		'dbmanager_backup' => array('interval' => $backup, 'display' => 'WP-DBManager Backup Schedule'),
+		'dbmanager_optimize' => array('interval' => $optimize, 'display' => 'WP-DBManager Optimize Schedule')
 	);
 }
 
@@ -226,9 +227,11 @@ function dbmanager_init() {
 	$backup_options['mysqldumppath'] = $auto['mysqldump'];
 	$backup_options['mysqlpath'] = $auto['mysql'];
 	$backup_options['path'] = str_replace('\\', '/', ABSPATH).'wp-content/backup-db';
-	$backup_options['backup'] = 7;
+	$backup_options['backup'] = 1;
+	$backup_options['backup_period'] = 604800;
 	$backup_options['backup_email'] = get_option('admin_email');
 	$backup_options['optimize'] = 3;
+	$backup_options['optimize_period'] = 86400;
 	add_option('dbmanager_options', $backup_options, 'WP-DBManager Options');
 
 	// Create Backup Folder
@@ -278,8 +281,10 @@ function dbmanager_options() {
 		$backup_options['mysqlpath'] = trim($_POST['db_mysqlpath']);
 		$backup_options['path'] = trim($_POST['db_path']);
 		$backup_options['backup'] = intval($_POST['db_backup']);
+		$backup_options['backup_period'] = intval($_POST['db_backup_period']);
 		$backup_options['backup_email'] = trim(addslashes($_POST['db_backup_email']));
 		$backup_options['optimize'] = intval($_POST['db_optimize']);
+		$backup_options['optimize_period'] = intval($_POST['db_optimize_period']);
 		$update_db_options = update_option('dbmanager_options', $backup_options);
 		if($update_db_options) {
 			$text = '<font color="green">'.__('DB Options Updated', 'wp-dbmanager').'</font>';
@@ -288,12 +293,16 @@ function dbmanager_options() {
 			$text = '<font color="red">'.__('No DB Option Updated', 'wp-dbmanager').'</font>';
 		}
 		wp_clear_scheduled_hook('dbmanager_cron_backup');
-		if (!wp_next_scheduled('dbmanager_cron_backup')) {
-			wp_schedule_event(time(), 'dbmanager_backup', 'dbmanager_cron_backup');
+		if($backup_options['backup_period'] > 0) {
+			if (!wp_next_scheduled('dbmanager_cron_backup')) {
+				wp_schedule_event(time(), 'dbmanager_backup', 'dbmanager_cron_backup');
+			}
 		}
 		wp_clear_scheduled_hook('dbmanager_cron_optimize');
-		if (!wp_next_scheduled('dbmanager_cron_optimize')) {
-			wp_schedule_event(time(), 'dbmanager_optimize', 'dbmanager_cron_optimize');
+		if($backup_options['optimize_period'] > 0) {
+			if (!wp_next_scheduled('dbmanager_cron_optimize')) {
+				wp_schedule_event(time(), 'dbmanager_optimize', 'dbmanager_cron_optimize');
+			}
 		}
 	}
 	$path = detect_mysql();
@@ -336,15 +345,30 @@ function dbmanager_options() {
 			<tr>
 				<td valign="top"><strong><?php _e('Automatic Backing Up Of DB:', 'wp-dbmanager'); ?></strong></td>
 				<td>
-					<?php _e('Every', 'wp-dbmanager'); ?>&nbsp;<input type="text" name="db_backup" size="3" maxlength="5" value="<?php echo intval($backup_options['backup']); ?>" />&nbsp;<?php _e('days', 'wp-dbmanager'); ?>&nbsp;&nbsp;&nbsp;<?php _e('(0 to disable this feature)', 'wp-dbmanager'); ?><br /><?php _e('E-mail backup to:', 'wp-dbmanager'); ?> <input type="text" name="db_backup_email" size="30" maxlength="50" value="<?php echo stripslashes($backup_options['backup_email']) ?>" />&nbsp;&nbsp;&nbsp;<?php _e('(Leave black to disable this feature)', 'wp-dbmanager'); ?>
-					<br /><?php _e('WP-DBManager can automatically backup your database after every X number of days.', 'wp-dbmanager'); ?>
+					<?php _e('Every', 'wp-dbmanager'); ?>&nbsp;<input type="text" name="db_backup" size="3" maxlength="5" value="<?php echo intval($backup_options['backup']); ?>" />&nbsp;
+					<select name="db_backup_period" size="1">
+						<option value="0"<?php selected('0', $backup_options['backup_period']); ?>><?php _e('Disable', 'wp-dbmanager'); ?></option>
+						<option value="3600"<?php selected('3600', $backup_options['backup_period']); ?>><?php _e('Hour(s)', 'wp-dbmanager'); ?></option>
+						<option value="86400"<?php selected('86400', $backup_options['backup_period']); ?>><?php _e('Day(s)', 'wp-dbmanager'); ?></option>
+						<option value="604800"<?php selected('604800', $backup_options['backup_period']); ?>><?php _e('Week(s)', 'wp-dbmanager'); ?></option>
+						<option value="18144000"<?php selected('18144000', $backup_options['backup_period']); ?>><?php _e('Month(s)', 'wp-dbmanager'); ?></option>
+					</select>
+					<br /><?php _e('E-mail backup to:', 'wp-dbmanager'); ?> <input type="text" name="db_backup_email" size="30" maxlength="50" value="<?php echo stripslashes($backup_options['backup_email']) ?>" />&nbsp;&nbsp;&nbsp;<?php _e('(Leave black to disable this feature)', 'wp-dbmanager'); ?>
+					<br /><?php _e('WP-DBManager can automatically backup your database after a certain period.', 'wp-dbmanager'); ?>
 				</td>
 			</tr>
 			<tr>
 				<td valign="top"><strong><?php _e('Automatic Optimizing Of DB:', 'wp-dbmanager'); ?></strong></td>
 				<td>
-					<?php _e('Every', 'wp-dbmanager'); ?>&nbsp;<input type="text" name="db_optimize" size="3" maxlength="5" value="<?php echo intval($backup_options['optimize']); ?>" />&nbsp;<?php _e('days', 'wp-dbmanager'); ?>&nbsp;&nbsp;&nbsp;<?php _e('(0 to disable this feature)', 'wp-dbmanager'); ?>
-					<br /><?php _e('WP-DBManager can automatically optimize your database after every X number of days.', 'wp-dbmanager'); ?>
+					<?php _e('Every', 'wp-dbmanager'); ?>&nbsp;<input type="text" name="db_optimize" size="3" maxlength="5" value="<?php echo intval($backup_options['optimize']); ?>" />&nbsp;
+					<select name="db_optimize_period" size="1">
+						<option value="0"<?php selected('0', $backup_options['optimize_period']); ?>><?php _e('Disable', 'wp-dbmanager'); ?></option>
+						<option value="3600"<?php selected('3600', $backup_options['optimize_period']); ?>><?php _e('Hour(s)', 'wp-dbmanager'); ?></option>
+						<option value="86400"<?php selected('86400', $backup_options['optimize_period']); ?>><?php _e('Day(s)', 'wp-dbmanager'); ?></option>
+						<option value="604800"<?php selected('604800', $backup_options['optimize_period']); ?>><?php _e('Week(s)', 'wp-dbmanager'); ?></option>
+						<option value="18144000"<?php selected('18144000', $backup_options['optimize_period']); ?>><?php _e('Month(s)', 'wp-dbmanager'); ?></option>
+					</select>
+					<br /><?php _e('WP-DBManager can automatically optimize your database after a certain period.', 'wp-dbmanager'); ?>
 				</td>
 			</tr>
 			<tr>
