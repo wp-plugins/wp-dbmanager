@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP-DBManager\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-05-10 16:56+0800\n"
+"PO-Revision-Date: 2007-05-11 23:33+0800\n"
 "Last-Translator: Lester 'GaMerZ' Chan <gamerz84@hotmail.com>\n"
 "Language-Team: Lester Chan <gamerz84@hotmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -169,12 +169,14 @@ msgstr ""
 #: database-backup.php:192
 #: database-optimize.php:83
 #: database-repair.php:79
+#: dbmanager.php:401
 msgid "Yes"
 msgstr ""
 
 #: database-backup.php:192
 #: database-optimize.php:83
 #: database-repair.php:79
+#: dbmanager.php:400
 msgid "No"
 msgstr ""
 
@@ -184,7 +186,7 @@ msgstr ""
 #: database-optimize.php:90
 #: database-repair.php:83
 #: database-run.php:93
-#: dbmanager.php:375
+#: dbmanager.php:433
 msgid "Cancel"
 msgstr ""
 
@@ -274,43 +276,43 @@ msgid "E-Mail"
 msgstr ""
 
 #: database-manage.php:79
-#: dbmanager.php:82
+#: dbmanager.php:89
 #, php-format
 msgid "%s Database Backup File For %s"
 msgstr ""
 
 #: database-manage.php:88
-#: dbmanager.php:91
+#: dbmanager.php:98
 msgid "Website Name:"
 msgstr ""
 
 #: database-manage.php:89
-#: dbmanager.php:92
+#: dbmanager.php:99
 msgid "Website URL:"
 msgstr ""
 
 #: database-manage.php:90
-#: dbmanager.php:93
+#: dbmanager.php:100
 msgid "Backup File Name:"
 msgstr ""
 
 #: database-manage.php:91
-#: dbmanager.php:94
+#: dbmanager.php:101
 msgid "Backup File Date:"
 msgstr ""
 
 #: database-manage.php:92
-#: dbmanager.php:95
+#: dbmanager.php:102
 msgid "Backup File Size:"
 msgstr ""
 
 #: database-manage.php:93
-#: dbmanager.php:96
+#: dbmanager.php:103
 msgid "With Regards,"
 msgstr ""
 
 #: database-manage.php:94
-#: dbmanager.php:97
+#: dbmanager.php:104
 msgid "Administrator"
 msgstr ""
 
@@ -576,129 +578,154 @@ msgstr ""
 msgid "DB Options"
 msgstr ""
 
-#: dbmanager.php:290
-msgid "DB Options Updated"
+#: dbmanager.php:299
+msgid "Database Options Updated"
 msgstr ""
 
-#: dbmanager.php:293
-msgid "No DB Option Updated"
+#: dbmanager.php:302
+msgid "No Database Option Updated"
 msgstr ""
 
-#: dbmanager.php:323
+#: dbmanager.php:332
 msgid "Database Options"
 msgstr ""
 
-#: dbmanager.php:327
+#: dbmanager.php:335
+msgid "Paths"
+msgstr ""
+
+#: dbmanager.php:338
 msgid "Path To mysqldump:"
 msgstr ""
 
-#: dbmanager.php:329
+#: dbmanager.php:341
 msgid "The absolute path to mysqldump without trailing slash. If unsure, please email your server administrator about this."
 msgstr ""
 
-#: dbmanager.php:333
+#: dbmanager.php:345
 msgid "Path To mysql:"
 msgstr ""
 
-#: dbmanager.php:335
+#: dbmanager.php:348
 msgid "The absolute path to mysql without trailing slash. If unsure, please email your server administrator about this."
 msgstr ""
 
-#: dbmanager.php:339
+#: dbmanager.php:352
 msgid "Path To Backup:"
 msgstr ""
 
-#: dbmanager.php:342
+#: dbmanager.php:355
 msgid "The absolute path to your database backup folder without trailing slash. Make sure the folder is writable."
 msgstr ""
 
-#: dbmanager.php:346
-msgid "Automatic Backing Up Of DB:"
-msgstr ""
-
-#: dbmanager.php:348
-#: dbmanager.php:363
-msgid "Every"
-msgstr ""
-
-#: dbmanager.php:350
-#: dbmanager.php:365
-msgid "Disable"
-msgstr ""
-
-#: dbmanager.php:351
-#: dbmanager.php:366
-msgid "Hour(s)"
-msgstr ""
-
-#: dbmanager.php:352
-#: dbmanager.php:367
-msgid "Day(s)"
-msgstr ""
-
-#: dbmanager.php:353
-#: dbmanager.php:368
-msgid "Week(s)"
-msgstr ""
-
-#: dbmanager.php:354
-#: dbmanager.php:369
-msgid "Month(s)"
-msgstr ""
-
-#: dbmanager.php:356
-msgid "E-mail backup to:"
-msgstr ""
-
-#: dbmanager.php:356
-msgid "(Leave black to disable this feature)"
-msgstr ""
-
-#: dbmanager.php:357
-msgid "WP-DBManager can automatically backup your database after a certain period."
-msgstr ""
-
-#: dbmanager.php:361
-msgid "Automatic Optimizing Of DB:"
-msgstr ""
-
-#: dbmanager.php:371
-msgid "WP-DBManager can automatically optimize your database after a certain period."
-msgstr ""
-
-#: dbmanager.php:375
-msgid "Update Options"
-msgstr ""
-
-#: dbmanager.php:380
+#: dbmanager.php:360
 msgid "Windows Server"
 msgstr ""
 
-#: dbmanager.php:381
+#: dbmanager.php:361
 msgid "For mysqldump path, you can try '<strong>mysqldump.exe</strong>'."
 msgstr ""
 
-#: dbmanager.php:382
+#: dbmanager.php:362
 msgid "For mysql path, you can try '<strong>mysql.exe</strong>'."
 msgstr ""
 
-#: dbmanager.php:384
+#: dbmanager.php:365
 msgid "Linux Server"
 msgstr ""
 
-#: dbmanager.php:385
+#: dbmanager.php:366
 msgid "For mysqldump path, normally is just '<strong>mysqldump</strong>'."
 msgstr ""
 
-#: dbmanager.php:386
+#: dbmanager.php:367
 msgid "For mysql path, normally is just '<strong>mysql</strong>'."
 msgstr ""
 
-#: dbmanager.php:389
+#: dbmanager.php:370
 msgid "Note"
 msgstr ""
 
-#: dbmanager.php:390
+#: dbmanager.php:371
 msgid "The 'Auto Detect' function does not work for some servers. If it does not work for you, please contact your server administrator for the MYSQL and MYSQL DUMP paths."
+msgstr ""
+
+#: dbmanager.php:376
+msgid "Automatic Scheduling"
+msgstr ""
+
+#: dbmanager.php:379
+msgid "Automatic Backing Up Of DB:"
+msgstr ""
+
+#: dbmanager.php:382
+msgid "Next backup date: "
+msgstr ""
+
+#: dbmanager.php:386
+#: dbmanager.php:416
+msgid "N/A"
+msgstr ""
+
+#: dbmanager.php:390
+#: dbmanager.php:420
+msgid "Every"
+msgstr ""
+
+#: dbmanager.php:392
+#: dbmanager.php:422
+msgid "Disable"
+msgstr ""
+
+#: dbmanager.php:393
+#: dbmanager.php:423
+msgid "Hour(s)"
+msgstr ""
+
+#: dbmanager.php:394
+#: dbmanager.php:424
+msgid "Day(s)"
+msgstr ""
+
+#: dbmanager.php:395
+#: dbmanager.php:425
+msgid "Week(s)"
+msgstr ""
+
+#: dbmanager.php:396
+#: dbmanager.php:426
+msgid "Month(s)"
+msgstr ""
+
+#: dbmanager.php:398
+msgid "Gzip"
+msgstr ""
+
+#: dbmanager.php:404
+msgid "E-mail backup to:"
+msgstr ""
+
+#: dbmanager.php:404
+msgid "(Leave black to disable this feature)"
+msgstr ""
+
+#: dbmanager.php:405
+msgid "WP-DBManager can automatically backup your database after a certain period."
+msgstr ""
+
+#: dbmanager.php:409
+msgid "Automatic Optimizing Of DB:"
+msgstr ""
+
+#: dbmanager.php:412
+msgid "Next optimize date: "
+msgstr ""
+
+#: dbmanager.php:429
+msgid "WP-DBManager can automatically optimize your database after a certain period."
+msgstr ""
+
+#: dbmanager.php:433
+msgid "Update Options"
 msgstr ""
 
