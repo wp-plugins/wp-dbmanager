@@ -109,9 +109,9 @@ function cron_dbmanager_backup() {
 										"Content-Transfer-Encoding: 7bit\n\n".$mail_message."\n\n";				
 				$mail_message .= "--{$mime_boundary}\n" .
 										"Content-Type: application/octet-stream;\n" .
-										" name=\"$database_file\"\n" .
+										" name=\"{$backup['filename']}\"\n" .
 										"Content-Disposition: attachment;\n" .
-										" filename=\"$database_file\"\n" .
+										" filename=\"{$backup['filename']}\"\n" .
 										"Content-Transfer-Encoding: base64\n\n" .
 										$file_data."\n\n--{$mime_boundary}--\n";
 			mail($backup_email, $mail_subject, $mail_message, $mail_header);
