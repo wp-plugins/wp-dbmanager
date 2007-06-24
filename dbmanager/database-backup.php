@@ -2,7 +2,7 @@
 /*
 +----------------------------------------------------------------+
 |																							|
-|	WordPress 2.1 Plugin: WP-DBManager 2.11								|
+|	WordPress 2.1 Plugin: WP-DBManager 2.20								|
 |	Copyright (c) 2007 Lester "GaMerZ" Chan									|
 |																							|
 |	File Written By:																	|
@@ -50,6 +50,7 @@ if($_POST['do']) {
 				$backup['filepath'] = $backup['path'].'/'.$backup['filename'];
 				$backup['command'] = $backup['mysqldumppath'].' --host="'.DB_HOST.'" --user="'.DB_USER.'" --password="'.DB_PASSWORD.'" --add-drop-table '.DB_NAME.' > '.$backup['filepath'];
 			}
+			check_backup_files();
 			passthru($backup['command'], $error);
 			if(!is_writable($backup['path'])) {
 				$text = '<font color="red">'.sprintf(__('Database Failed To Backup On \'%s\'. Backup Folder Not Writable.', 'wp-dbmanager'), $current_date).'</font>';

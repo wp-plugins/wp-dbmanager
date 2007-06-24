@@ -3,7 +3,7 @@
 Plugin Name: WP-DBManager
 Plugin URI: http://www.lesterchan.net/portfolio/programming.php
 Description: Manages your Wordpress database. Allows you to optimize database, repair database, backup database, restore database, delete backup database , drop/empty tables and run selected queries. Supports automatic scheduling of backing up and optimizing of database.
-Version: 2.11
+Version: 2.20
 Author: Lester 'GaMerZ' Chan
 Author URI: http://www.lesterchan.net
 */
@@ -46,6 +46,7 @@ function dbmanager_menu() {
 		add_submenu_page('dbmanager/database-manager.php', __('Empty/Drop Tables', 'wp-dbmanager'), __('Empty/Drop Tables', 'wp-dbmanager'), 'manage_database', 'dbmanager/database-empty.php');
 		add_submenu_page('dbmanager/database-manager.php', __('Run SQL Query', 'wp-dbmanager'), __('Run SQL Query', 'wp-dbmanager'), 'manage_database', 'dbmanager/database-run.php');
 		add_submenu_page('dbmanager/database-manager.php',  __('DB Options', 'wp-dbmanager'),  __('DB Options', 'wp-dbmanager'), 'manage_database', 'dbmanager/dbmanager.php', 'dbmanager_options');
+		add_submenu_page('dbmanager/database-manager.php', __('Uninstall WP-DBManager', 'wp-dbmanager'), __('Uninstall WP-DBManager', 'wp-dbmanager'), 'manage_database', 'dbmanager/database-uninstall.php');
 	}
 }
 
@@ -75,6 +76,7 @@ function cron_dbmanager_backup() {
 			$backup['filepath'] = $backup['path'].'/'.$backup['filename'];
 			$backup['command'] = $backup['mysqldumppath'].' --host="'.DB_HOST.'" --user="'.DB_USER.'" --password="'.DB_PASSWORD.'" --add-drop-table '.DB_NAME.' > '.$backup['filepath'];
 		}
+		check_backup_files();
 		passthru($backup['command']);
 		if(!empty($backup_email)) {
 				// Get And Read The Database Backup File
@@ -224,6 +226,27 @@ if(!function_exists('is_emtpy_folder')) {
 }
 
 
+### Function: Make Sure Maximum Number Of Database Backup Files Does Not Exceed
+function check_backup_files() {
+	$backup_options = get_option('dbmanager_options');
+	$database_files = array();
+	if(!is_emtpy_folder($backup_options['path'])) {
+		if ($handle = opendir($backup_options['path'])) {			
+			while (false !== ($file = readdir($handle))) { 
+				if ($file != '.' && $file != '..' && (file_ext($file) == 'sql' || file_ext($file) == 'gz')) {
+					$database_files[] = $file;
+				} 
+			}
+			closedir($handle);
+			sort($database_files);
+		}
+	}
+	if(sizeof($database_files) >= $backup_options['max_backup']) {
+		@unlink($backup_options['path'].'/'.$database_files[0]);
+	}
+}
+
+
 ### Function: Database Manager Role
 add_action('activate_dbmanager/dbmanager.php', 'dbmanager_init');
 function dbmanager_init() {
@@ -234,6 +257,7 @@ function dbmanager_init() {
 	$backup_options['mysqldumppath'] = $auto['mysqldump'];
 	$backup_options['mysqlpath'] = $auto['mysql'];
 	$backup_options['path'] = str_replace('\\', '/', ABSPATH).'wp-content/backup-db';
+	$backup_options['max_backup'] = 10;
 	$backup_options['backup'] = 1;
 	$backup_options['backup_gzip'] = 0;
 	$backup_options['backup_period'] = 604800;
@@ -288,6 +312,7 @@ function dbmanager_options() {
 		$backup_options['mysqldumppath'] = trim($_POST['db_mysqldumppath']);
 		$backup_options['mysqlpath'] = trim($_POST['db_mysqlpath']);
 		$backup_options['path'] = trim($_POST['db_path']);
+		$backup_options['max_backup'] = intval($_POST['db_max_backup']);
 		$backup_options['backup'] = intval($_POST['db_backup']);
 		$backup_options['backup_gzip'] = intval($_POST['db_backup_gzip']);
 		$backup_options['backup_period'] = intval($_POST['db_backup_period']);
@@ -335,8 +360,8 @@ function dbmanager_options() {
 			<legend><?php _e('Paths', 'wp-dbmanager'); ?></legend> 
 			<table class="optiontable">
 				<tr>
-					<td valign="top"><strong><?php _e('Path To mysqldump:', 'wp-dbmanager'); ?></strong></td>
-					<td>
+					<td width="20%" valign="top"><strong><?php _e('Path To mysqldump:', 'wp-dbmanager'); ?></strong></td>
+					<td width="80%">
 						<input type="text" id="db_mysqldumppath" name="db_mysqldumppath" size="60" maxlength="100" value="<?php echo stripslashes($backup_options['mysqldumppath']); ?>" />&nbsp;&nbsp;<input type="button" value="Auto Detect" onclick="mysqldumppath();" />
 						<p><?php _e('The absolute path to mysqldump without trailing slash. If unsure, please email your server administrator about this.', 'wp-dbmanager'); ?></p>
 					</td>
@@ -353,6 +378,13 @@ function dbmanager_options() {
 					<td>
 						<input type="text" name="db_path" size="60" maxlength="100" value="<?php echo stripslashes($backup_options['path']); ?>" />
 						<p><?php _e('The absolute path to your database backup folder without trailing slash. Make sure the folder is writable.', 'wp-dbmanager'); ?></p>
+					</td>
+				</tr>
+				<tr>
+					<td valign="top"><strong><?php _e('Maximum Backup Files:', 'wp-dbmanager'); ?></strong></td>
+					<td>
+						<input type="text" name="db_max_backup" size="5" maxlength="5" value="<?php echo stripslashes($backup_options['max_backup']); ?>" />
+						<p><?php _e('The maximum number of database backup files that is allowed in the backup folder as stated above. The oldest database backup file is always deleted in order to maintain this value. This is to prevent the backup folder from getting too large.', 'wp-dbmanager'); ?></p>
 					</td>
 				</tr>
 			</table>
