@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP-DBManager 2.20\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-07-13 02:01+0800\n"
+"PO-Revision-Date: 2007-07-20 04:58+0800\n"
 "Last-Translator: Lester 'GaMerZ' Chan <gamerz84@hotmail.com>\n"
 "Language-Team: Lester Chan <gamerz84@hotmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -13,6 +13,20 @@ msgstr ""
 "X-Poedit-KeywordsList: __;_e\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SearchPath-0: .\n"
+
+#: database-backup.php:29
+#: database-backup.php:177
+#: database-manage.php:41
+#: database-manage.php:67
+#: database-manage.php:122
+#: database-manage.php:172
+#: dbmanager.php:63
+#: dbmanager.php:85
+#: dbmanager.php:416
+#: dbmanager.php:446
+#, php-format
+msgid "%s @ %s"
+msgstr ""
 
 #: database-backup.php:42
 #: database-backup.php:196
@@ -182,66 +196,66 @@ msgid "No"
 msgstr ""
 
 #: database-backup.php:196
-#: database-empty.php:107
-#: database-manage.php:202
+#: database-empty.php:106
+#: database-manage.php:201
 #: database-optimize.php:90
 #: database-repair.php:83
-#: database-run.php:93
+#: database-run.php:92
 #: dbmanager.php:465
 msgid "Cancel"
 msgstr ""
 
-#: database-empty.php:45
-#: database-empty.php:107
+#: database-empty.php:44
+#: database-empty.php:106
 msgid "Empty/Drop"
 msgstr ""
 
-#: database-empty.php:56
+#: database-empty.php:55
 msgid "No Tables Selected."
 msgstr ""
 
-#: database-empty.php:62
+#: database-empty.php:61
 #, php-format
 msgid "Table '%s' Emptied"
 msgstr ""
 
-#: database-empty.php:67
+#: database-empty.php:66
 #, php-format
 msgid "Table(s) '%s' Dropped"
 msgstr ""
 
-#: database-empty.php:80
+#: database-empty.php:79
 #: dbmanager.php:46
 msgid "Empty/Drop Tables"
 msgstr ""
 
-#: database-empty.php:84
-#: database-manager.php:77
-#: database-manager.php:109
+#: database-empty.php:83
+#: database-manager.php:76
+#: database-manager.php:108
 #: database-optimize.php:71
 #: database-repair.php:67
 msgid "Tables"
 msgstr ""
 
-#: database-empty.php:85
-#: database-empty.php:97
+#: database-empty.php:84
+#: database-empty.php:96
 msgid "Empty"
 msgstr ""
 
-#: database-empty.php:86
-#: database-empty.php:98
+#: database-empty.php:85
+#: database-empty.php:97
 msgid "Drop"
 msgstr ""
 
-#: database-empty.php:103
+#: database-empty.php:102
 msgid "1. DROPPING a table means deleting the table. This action is not REVERSIBLE."
 msgstr ""
 
-#: database-empty.php:104
+#: database-empty.php:103
 msgid "2. EMPTYING a table means all the rows in the table will be deleted. This action is not REVERSIBLE."
 msgstr ""
 
-#: database-empty.php:107
+#: database-empty.php:106
 msgid ""
 "You Are About To Empty Or Drop The Selected Databases.\\n"
 "This Action Is Not Reversible.\\n"
@@ -249,152 +263,152 @@ msgid ""
 " Choose [Cancel] to stop, [Ok] to delete."
 msgstr ""
 
-#: database-manage.php:46
-#: database-manage.php:200
+#: database-manage.php:45
+#: database-manage.php:199
 msgid "Restore"
 msgstr ""
 
-#: database-manage.php:55
+#: database-manage.php:54
 #, php-format
 msgid "Database On '%s' Failed To Restore"
 msgstr ""
 
-#: database-manage.php:57
+#: database-manage.php:56
 #, php-format
 msgid "Database On '%s' Restored Successfully"
 msgstr ""
 
-#: database-manage.php:60
-#: database-manage.php:113
-#: database-manage.php:118
-#: database-manage.php:134
+#: database-manage.php:59
+#: database-manage.php:112
+#: database-manage.php:117
+#: database-manage.php:133
 msgid "No Backup Database File Selected"
 msgstr ""
 
-#: database-manage.php:63
-#: database-manage.php:195
+#: database-manage.php:62
+#: database-manage.php:194
 msgid "E-Mail"
 msgstr ""
 
-#: database-manage.php:79
+#: database-manage.php:78
 #: dbmanager.php:91
 #, php-format
 msgid "%s Database Backup File For %s"
 msgstr ""
 
-#: database-manage.php:88
+#: database-manage.php:87
 #: dbmanager.php:100
 msgid "Website Name:"
 msgstr ""
 
-#: database-manage.php:89
+#: database-manage.php:88
 #: dbmanager.php:101
 msgid "Website URL:"
 msgstr ""
 
-#: database-manage.php:90
+#: database-manage.php:89
 #: dbmanager.php:102
 msgid "Backup File Name:"
 msgstr ""
 
-#: database-manage.php:91
+#: database-manage.php:90
 #: dbmanager.php:103
 msgid "Backup File Date:"
 msgstr ""
 
-#: database-manage.php:92
+#: database-manage.php:91
 #: dbmanager.php:104
 msgid "Backup File Size:"
 msgstr ""
 
-#: database-manage.php:93
+#: database-manage.php:92
 #: dbmanager.php:105
 msgid "With Regards,"
 msgstr ""
 
-#: database-manage.php:94
+#: database-manage.php:93
 #: dbmanager.php:106
 msgid "Administrator"
 msgstr ""
 
-#: database-manage.php:108
+#: database-manage.php:107
 #, php-format
 msgid "Database Backup File For '%s' Successfully E-Mailed To '%s'"
 msgstr ""
 
-#: database-manage.php:110
+#: database-manage.php:109
 #, php-format
 msgid "Unable To E-Mail Database Backup File For '%s' To '%s'"
 msgstr ""
 
-#: database-manage.php:116
-#: database-manage.php:199
+#: database-manage.php:115
+#: database-manage.php:198
 msgid "Download"
 msgstr ""
 
-#: database-manage.php:121
-#: database-manage.php:201
+#: database-manage.php:120
+#: database-manage.php:200
 msgid "Delete"
 msgstr ""
 
-#: database-manage.php:126
+#: database-manage.php:125
 #, php-format
 msgid "Unable To Delete Database Backup File On '%s'"
 msgstr ""
 
-#: database-manage.php:128
+#: database-manage.php:127
 #, php-format
 msgid "Database Backup File On '%s' Deleted Successfully"
 msgstr ""
 
-#: database-manage.php:131
+#: database-manage.php:130
 #, php-format
 msgid "Invalid Database Backup File On '%s'"
 msgstr ""
 
-#: database-manage.php:143
+#: database-manage.php:142
 msgid "Manage Backup Database"
 msgstr ""
 
-#: database-manage.php:144
+#: database-manage.php:143
 msgid "Choose A Backup Date To E-Mail, Restore, Download Or Delete"
 msgstr ""
 
-#: database-manage.php:148
-#: database-manager.php:76
+#: database-manage.php:147
+#: database-manager.php:75
 msgid "No."
 msgstr ""
 
-#: database-manage.php:149
+#: database-manage.php:148
 msgid "Database File"
 msgstr ""
 
-#: database-manage.php:150
+#: database-manage.php:149
 msgid "Date/Time"
 msgstr ""
 
-#: database-manage.php:151
+#: database-manage.php:150
 msgid "Size"
 msgstr ""
 
-#: database-manage.php:152
+#: database-manage.php:151
 msgid "Select"
 msgstr ""
 
-#: database-manage.php:183
-#: database-manage.php:186
+#: database-manage.php:182
+#: database-manage.php:185
 msgid "There Are No Database Backup Files Available."
 msgstr ""
 
-#: database-manage.php:190
+#: database-manage.php:189
 msgid "Backup File(s)"
 msgstr ""
 
-#: database-manage.php:195
+#: database-manage.php:194
 msgid "E-mail database backup file to:"
 msgstr ""
 
-#: database-manage.php:200
+#: database-manage.php:199
 msgid ""
 "You Are About To Restore A Database.\\n"
 "This Action Is Not Reversible.\\n"
@@ -403,7 +417,7 @@ msgid ""
 " Choose [Cancel] to stop, [Ok] to restore."
 msgstr ""
 
-#: database-manage.php:201
+#: database-manage.php:200
 msgid ""
 "You Are About To Delete The Selected Database Backup Files.\\n"
 "This Action Is Not Reversible.\\n"
@@ -411,63 +425,63 @@ msgid ""
 " Choose [Cancel] to stop, [Ok] to delete."
 msgstr ""
 
-#: database-manager.php:44
+#: database-manager.php:43
 msgid "Database Information"
 msgstr ""
 
-#: database-manager.php:47
+#: database-manager.php:46
 msgid "Setting"
 msgstr ""
 
-#: database-manager.php:48
+#: database-manager.php:47
 msgid "Value"
 msgstr ""
 
-#: database-manager.php:51
+#: database-manager.php:50
 msgid "Database Host"
 msgstr ""
 
-#: database-manager.php:55
+#: database-manager.php:54
 msgid "Database Name"
 msgstr ""
 
-#: database-manager.php:59
+#: database-manager.php:58
 msgid "Database User"
 msgstr ""
 
-#: database-manager.php:63
+#: database-manager.php:62
 msgid "Database Type"
 msgstr ""
 
-#: database-manager.php:67
+#: database-manager.php:66
 msgid "Database Version"
 msgstr ""
 
-#: database-manager.php:73
+#: database-manager.php:72
 msgid "Tables Information"
 msgstr ""
 
-#: database-manager.php:78
+#: database-manager.php:77
 msgid "Records"
 msgstr ""
 
-#: database-manager.php:79
+#: database-manager.php:78
 msgid "Data Usage"
 msgstr ""
 
-#: database-manager.php:80
+#: database-manager.php:79
 msgid "Index Usage"
 msgstr ""
 
-#: database-manager.php:81
+#: database-manager.php:80
 msgid "Overhead"
 msgstr ""
 
-#: database-manager.php:108
+#: database-manager.php:107
 msgid "Total:"
 msgstr ""
 
-#: database-manager.php:116
+#: database-manager.php:115
 msgid "Could Not Show Table Status Due To Your MYSQL Version Is Lower Than 3.23."
 msgstr ""
 
@@ -516,42 +530,42 @@ msgstr ""
 msgid "Repair"
 msgstr ""
 
-#: database-run.php:42
-#: database-run.php:93
+#: database-run.php:41
+#: database-run.php:92
 msgid "Run"
 msgstr ""
 
-#: database-run.php:72
+#: database-run.php:71
 msgid "Query(s) Executed Successfully"
 msgstr ""
 
-#: database-run.php:74
-#: database-run.php:77
+#: database-run.php:73
+#: database-run.php:76
 msgid "Empty Query"
 msgstr ""
 
-#: database-run.php:86
+#: database-run.php:85
 #: dbmanager.php:47
 msgid "Run SQL Query"
 msgstr ""
 
-#: database-run.php:89
+#: database-run.php:88
 msgid "Seperate Multiple Queries With A New Line"
 msgstr ""
 
-#: database-run.php:90
+#: database-run.php:89
 msgid "Use Only INSERT, UPDATE, REPLACE, DELETE, CREATE and ALTER statements."
 msgstr ""
 
-#: database-run.php:95
+#: database-run.php:94
 msgid "1. CREATE statement will return an error, which is perfectly normal due to the database class. To confirm that your table has been created check the Manage Database page."
 msgstr ""
 
-#: database-run.php:96
+#: database-run.php:95
 msgid "2. UPDATE statement may return an error sometimes due to the newly updated value being the same as the previous value."
 msgstr ""
 
-#: database-run.php:97
+#: database-run.php:96
 msgid "3. ALTER statement will return an error because there is no value returned."
 msgstr ""
 

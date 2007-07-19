@@ -26,7 +26,6 @@ if(!current_user_can('manage_database')) {
 ### Variables Variables Variables
 $base_name = plugin_basename('dbmanager/database-manager.php');
 $base_page = 'admin.php?page='.$base_name;
-$current_date = gmdate('l, jS F Y @ H:i', (time() + (get_option('gmt_offset') * 3600)));
 $backup = array();
 $backup_options = get_option('dbmanager_options');
 $backup['date'] = current_time('timestamp');
@@ -39,7 +38,7 @@ $backup['path'] = $backup_options['path'];
 if($_POST['do']) {
 	// Lets Prepare The Variables
 	$database_file = trim($_POST['database_file']);
-	$nice_file_date = gmdate('l, jS F Y @ H:i', substr($database_file, 0, 10));
+	$nice_file_date = gmdate(sprintf(__('%s @ %s', 'wp-dbmanager'), get_option('date_format'), get_option('time_format')), substr($database_file, 0, 10));
 
 	// Decide What To Do
 	switch($_POST['do']) {
@@ -65,7 +64,7 @@ if($_POST['do']) {
 				// Get And Read The Database Backup File
 				$file_path = $backup['path'].'/'.$database_file;
 				$file_size = format_size(filesize($file_path));
-				$file_date = gmdate('l, jS F Y @ H:i', substr($database_file, 0, 10));
+				$file_date = gmdate(sprintf(__('%s @ %s', 'wp-dbmanager'), get_option('date_format'), get_option('time_format')), substr($database_file, 0, 10));
 				$file = fopen($file_path,'rb');
 				$file_data = fread($file,filesize($file_path));
 				fclose($file);
@@ -120,7 +119,7 @@ if($_POST['do']) {
 			break;
 		case __('Delete', 'wp-dbmanager'):
 			if(!empty($database_file)) {
-				$nice_file_date = gmdate('l, jS F Y @ H:i', substr($database_file, 0, 10));
+				$nice_file_date = gmdate(sprintf(__('%s @ %s', 'wp-dbmanager'), get_option('date_format'), get_option('time_format')), substr($database_file, 0, 10));
 				if(is_file($backup['path'].'/'.$database_file)) {
 					if(!unlink($backup['path'].'/'.$database_file)) {
 						$text .= '<font color="red">'.sprintf(__('Unable To Delete Database Backup File On \'%s\'', 'wp-dbmanager'), $nice_file_date).'</font><br />';
@@ -170,7 +169,7 @@ if($_POST['do']) {
 							}
 							$no++;
 							$database_text = substr($database_files[$i], 13);
-							$date_text = gmdate('l, jS F Y @ H:i', substr($database_files[$i], 0, 10));
+							$date_text = gmdate(sprintf(__('%s @ %s', 'wp-dbmanager'), get_option('date_format'), get_option('time_format')), substr($database_files[$i], 0, 10));
 							$size_text = filesize($backup['path'].'/'.$database_files[$i]);
 							echo "<tr $style>\n<td>$no</td>";
 							echo "<td>$database_text</td>";

@@ -26,7 +26,7 @@ if(!current_user_can('manage_database')) {
 ### Variables Variables Variables
 $base_name = plugin_basename('dbmanager/database-manager.php');
 $base_page = 'admin.php?page='.$base_name;
-$current_date = gmdate('l, jS F Y @ H:i', (time() + (get_option('gmt_offset') * 3600)));
+$current_date = gmdate(sprintf(__('%s @ %s', 'wp-dbmanager'), get_option('date_format'), get_option('time_format')), (time() + (get_option('gmt_offset') * 3600)));
 $backup = array();
 $backup_options = get_option('dbmanager_options');
 $backup['date'] = current_time('timestamp');
@@ -174,7 +174,7 @@ $stats_function_disabled = 0;
 		</tr>
 		<tr>
 			<th align="left" scope="row"><?php _e('Database Backup Date:', 'wp-dbmanager'); ?></th>
-			<td><?php echo gmdate('l, jS F Y @ H:i', $backup['date']); ?></td>
+			<td><?php echo gmdate(sprintf(__('%s @ %s', 'wp-dbmanager'), get_option('date_format'), get_option('time_format')), $backup['date']); ?></td>
 		</tr>
 		<tr style="background-color: #eee;">
 			<th align="left" scope="row"><?php _e('Database Backup File Name:', 'wp-dbmanager'); ?></th>

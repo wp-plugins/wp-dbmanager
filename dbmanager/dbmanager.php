@@ -60,7 +60,7 @@ function cron_dbmanager_backup() {
 	$backup_options = get_option('dbmanager_options');
 	$backup_email = stripslashes($backup_options['backup_email']);
 	if(intval($backup_options['backup_period']) > 0) {
-		$current_date = gmdate('l, jS F Y @ H:i', (time() + (get_option('gmt_offset') * 3600)));
+		$current_date = gmdate(sprintf(__('%s @ %s', 'wp-dbmanager'), get_option('date_format'), get_option('time_format')), (time() + (get_option('gmt_offset') * 3600)));
 		$backup = array();
 		$backup['date'] = current_time('timestamp');
 		$backup['mysqldumppath'] = $backup_options['mysqldumppath'];
@@ -82,7 +82,7 @@ function cron_dbmanager_backup() {
 				// Get And Read The Database Backup File
 				$file_path = $backup['filepath'];
 				$file_size = format_size(filesize($file_path));
-				$file_date = gmdate('l, jS F Y @ H:i', substr($backup['filename'], 0, 10));
+				$file_date = gmdate(sprintf(__('%s @ %s', 'wp-dbmanager'), get_option('date_format'), get_option('time_format')), substr($backup['filename'], 0, 10));
 				$file = fopen($file_path,'rb');
 				$file_data = fread($file,filesize($file_path));
 				fclose($file);
@@ -413,7 +413,7 @@ function dbmanager_options() {
 						<?php
 							_e('Next backup date: ', 'wp-dbmanager');
 							if(wp_next_scheduled('dbmanager_cron_backup')) {
-								echo '<strong>'.gmdate('l, jS F Y @ H:i', (wp_next_scheduled('dbmanager_cron_backup') + (get_option('gmt_offset') * 3600))).'</strong>';
+								echo '<strong>'.gmdate(sprintf(__('%s @ %s', 'wp-dbmanager'), get_option('date_format'), get_option('time_format')), (wp_next_scheduled('dbmanager_cron_backup') + (get_option('gmt_offset') * 3600))).'</strong>';
 							} else {
 								_e('N/A', 'wp-dbmanager');
 							}
@@ -443,7 +443,7 @@ function dbmanager_options() {
 						<?php
 							_e('Next optimize date: ', 'wp-dbmanager');
 							if(wp_next_scheduled('dbmanager_cron_optimize')) {
-								echo '<strong>'.gmdate('l, jS F Y @ H:i', (wp_next_scheduled('dbmanager_cron_optimize') + (get_option('gmt_offset') * 3600))).'</strong>';
+								echo '<strong>'.gmdate(sprintf(__('%s @ %s', 'wp-dbmanager'), get_option('date_format'), get_option('time_format')), (wp_next_scheduled('dbmanager_cron_optimize') + (get_option('gmt_offset') * 3600))).'</strong>';
 							} else {
 								_e('N/A', 'wp-dbmanager');
 							}

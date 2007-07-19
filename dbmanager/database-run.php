@@ -26,7 +26,6 @@ if(!current_user_can('manage_database')) {
 ### Variables Variables Variables
 $base_name = plugin_basename('dbmanager/database-manager.php');
 $base_page = 'admin.php?page='.$base_name;
-$current_date = gmdate('l, jS F Y @ H:i', (time() + (get_option('gmt_offset') * 3600)));
 $backup = array();
 $backup_options = get_option('dbmanager_options');
 $backup['date'] = current_time('timestamp');
