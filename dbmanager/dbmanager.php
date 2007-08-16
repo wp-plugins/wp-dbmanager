@@ -147,8 +147,8 @@ function cron_dbmanager_reccurences() {
 		$optimize = 31536000;
 	}
 	return array(
-		'dbmanager_backup' => array('interval' => $backup, 'display' => 'WP-DBManager Backup Schedule'),
-		'dbmanager_optimize' => array('interval' => $optimize, 'display' => 'WP-DBManager Optimize Schedule')
+		'dbmanager_backup' => array('interval' => $backup, 'display' => __('WP-DBManager Backup Schedule', 'wp-dbmanager')),
+		'dbmanager_optimize' => array('interval' => $optimize, 'display' => __('WP-DBManager Optimize Schedule', 'wp-dbmanager'))
 	);
 }
 

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP-DBManager 2.20\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-08-16 12:06+0800\n"
+"PO-Revision-Date: 2007-08-16 12:09+0800\n"
 "Last-Translator: Lester 'GaMerZ' Chan <gamerz84@hotmail.com>\n"
 "Language-Team: Lester Chan <gamerz84@hotmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -660,6 +660,14 @@ msgstr ""
 
 #: dbmanager.php:48
 msgid "DB Options"
+msgstr ""
+
+#: dbmanager.php:150
+msgid "WP-DBManager Backup Schedule"
+msgstr ""
+
+#: dbmanager.php:151
+msgid "WP-DBManager Optimize Schedule"
 msgstr ""
 
 #: dbmanager.php:324
