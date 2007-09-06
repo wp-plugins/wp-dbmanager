@@ -400,7 +400,7 @@ function dbmanager_options() {
 			</p>
 			<p>
 				<strong><?php _e('Note', 'wp-dbmanager'); ?></strong><br />
-				<?php _e('The \'Auto Detect\' function does not work for some servers. If it does not work for you, please contact your server administrator for the MYSQL and MYSQL DUMP paths.'); ?>
+				<?php _e('The \'Auto Detect\' function does not work for some servers. If it does not work for you, please contact your server administrator for the MYSQL and MYSQL DUMP paths.', 'wp-dbmanager'); ?>
 			</p>
 			<p>&nbsp;</p>
 		</fieldset>
