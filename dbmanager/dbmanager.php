@@ -29,7 +29,10 @@ Author URI: http://lesterchan.net
 
 
 ### Create Text Domain For Translations
-load_plugin_textdomain('wp-dbmanager', 'wp-content/plugins/dbmanager');
+add_action('init', 'dbmanager_textdomain');
+function dbmanager_textdomain() {
+	load_plugin_textdomain('wp-dbmanager', 'wp-content/plugins/dbmanager');
+}
 
 
 ### Function: Database Manager Menu
