@@ -2,7 +2,7 @@
 /*
 +----------------------------------------------------------------+
 |																							|
-|	WordPress 2.1 Plugin: WP-DBManager 2.20								|
+|	WordPress 2.1 Plugin: WP-DBManager 2.30								|
 |	Copyright (c) 2007 Lester "GaMerZ" Chan									|
 |																							|
 |	File Written By:																	|
@@ -11,7 +11,7 @@
 |																							|
 |	File Information:																	|
 |	- Uninstall WP-DBManager														|
-|	- wp-content/plugins/dbmanager/dbmanager-uninstall.php			|
+|	- wp-content/plugins/wp-dbmanager/dbmanager-uninstall.php		|
 |																							|
 +----------------------------------------------------------------+
 */
@@ -24,7 +24,7 @@ if(!current_user_can('manage_database')) {
 
 
 ### Variables Variables Variables
-$base_name = plugin_basename('dbmanager/database-manager.php');
+$base_name = plugin_basename('wp-dbmanager/database-manager.php');
 $base_page = 'admin.php?page='.$base_name;
 $mode = trim($_GET['mode']);
 $db_settings = array('dbmanager_options');
@@ -70,9 +70,9 @@ if(!empty($_POST['do'])) {
 switch($mode) {
 		//  Deactivating WP-DBManager
 		case 'end-UNINSTALL':
-			$deactivate_url = 'plugins.php?action=deactivate&amp;plugin=dbmanager/dbmanager.php';
+			$deactivate_url = 'plugins.php?action=deactivate&amp;plugin=wp-dbmanager/wp-dbmanager.php';
 			if(function_exists('wp_nonce_url')) { 
-				$deactivate_url = wp_nonce_url($deactivate_url, 'deactivate-plugin_dbmanager/dbmanager.php');
+				$deactivate_url = wp_nonce_url($deactivate_url, 'deactivate-plugin_wp-dbmanager/wp-dbmanager.php');
 			}
 			echo '<div class="wrap">';
 			echo '<h2>'.__('Uninstall WP-DBManager', 'wp-dbmanager').'</h2>';

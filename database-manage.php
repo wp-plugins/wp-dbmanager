@@ -2,7 +2,7 @@
 /*
 +----------------------------------------------------------------+
 |																							|
-|	WordPress 2.1 Plugin: WP-DBManager 2.20								|
+|	WordPress 2.1 Plugin: WP-DBManager 2.30								|
 |	Copyright (c) 2007 Lester "GaMerZ" Chan									|
 |																							|
 |	File Written By:																	|
@@ -11,7 +11,7 @@
 |																							|
 |	File Information:																	|
 |	- Database Restore																|
-|	- wp-content/plugins/dbmanager/database-restore.php				|
+|	- wp-content/plugins/wp-dbmanager/database-restore.php			|
 |																							|
 +----------------------------------------------------------------+
 */
@@ -24,7 +24,7 @@ if(!current_user_can('manage_database')) {
 
 
 ### Variables Variables Variables
-$base_name = plugin_basename('dbmanager/database-manager.php');
+$base_name = plugin_basename('wp-dbmanager/database-manager.php');
 $base_page = 'admin.php?page='.$base_name;
 $backup = array();
 $backup_options = get_option('dbmanager_options');
@@ -38,7 +38,7 @@ $backup['path'] = $backup_options['path'];
 if($_POST['do']) {
 	// Lets Prepare The Variables
 	$database_file = trim($_POST['database_file']);
-	$nice_file_date = gmdate(sprintf(__('%s @ %s', 'wp-dbmanager'), get_option('date_format'), get_option('time_format')), substr($database_file, 0, 10));
+	$nice_file_date = mysql2date(sprintf(__('%s @ %s', 'wp-dbmanager'), get_option('date_format'), get_option('time_format')), gmdate('Y-m-d H:i:s', substr($database_file, 0, 10)));
 
 	// Decide What To Do
 	switch($_POST['do']) {
@@ -155,7 +155,7 @@ if($_POST['do']) {
 					if ($handle = opendir($backup['path'])) {
 						$database_files = array();
 						while (false !== ($file = readdir($handle))) { 
-							if ($file != '.' && $file != '..' && (file_ext($file) == 'sql' || file_ext($file) == 'gz')) {
+							if ($file != '.' && $file != '..' && $file != '.htaccess' && (file_ext($file) == 'sql' || file_ext($file) == 'gz')) {
 								$database_files[] = $file;
 							} 
 						}
@@ -169,7 +169,7 @@ if($_POST['do']) {
 							}
 							$no++;
 							$database_text = substr($database_files[$i], 13);
-							$date_text = gmdate(sprintf(__('%s @ %s', 'wp-dbmanager'), get_option('date_format'), get_option('time_format')), substr($database_files[$i], 0, 10));
+							$date_text = mysql2date(sprintf(__('%s @ %s', 'wp-dbmanager'), get_option('date_format'), get_option('time_format')), gmdate('Y-m-d H:i:s', substr($database_files[$i], 0, 10)));
 							$size_text = filesize($backup['path'].'/'.$database_files[$i]);
 							echo "<tr $style>\n<td>$no</td>";
 							echo "<td>$database_text</td>";

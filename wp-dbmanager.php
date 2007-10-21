@@ -3,7 +3,7 @@
 Plugin Name: WP-DBManager
 Plugin URI: http://lesterchan.net/portfolio/programming.php
 Description: Manages your Wordpress database. Allows you to optimize database, repair database, backup database, restore database, delete backup database , drop/empty tables and run selected queries. Supports automatic scheduling of backing up and optimizing of database.
-Version: 2.20
+Version: 2.30
 Author: Lester 'GaMerZ' Chan
 Author URI: http://lesterchan.net
 */
@@ -31,7 +31,7 @@ Author URI: http://lesterchan.net
 ### Create Text Domain For Translations
 add_action('init', 'dbmanager_textdomain');
 function dbmanager_textdomain() {
-	load_plugin_textdomain('wp-dbmanager', 'wp-content/plugins/dbmanager');
+	load_plugin_textdomain('wp-dbmanager', 'wp-content/plugins/wp-dbmanager');
 }
 
 
@@ -39,17 +39,17 @@ function dbmanager_textdomain() {
 add_action('admin_menu', 'dbmanager_menu');
 function dbmanager_menu() {
 	if (function_exists('add_menu_page')) {
-		add_menu_page(__('Database', 'wp-dbmanager'), __('Database', 'wp-dbmanager'), 'manage_database', 'dbmanager/database-manager.php');
+		add_menu_page(__('Database', 'wp-dbmanager'), __('Database', 'wp-dbmanager'), 'manage_database', 'wp-dbmanager/database-manager.php');
 	}
 	if (function_exists('add_submenu_page')) {
-		add_submenu_page('dbmanager/database-manager.php', __('Backup DB', 'wp-dbmanager'), __('Backup DB', 'wp-dbmanager'), 'manage_database', 'dbmanager/database-backup.php');
-		add_submenu_page('dbmanager/database-manager.php', __('Manage Backup DB', 'wp-dbmanager'), __('Manage Backup DB', 'wp-dbmanager'), 'manage_database', 'dbmanager/database-manage.php');
-		add_submenu_page('dbmanager/database-manager.php', __('Optimize DB', 'wp-dbmanager'), __('Optimize DB', 'wp-dbmanager'), 'manage_database', 'dbmanager/database-optimize.php');
-		add_submenu_page('dbmanager/database-manager.php', __('Repair DB', 'wp-dbmanager'), __('Repair DB', 'wp-dbmanager'), 'manage_database', 'dbmanager/database-repair.php');
-		add_submenu_page('dbmanager/database-manager.php', __('Empty/Drop Tables', 'wp-dbmanager'), __('Empty/Drop Tables', 'wp-dbmanager'), 'manage_database', 'dbmanager/database-empty.php');
-		add_submenu_page('dbmanager/database-manager.php', __('Run SQL Query', 'wp-dbmanager'), __('Run SQL Query', 'wp-dbmanager'), 'manage_database', 'dbmanager/database-run.php');
-		add_submenu_page('dbmanager/database-manager.php',  __('DB Options', 'wp-dbmanager'),  __('DB Options', 'wp-dbmanager'), 'manage_database', 'dbmanager/dbmanager.php', 'dbmanager_options');
-		add_submenu_page('dbmanager/database-manager.php', __('Uninstall WP-DBManager', 'wp-dbmanager'), __('Uninstall WP-DBManager', 'wp-dbmanager'), 'manage_database', 'dbmanager/database-uninstall.php');
+		add_submenu_page('wp-dbmanager/database-manager.php', __('Backup DB', 'wp-dbmanager'), __('Backup DB', 'wp-dbmanager'), 'manage_database', 'wp-dbmanager/database-backup.php');
+		add_submenu_page('wp-dbmanager/database-manager.php', __('Manage Backup DB', 'wp-dbmanager'), __('Manage Backup DB', 'wp-dbmanager'), 'manage_database', 'wp-dbmanager/database-manage.php');
+		add_submenu_page('wp-dbmanager/database-manager.php', __('Optimize DB', 'wp-dbmanager'), __('Optimize DB', 'wp-dbmanager'), 'manage_database', 'wp-dbmanager/database-optimize.php');
+		add_submenu_page('wp-dbmanager/database-manager.php', __('Repair DB', 'wp-dbmanager'), __('Repair DB', 'wp-dbmanager'), 'manage_database', 'wp-dbmanager/database-repair.php');
+		add_submenu_page('wp-dbmanager/database-manager.php', __('Empty/Drop Tables', 'wp-dbmanager'), __('Empty/Drop Tables', 'wp-dbmanager'), 'manage_database', 'wp-dbmanager/database-empty.php');
+		add_submenu_page('wp-dbmanager/database-manager.php', __('Run SQL Query', 'wp-dbmanager'), __('Run SQL Query', 'wp-dbmanager'), 'manage_database', 'wp-dbmanager/database-run.php');
+		add_submenu_page('wp-dbmanager/database-manager.php',  __('DB Options', 'wp-dbmanager'),  __('DB Options', 'wp-dbmanager'), 'manage_database', 'wp-dbmanager/wp-dbmanager.php', 'dbmanager_options');
+		add_submenu_page('wp-dbmanager/database-manager.php', __('Uninstall WP-DBManager', 'wp-dbmanager'), __('Uninstall WP-DBManager', 'wp-dbmanager'), 'manage_database', 'wp-dbmanager/database-uninstall.php');
 	}
 }
 
@@ -63,7 +63,7 @@ function cron_dbmanager_backup() {
 	$backup_options = get_option('dbmanager_options');
 	$backup_email = stripslashes($backup_options['backup_email']);
 	if(intval($backup_options['backup_period']) > 0) {
-		$current_date = gmdate(sprintf(__('%s @ %s', 'wp-dbmanager'), get_option('date_format'), get_option('time_format')), (time() + (get_option('gmt_offset') * 3600)));
+		$current_date = mysql2date(sprintf(__('%s @ %s', 'wp-dbmanager'), get_option('date_format'), get_option('time_format')), gmdate('Y-m-d H:i:s', current_time('timestamp')));
 		$backup = array();
 		$backup['date'] = current_time('timestamp');
 		$backup['mysqldumppath'] = $backup_options['mysqldumppath'];
@@ -85,7 +85,7 @@ function cron_dbmanager_backup() {
 				// Get And Read The Database Backup File
 				$file_path = $backup['filepath'];
 				$file_size = format_size(filesize($file_path));
-				$file_date = gmdate(sprintf(__('%s @ %s', 'wp-dbmanager'), get_option('date_format'), get_option('time_format')), substr($backup['filename'], 0, 10));
+				$file_date = mysql2date(sprintf(__('%s @ %s', 'wp-dbmanager'), get_option('date_format'), get_option('time_format')), gmdate('Y-m-d H:i:s', substr($backup['filename'], 0, 10)));
 				$file = fopen($file_path,'rb');
 				$file_data = fread($file,filesize($file_path));
 				fclose($file);
@@ -212,7 +212,9 @@ if(!function_exists('is_emtpy_folder')) {
 	   if(is_dir($folder) ){
 		   $handle = opendir($folder);
 		   while( (gettype( $name = readdir($handle)) != 'boolean')){
-				   $name_array[] = $name;
+				if($name != '.htaccess') {
+					$name_array[] = $name;
+				}
 		   }
 		   foreach($name_array as $temp)
 			   $folder_content .= $temp;
@@ -251,7 +253,7 @@ function check_backup_files() {
 
 
 ### Function: Database Manager Role
-add_action('activate_dbmanager/dbmanager.php', 'dbmanager_init');
+add_action('activate_wp-dbmanager/wp-dbmanager.php', 'dbmanager_init');
 function dbmanager_init() {
 	global $wpdb;
 	$auto = detect_mysql();
@@ -286,7 +288,7 @@ function dbmanager_init() {
 add_action('init', 'download_database');
 function download_database() {
 	if($_POST['do'] == 'Download' && !empty($_POST['database_file'])) {
-		if(strpos($_SERVER['HTTP_REFERER'], get_option('siteurl').'/wp-admin/admin.php?page=dbmanager/database-manage.php') !== false) {
+		if(strpos($_SERVER['HTTP_REFERER'], get_option('siteurl').'/wp-admin/admin.php?page=wp-dbmanager/database-manage.php') !== false) {
 			$backup_options = get_option('dbmanager_options');
 			$file_path = $backup_options['path'].'/'.$_POST['database_file'];
 			header("Pragma: public");
@@ -359,6 +361,9 @@ function dbmanager_options() {
 <div class="wrap">
 	<h2><?php _e('Database Options', 'wp-dbmanager'); ?></h2>
 	<form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
+		<p class="submit">
+			<input type="submit" name="Submit" class="button" value="<?php _e('Update Options &raquo;', 'wp-dbmanager'); ?>" />
+		</p>
 		<fieldset class="options"> 
 			<legend><?php _e('Paths', 'wp-dbmanager'); ?></legend> 
 			<table class="optiontable">
@@ -416,7 +421,7 @@ function dbmanager_options() {
 						<?php
 							_e('Next backup date: ', 'wp-dbmanager');
 							if(wp_next_scheduled('dbmanager_cron_backup')) {
-								echo '<strong>'.gmdate(sprintf(__('%s @ %s', 'wp-dbmanager'), get_option('date_format'), get_option('time_format')), (wp_next_scheduled('dbmanager_cron_backup') + (get_option('gmt_offset') * 3600))).'</strong>';
+								echo '<strong>'.mysql2date(sprintf(__('%s @ %s', 'wp-dbmanager'), get_option('date_format'), get_option('time_format')), gmdate('Y-m-d H:i:s', (wp_next_scheduled('dbmanager_cron_backup') + (get_option('gmt_offset') * 3600)))).'</strong>';
 							} else {
 								_e('N/A', 'wp-dbmanager');
 							}
@@ -446,7 +451,7 @@ function dbmanager_options() {
 						<?php
 							_e('Next optimize date: ', 'wp-dbmanager');
 							if(wp_next_scheduled('dbmanager_cron_optimize')) {
-								echo '<strong>'.gmdate(sprintf(__('%s @ %s', 'wp-dbmanager'), get_option('date_format'), get_option('time_format')), (wp_next_scheduled('dbmanager_cron_optimize') + (get_option('gmt_offset') * 3600))).'</strong>';
+								echo '<strong>'.mysql2date(sprintf(__('%s @ %s', 'wp-dbmanager'), get_option('date_format'), get_option('time_format')), gmdate('Y-m-d H:i:s', (wp_next_scheduled('dbmanager_cron_optimize') + (get_option('gmt_offset') * 3600)))).'</strong>';
 							} else {
 								_e('N/A', 'wp-dbmanager');
 							}
@@ -464,11 +469,11 @@ function dbmanager_options() {
 						<p><?php _e('WP-DBManager can automatically optimize your database after a certain period.', 'wp-dbmanager'); ?></p>
 					</td>
 				</tr>
-				<tr>
-					<td width="100%" colspan="2" align="center"><input type="submit" name="Submit" class="button" value="<?php _e('Update Options', 'wp-dbmanager'); ?>" />&nbsp;&nbsp;<input type="button" name="cancel" value="<?php _e('Cancel', 'wp-dbmanager'); ?>" class="button" onclick="javascript:history.go(-1)" /></td>
-				</tr>
 			</table>
 		</fieldset> 
+		<p class="submit">
+			<input type="submit" name="Submit" class="button" value="<?php _e('Update Options &raquo;', 'wp-dbmanager'); ?>" />
+		</p>
 	</form>
 </div>
 <?php

@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: WP-DBManager 2.20\n"
+"Project-Id-Version: WP-DBManager 2.30\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-09-19 00:18+0800\n"
+"PO-Revision-Date: 2007-10-21 22:27+0800\n"
 "Last-Translator: Lester 'GaMerZ' Chan <gamerz84@hotmail.com>\n"
 "Language-Team: Lester Chan <gamerz84@hotmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -20,10 +20,10 @@ msgstr ""
 #: database-manage.php:67
 #: database-manage.php:122
 #: database-manage.php:172
-#: dbmanager.php:66
-#: dbmanager.php:88
-#: dbmanager.php:419
-#: dbmanager.php:449
+#: wp-dbmanager.php:66
+#: wp-dbmanager.php:88
+#: wp-dbmanager.php:422
+#: wp-dbmanager.php:452
 #, php-format
 msgid "%s @ %s"
 msgstr ""
@@ -184,14 +184,14 @@ msgstr ""
 #: database-optimize.php:83
 #: database-repair.php:79
 #: database-uninstall.php:122
-#: dbmanager.php:436
+#: wp-dbmanager.php:439
 msgid "Yes"
 msgstr ""
 
 #: database-backup.php:193
 #: database-optimize.php:83
 #: database-repair.php:79
-#: dbmanager.php:435
+#: wp-dbmanager.php:438
 msgid "No"
 msgstr ""
 
@@ -201,7 +201,6 @@ msgstr ""
 #: database-optimize.php:90
 #: database-repair.php:83
 #: database-run.php:92
-#: dbmanager.php:468
 msgid "Cancel"
 msgstr ""
 
@@ -225,7 +224,7 @@ msgid "Table(s) '%s' Dropped"
 msgstr ""
 
 #: database-empty.php:79
-#: dbmanager.php:49
+#: wp-dbmanager.php:49
 msgid "Empty/Drop Tables"
 msgstr ""
 
@@ -291,43 +290,43 @@ msgid "E-Mail"
 msgstr ""
 
 #: database-manage.php:78
-#: dbmanager.php:94
+#: wp-dbmanager.php:94
 #, php-format
 msgid "%s Database Backup File For %s"
 msgstr ""
 
 #: database-manage.php:87
-#: dbmanager.php:103
+#: wp-dbmanager.php:103
 msgid "Website Name:"
 msgstr ""
 
 #: database-manage.php:88
-#: dbmanager.php:104
+#: wp-dbmanager.php:104
 msgid "Website URL:"
 msgstr ""
 
 #: database-manage.php:89
-#: dbmanager.php:105
+#: wp-dbmanager.php:105
 msgid "Backup File Name:"
 msgstr ""
 
 #: database-manage.php:90
-#: dbmanager.php:106
+#: wp-dbmanager.php:106
 msgid "Backup File Date:"
 msgstr ""
 
 #: database-manage.php:91
-#: dbmanager.php:107
+#: wp-dbmanager.php:107
 msgid "Backup File Size:"
 msgstr ""
 
 #: database-manage.php:92
-#: dbmanager.php:108
+#: wp-dbmanager.php:108
 msgid "With Regards,"
 msgstr ""
 
 #: database-manage.php:93
-#: dbmanager.php:109
+#: wp-dbmanager.php:109
 msgid "Administrator"
 msgstr ""
 
@@ -545,7 +544,7 @@ msgid "Empty Query"
 msgstr ""
 
 #: database-run.php:85
-#: dbmanager.php:50
+#: wp-dbmanager.php:50
 msgid "Run SQL Query"
 msgstr ""
 
@@ -597,7 +596,7 @@ msgstr ""
 
 #: database-uninstall.php:78
 #: database-uninstall.php:88
-#: dbmanager.php:52
+#: wp-dbmanager.php:52
 msgid "Uninstall WP-DBManager"
 msgstr ""
 
@@ -638,199 +637,200 @@ msgid ""
 " Choose [Cancel] To Stop, [OK] To Uninstall."
 msgstr ""
 
-#: dbmanager.php:42
+#: wp-dbmanager.php:42
 msgid "Database"
 msgstr ""
 
-#: dbmanager.php:45
+#: wp-dbmanager.php:45
 msgid "Backup DB"
 msgstr ""
 
-#: dbmanager.php:46
+#: wp-dbmanager.php:46
 msgid "Manage Backup DB"
 msgstr ""
 
-#: dbmanager.php:47
+#: wp-dbmanager.php:47
 msgid "Optimize DB"
 msgstr ""
 
-#: dbmanager.php:48
+#: wp-dbmanager.php:48
 msgid "Repair DB"
 msgstr ""
 
-#: dbmanager.php:51
+#: wp-dbmanager.php:51
 msgid "DB Options"
 msgstr ""
 
-#: dbmanager.php:153
+#: wp-dbmanager.php:153
 msgid "WP-DBManager Backup Schedule"
 msgstr ""
 
-#: dbmanager.php:154
+#: wp-dbmanager.php:154
 msgid "WP-DBManager Optimize Schedule"
 msgstr ""
 
-#: dbmanager.php:327
+#: wp-dbmanager.php:327
 msgid "Database Options Updated"
 msgstr ""
 
-#: dbmanager.php:330
+#: wp-dbmanager.php:330
 msgid "No Database Option Updated"
 msgstr ""
 
-#: dbmanager.php:360
+#: wp-dbmanager.php:360
 msgid "Database Options"
 msgstr ""
 
-#: dbmanager.php:363
+#: wp-dbmanager.php:363
+#: wp-dbmanager.php:473
+msgid "Update Options &raquo;"
+msgstr ""
+
+#: wp-dbmanager.php:366
 msgid "Paths"
 msgstr ""
 
-#: dbmanager.php:366
+#: wp-dbmanager.php:369
 msgid "Path To mysqldump:"
 msgstr ""
 
-#: dbmanager.php:368
-#: dbmanager.php:375
+#: wp-dbmanager.php:371
+#: wp-dbmanager.php:378
 msgid "Auto Detect"
 msgstr ""
 
-#: dbmanager.php:369
+#: wp-dbmanager.php:372
 msgid "The absolute path to mysqldump without trailing slash. If unsure, please email your server administrator about this."
 msgstr ""
 
-#: dbmanager.php:373
+#: wp-dbmanager.php:376
 msgid "Path To mysql:"
 msgstr ""
 
-#: dbmanager.php:376
+#: wp-dbmanager.php:379
 msgid "The absolute path to mysql without trailing slash. If unsure, please email your server administrator about this."
 msgstr ""
 
-#: dbmanager.php:380
+#: wp-dbmanager.php:383
 msgid "Path To Backup:"
 msgstr ""
 
-#: dbmanager.php:383
+#: wp-dbmanager.php:386
 msgid "The absolute path to your database backup folder without trailing slash. Make sure the folder is writable."
 msgstr ""
 
-#: dbmanager.php:387
+#: wp-dbmanager.php:390
 msgid "Maximum Backup Files:"
 msgstr ""
 
-#: dbmanager.php:390
+#: wp-dbmanager.php:393
 msgid "The maximum number of database backup files that is allowed in the backup folder as stated above. The oldest database backup file is always deleted in order to maintain this value. This is to prevent the backup folder from getting too large."
 msgstr ""
 
-#: dbmanager.php:395
+#: wp-dbmanager.php:398
 msgid "Windows Server"
 msgstr ""
 
-#: dbmanager.php:396
+#: wp-dbmanager.php:399
 msgid "For mysqldump path, you can try '<strong>mysqldump.exe</strong>'."
 msgstr ""
 
-#: dbmanager.php:397
+#: wp-dbmanager.php:400
 msgid "For mysql path, you can try '<strong>mysql.exe</strong>'."
 msgstr ""
 
-#: dbmanager.php:400
+#: wp-dbmanager.php:403
 msgid "Linux Server"
 msgstr ""
 
-#: dbmanager.php:401
+#: wp-dbmanager.php:404
 msgid "For mysqldump path, normally is just '<strong>mysqldump</strong>'."
 msgstr ""
 
-#: dbmanager.php:402
+#: wp-dbmanager.php:405
 msgid "For mysql path, normally is just '<strong>mysql</strong>'."
 msgstr ""
 
-#: dbmanager.php:405
+#: wp-dbmanager.php:408
 msgid "Note"
 msgstr ""
 
-#: dbmanager.php:406
+#: wp-dbmanager.php:409
 msgid "The 'Auto Detect' function does not work for some servers. If it does not work for you, please contact your server administrator for the MYSQL and MYSQL DUMP paths."
 msgstr ""
 
-#: dbmanager.php:411
+#: wp-dbmanager.php:414
 msgid "Automatic Scheduling"
 msgstr ""
 
-#: dbmanager.php:414
+#: wp-dbmanager.php:417
 msgid "Automatic Backing Up Of DB:"
 msgstr ""
 
-#: dbmanager.php:417
+#: wp-dbmanager.php:420
 msgid "Next backup date: "
 msgstr ""
 
-#: dbmanager.php:421
-#: dbmanager.php:451
+#: wp-dbmanager.php:424
+#: wp-dbmanager.php:454
 msgid "N/A"
 msgstr ""
 
-#: dbmanager.php:425
-#: dbmanager.php:455
+#: wp-dbmanager.php:428
+#: wp-dbmanager.php:458
 msgid "Every"
 msgstr ""
 
-#: dbmanager.php:427
-#: dbmanager.php:457
+#: wp-dbmanager.php:430
+#: wp-dbmanager.php:460
 msgid "Disable"
 msgstr ""
 
-#: dbmanager.php:428
-#: dbmanager.php:458
+#: wp-dbmanager.php:431
+#: wp-dbmanager.php:461
 msgid "Hour(s)"
 msgstr ""
 
-#: dbmanager.php:429
-#: dbmanager.php:459
+#: wp-dbmanager.php:432
+#: wp-dbmanager.php:462
 msgid "Day(s)"
 msgstr ""
 
-#: dbmanager.php:430
-#: dbmanager.php:460
+#: wp-dbmanager.php:433
+#: wp-dbmanager.php:463
 msgid "Week(s)"
 msgstr ""
 
-#: dbmanager.php:431
-#: dbmanager.php:461
+#: wp-dbmanager.php:434
+#: wp-dbmanager.php:464
 msgid "Month(s)"
 msgstr ""
 
-#: dbmanager.php:433
+#: wp-dbmanager.php:436
 msgid "Gzip"
 msgstr ""
 
-#: dbmanager.php:439
+#: wp-dbmanager.php:442
 msgid "E-mail backup to:"
 msgstr ""
 
-#: dbmanager.php:439
+#: wp-dbmanager.php:442
 msgid "(Leave black to disable this feature)"
 msgstr ""
 
-#: dbmanager.php:440
+#: wp-dbmanager.php:443
 msgid "WP-DBManager can automatically backup your database after a certain period."
 msgstr ""
 
-#: dbmanager.php:444
+#: wp-dbmanager.php:447
 msgid "Automatic Optimizing Of DB:"
 msgstr ""
 
-#: dbmanager.php:447
+#: wp-dbmanager.php:450
 msgid "Next optimize date: "
 msgstr ""
 
-#: dbmanager.php:464
+#: wp-dbmanager.php:467
 msgid "WP-DBManager can automatically optimize your database after a certain period."
-msgstr ""
-
-#: dbmanager.php:468
-msgid "Update Options"
 msgstr ""
 

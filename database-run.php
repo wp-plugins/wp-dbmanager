@@ -2,7 +2,7 @@
 /*
 +----------------------------------------------------------------+
 |																							|
-|	WordPress 2.1 Plugin: WP-DBManager 2.20								|
+|	WordPress 2.1 Plugin: WP-DBManager 2.30								|
 |	Copyright (c) 2007 Lester "GaMerZ" Chan									|
 |																							|
 |	File Written By:																	|
@@ -11,7 +11,7 @@
 |																							|
 |	File Information:																	|
 |	- Database Run Query															|
-|	- wp-content/plugins/dbmanager/database-run.php					|
+|	- wp-content/plugins/wp-dbmanager/database-run.php				|
 |																							|
 +----------------------------------------------------------------+
 */
@@ -24,7 +24,7 @@ if(!current_user_can('manage_database')) {
 
 
 ### Variables Variables Variables
-$base_name = plugin_basename('dbmanager/database-manager.php');
+$base_name = plugin_basename('wp-dbmanager/database-manager.php');
 $base_page = 'admin.php?page='.$base_name;
 $backup = array();
 $backup_options = get_option('dbmanager_options');
