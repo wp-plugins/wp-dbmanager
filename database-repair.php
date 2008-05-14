@@ -2,8 +2,8 @@
 /*
 +----------------------------------------------------------------+
 |																							|
-|	WordPress 2.1 Plugin: WP-DBManager 2.30								|
-|	Copyright (c) 2007 Lester "GaMerZ" Chan									|
+|	WordPress 2.5 Plugin: WP-DBManager 2.30								|
+|	Copyright (c) 2008 Lester "GaMerZ" Chan									|
 |																							|
 |	File Written By:																	|
 |	- Lester "GaMerZ" Chan															|
@@ -59,29 +59,32 @@ $tables = $wpdb->get_col("SHOW TABLES");
 ?>
 <?php if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.$text.'</p></div>'; } ?>
 <!-- Repair Database -->
-<div class="wrap">
-	<h2><?php _e('Repair Database', 'wp-dbmanager'); ?></h2>
-	<form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
-		<table width="100%" cellspacing="3" cellpadding="3" border="0">
-			<tr class="thead">
-				<th align="left"><?php _e('Tables', 'wp-dbmanager'); ?></th>
-				<th align="left"><?php _e('Options', 'wp-dbmanager'); ?></th>
-			</tr>
+<form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
+	<div class="wrap">
+		<h2><?php _e('Repair Database', 'wp-dbmanager'); ?></h2>
+		<br style="clear" />
+		<table class="widefat">
+			<thead>
+				<tr>
+					<th><?php _e('Tables', 'wp-dbmanager'); ?></th>
+					<th><?php _e('Options', 'wp-dbmanager'); ?></th>
+				</tr>
+			</thead>
 				<?php
 					foreach($tables as $table_name) {
 						if($no%2 == 0) {
-							$style = 'style=\'background: none\'';							
+							$style = '';							
 						} else {
-							$style = 'style=\'background-color: #eee;\'';
+							$style = ' class="alternate"';
 						}
 						$no++;
 						echo "<tr $style><th align=\"left\" scope=\"row\">$table_name</th>\n";
-						echo "<td><input type=\"radio\" name=\"repair[$table_name]\" value=\"no\" />".__('No', 'wp-dbmanager')."&nbsp;&nbsp;&nbsp;<input type=\"radio\" name=\"repair[$table_name]\" value=\"yes\" checked=\"checked\" />".__('Yes', 'wp-dbmanager').'</td></tr>';
+						echo "<td><input type=\"radio\" id=\"$table_name-no\" name=\"repair[$table_name]\" value=\"no\" />&nbsp;<label for=\"$table_name-no\">".__('No', 'wp-dbmanager')."</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type=\"radio\" id=\"$table_name-yes\" name=\"repair[$table_name]\" value=\"yes\" checked=\"checked\" />&nbsp;<label for=\"$table_name-yes\">".__('Yes', 'wp-dbmanager').'</label></td></tr>';
 					}
 				?>
 			<tr>
 				<td colspan="2" align="center"><input type="submit" name="do" value="<?php _e('Repair', 'wp-dbmanager'); ?>" class="button" />&nbsp;&nbsp;<input type="button" name="cancel" value="<?php _e('Cancel', 'wp-dbmanager'); ?>" class="button" onclick="javascript:history.go(-1)" /></td>
 			</tr>
 		</table>
-	</form>
-</div>
+	</div>
+</form>

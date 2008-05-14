@@ -10,7 +10,7 @@ Author URI: http://lesterchan.net
 
 
 /*  
-	Copyright 2007  Lester Chan  (email : gamerz84@hotmail.com)
+	Copyright 2008  Lester Chan  (email : lesterchan@gmail.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -78,9 +78,8 @@ function cron_dbmanager_backup() {
 			$backup['filename'] = $backup['date'].'_-_'.DB_NAME.'.sql';
 			$backup['filepath'] = $backup['path'].'/'.$backup['filename'];
 			$backup['command'] = $backup['mysqldumppath'].' --host="'.DB_HOST.'" --user="'.DB_USER.'" --password="'.DB_PASSWORD.'" --add-drop-table --skip-lock-tables '.DB_NAME.' > '.$backup['filepath'];
-		}
-		check_backup_files();
-		passthru($backup['command']);
+		}		
+		execute_backup($backup['command']);
 		if(!empty($backup_email)) {
 				// Get And Read The Database Backup File
 				$file_path = $backup['filepath'];
@@ -172,14 +171,33 @@ function detect_mysql() {
 		}
 	} else {
 		if(function_exists('exec')) {
-			$paths['mysql'] = exec('which mysql');
-			$paths['mysqldump'] = exec('which mysqldump');
+			$paths['mysql'] = @exec('which mysql');
+			$paths['mysqldump'] = @exec('which mysqldump');
 		} else {
 			$paths['mysql'] = 'mysql';
 			$paths['mysqldump'] = 'mysqldump';
 		}
 	}
 	return $paths;
+}
+
+
+### Executes OS-Dependent mysqldump Command (By: Vlad Sharanhovich)
+function execute_backup($command) {
+	$backup_options = get_option('dbmanager_options');
+	check_backup_files();
+	if(substr(PHP_OS, 0, 3) == 'WIN') {
+		$writable_dir = $backup_options['path'];
+		$tmpnam = $writable_dir.'/wp-dbmanager.bat';
+		$fp = fopen($tmpnam, 'w');
+		fwrite($fp, $command);
+		fclose($fp);
+		system($tmpnam.' > NUL', $error);
+		unlink($tmpnam);
+	} else {
+		passthru($command, $error);
+	}
+	return $error;
 }
 
 
@@ -358,124 +376,129 @@ function dbmanager_options() {
 </script>
 <?php if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.$text.'</p></div>'; } ?>
 <!-- Database Options -->
-<div class="wrap">
-	<h2><?php _e('Database Options', 'wp-dbmanager'); ?></h2>
-	<form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
+<form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
+	<div class="wrap">
+		<h2><?php _e('Database Options', 'wp-dbmanager'); ?></h2>
+		<h3><?php _e('Paths', 'wp-dbmanager'); ?></h3> 
+		<table class="form-table">
+			<tr>
+				<td width="20%" valign="top"><strong><?php _e('Path To mysqldump:', 'wp-dbmanager'); ?></strong></td>
+				<td width="80%">
+					<input type="text" id="db_mysqldumppath" name="db_mysqldumppath" size="60" maxlength="100" value="<?php echo stripslashes($backup_options['mysqldumppath']); ?>" />&nbsp;&nbsp;<input type="button" value="<?php _e('Auto Detect', 'wp-dbmanager'); ?>" onclick="mysqldumppath();" />
+					<p><?php _e('The absolute path to mysqldump without trailing slash. If unsure, please email your server administrator about this.', 'wp-dbmanager'); ?></p>
+				</td>
+			</tr>
+			<tr>
+				<td valign="top"><strong><?php _e('Path To mysql:', 'wp-dbmanager'); ?></strong></td>
+				<td>
+					<input type="text" id="db_mysqlpath" name="db_mysqlpath" size="60" maxlength="100" value="<?php echo stripslashes($backup_options['mysqlpath']); ?>" />&nbsp;&nbsp;<input type="button" value="<?php _e('Auto Detect', 'wp-dbmanager'); ?>" onclick="mysqlpath();" />
+					<p><?php _e('The absolute path to mysql without trailing slash. If unsure, please email your server administrator about this.', 'wp-dbmanager'); ?></p>
+				</td>
+			</tr>
+			<tr>
+				<td valign="top"><strong><?php _e('Path To Backup:', 'wp-dbmanager'); ?></strong></td>
+				<td>
+					<input type="text" name="db_path" size="60" maxlength="100" value="<?php echo stripslashes($backup_options['path']); ?>" />
+					<p><?php _e('The absolute path to your database backup folder without trailing slash. Make sure the folder is writable.', 'wp-dbmanager'); ?></p>
+				</td>
+			</tr>
+			<tr>
+				<td valign="top"><strong><?php _e('Maximum Backup Files:', 'wp-dbmanager'); ?></strong></td>
+				<td>
+					<input type="text" name="db_max_backup" size="5" maxlength="5" value="<?php echo stripslashes($backup_options['max_backup']); ?>" />
+					<p><?php _e('The maximum number of database backup files that is allowed in the backup folder as stated above. The oldest database backup file is always deleted in order to maintain this value. This is to prevent the backup folder from getting too large.', 'wp-dbmanager'); ?></p>
+				</td>
+			</tr>
+		</table>
+
+		<h3><?php _e('Note', 'wp-dbmanager'); ?></h3>
+		<table class="form-table">
+			<tr>
+				<td>
+					<strong><?php _e('Windows Server', 'wp-dbmanager'); ?></strong><br />
+					<?php _e('For mysqldump path, you can try \'<strong>mysqldump.exe</strong>\'.', 'wp-dbmanager'); ?><br />
+					<?php _e('For mysql path, you can try \'<strong>mysql.exe</strong>\'.', 'wp-dbmanager'); ?>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<strong><?php _e('Linux Server', 'wp-dbmanager'); ?></strong><br />
+					<?php _e('For mysqldump path, normally is just \'<strong>mysqldump</strong>\'.', 'wp-dbmanager'); ?><br />
+					<?php _e('For mysql path, normally is just \'<strong>mysql</strong>\'.', 'wp-dbmanager'); ?>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<strong><?php _e('Note', 'wp-dbmanager'); ?></strong><br />
+					<?php _e('The \'Auto Detect\' function does not work for some servers. If it does not work for you, please contact your server administrator for the MYSQL and MYSQL DUMP paths.', 'wp-dbmanager'); ?>
+				</td>
+			</tr>
+		</table>
+
+		<h3><?php _e('Automatic Scheduling', 'wp-dbmanager'); ?></h3> 
+		<table class="form-table"> 
+			<tr>
+				<td valign="top"><strong><?php _e('Automatic Backing Up Of DB:', 'wp-dbmanager'); ?></strong></td>
+				<td>
+					<?php
+						_e('Next backup date: ', 'wp-dbmanager');
+						if(wp_next_scheduled('dbmanager_cron_backup')) {
+							echo '<strong>'.mysql2date(sprintf(__('%s @ %s', 'wp-dbmanager'), get_option('date_format'), get_option('time_format')), gmdate('Y-m-d H:i:s', (wp_next_scheduled('dbmanager_cron_backup') + (get_option('gmt_offset') * 3600)))).'</strong>';
+						} else {
+							_e('N/A', 'wp-dbmanager');
+						}
+					?>
+					<p>
+						<?php _e('Every', 'wp-dbmanager'); ?>&nbsp;<input type="text" name="db_backup" size="3" maxlength="5" value="<?php echo intval($backup_options['backup']); ?>" />&nbsp;
+					<select name="db_backup_period" size="1">
+						<option value="0"<?php selected('0', $backup_options['backup_period']); ?>><?php _e('Disable', 'wp-dbmanager'); ?></option>
+						<option value="60"<?php selected('60', $backup_options['backup_period']); ?>><?php _e('Minutes(s)', 'wp-dbmanager'); ?></option>
+						<option value="3600"<?php selected('3600', $backup_options['backup_period']); ?>><?php _e('Hour(s)', 'wp-dbmanager'); ?></option>
+						<option value="86400"<?php selected('86400', $backup_options['backup_period']); ?>><?php _e('Day(s)', 'wp-dbmanager'); ?></option>
+						<option value="604800"<?php selected('604800', $backup_options['backup_period']); ?>><?php _e('Week(s)', 'wp-dbmanager'); ?></option>
+						<option value="18144000"<?php selected('18144000', $backup_options['backup_period']); ?>><?php _e('Month(s)', 'wp-dbmanager'); ?></option>
+					</select>&nbsp;&nbsp;&nbsp;
+					<?php _e('Gzip', 'wp-dnmanager'); ?>
+					<select name="db_backup_gzip" size="1">
+						<option value="0"<?php selected('0', $backup_options['backup_gzip']); ?>><?php _e('No', 'wp-dbmanager'); ?></option>
+						<option value="1"<?php selected('1', $backup_options['backup_gzip']); ?>><?php _e('Yes', 'wp-dbmanager'); ?></option>
+					</select>
+					</p>
+					<p><?php _e('E-mail backup to:', 'wp-dbmanager'); ?> <input type="text" name="db_backup_email" size="30" maxlength="50" value="<?php echo stripslashes($backup_options['backup_email']) ?>" />&nbsp;&nbsp;&nbsp;<?php _e('(Leave black to disable this feature)', 'wp-dbmanager'); ?></p>
+					<p><?php _e('WP-DBManager can automatically backup your database after a certain period.', 'wp-dbmanager'); ?></p>
+				</td>
+			</tr>
+			<tr>
+				<td valign="top"><strong><?php _e('Automatic Optimizing Of DB:', 'wp-dbmanager'); ?></strong></td>
+				<td>
+					<?php
+						_e('Next optimize date: ', 'wp-dbmanager');
+						if(wp_next_scheduled('dbmanager_cron_optimize')) {
+							echo '<strong>'.mysql2date(sprintf(__('%s @ %s', 'wp-dbmanager'), get_option('date_format'), get_option('time_format')), gmdate('Y-m-d H:i:s', (wp_next_scheduled('dbmanager_cron_optimize') + (get_option('gmt_offset') * 3600)))).'</strong>';
+						} else {
+							_e('N/A', 'wp-dbmanager');
+						}
+					?>
+					<p>
+					<?php _e('Every', 'wp-dbmanager'); ?>&nbsp;<input type="text" name="db_optimize" size="3" maxlength="5" value="<?php echo intval($backup_options['optimize']); ?>" />&nbsp;
+					<select name="db_optimize_period" size="1">
+						<option value="0"<?php selected('0', $backup_options['optimize_period']); ?>><?php _e('Disable', 'wp-dbmanager'); ?></option>
+						<option value="60"<?php selected('60', $backup_options['optimize_period']); ?>><?php _e('Minutes(s)', 'wp-dbmanager'); ?></option>
+						<option value="3600"<?php selected('3600', $backup_options['optimize_period']); ?>><?php _e('Hour(s)', 'wp-dbmanager'); ?></option>
+						<option value="86400"<?php selected('86400', $backup_options['optimize_period']); ?>><?php _e('Day(s)', 'wp-dbmanager'); ?></option>
+						<option value="604800"<?php selected('604800', $backup_options['optimize_period']); ?>><?php _e('Week(s)', 'wp-dbmanager'); ?></option>
+						<option value="18144000"<?php selected('18144000', $backup_options['optimize_period']); ?>><?php _e('Month(s)', 'wp-dbmanager'); ?></option>
+					</select>
+					</p>
+					<p><?php _e('WP-DBManager can automatically optimize your database after a certain period.', 'wp-dbmanager'); ?></p>
+				</td>
+			</tr>
+		</table>
 		<p class="submit">
-			<input type="submit" name="Submit" class="button" value="<?php _e('Update Options &raquo;', 'wp-dbmanager'); ?>" />
+			<input type="submit" name="Submit" class="button" value="<?php _e('Save Changes', 'wp-dbmanager'); ?>" />
 		</p>
-		<fieldset class="options"> 
-			<legend><?php _e('Paths', 'wp-dbmanager'); ?></legend> 
-			<table class="optiontable">
-				<tr>
-					<td width="20%" valign="top"><strong><?php _e('Path To mysqldump:', 'wp-dbmanager'); ?></strong></td>
-					<td width="80%">
-						<input type="text" id="db_mysqldumppath" name="db_mysqldumppath" size="60" maxlength="100" value="<?php echo stripslashes($backup_options['mysqldumppath']); ?>" />&nbsp;&nbsp;<input type="button" value="<?php _e('Auto Detect', 'wp-dbmanager'); ?>" onclick="mysqldumppath();" />
-						<p><?php _e('The absolute path to mysqldump without trailing slash. If unsure, please email your server administrator about this.', 'wp-dbmanager'); ?></p>
-					</td>
-				</tr>
-				<tr>
-					<td valign="top"><strong><?php _e('Path To mysql:', 'wp-dbmanager'); ?></strong></td>
-					<td>
-						<input type="text" id="db_mysqlpath" name="db_mysqlpath" size="60" maxlength="100" value="<?php echo stripslashes($backup_options['mysqlpath']); ?>" />&nbsp;&nbsp;<input type="button" value="<?php _e('Auto Detect', 'wp-dbmanager'); ?>" onclick="mysqlpath();" />
-						<p><?php _e('The absolute path to mysql without trailing slash. If unsure, please email your server administrator about this.', 'wp-dbmanager'); ?></p>
-					</td>
-				</tr>
-				<tr>
-					<td valign="top"><strong><?php _e('Path To Backup:', 'wp-dbmanager'); ?></strong></td>
-					<td>
-						<input type="text" name="db_path" size="60" maxlength="100" value="<?php echo stripslashes($backup_options['path']); ?>" />
-						<p><?php _e('The absolute path to your database backup folder without trailing slash. Make sure the folder is writable.', 'wp-dbmanager'); ?></p>
-					</td>
-				</tr>
-				<tr>
-					<td valign="top"><strong><?php _e('Maximum Backup Files:', 'wp-dbmanager'); ?></strong></td>
-					<td>
-						<input type="text" name="db_max_backup" size="5" maxlength="5" value="<?php echo stripslashes($backup_options['max_backup']); ?>" />
-						<p><?php _e('The maximum number of database backup files that is allowed in the backup folder as stated above. The oldest database backup file is always deleted in order to maintain this value. This is to prevent the backup folder from getting too large.', 'wp-dbmanager'); ?></p>
-					</td>
-				</tr>
-			</table>
-			<p>
-				<strong><?php _e('Windows Server', 'wp-dbmanager'); ?></strong><br />
-				<?php _e('For mysqldump path, you can try \'<strong>mysqldump.exe</strong>\'.', 'wp-dbmanager'); ?><br />
-				<?php _e('For mysql path, you can try \'<strong>mysql.exe</strong>\'.', 'wp-dbmanager'); ?>
-			</p>
-			<p>
-				<strong><?php _e('Linux Server', 'wp-dbmanager'); ?></strong><br />
-				<?php _e('For mysqldump path, normally is just \'<strong>mysqldump</strong>\'.', 'wp-dbmanager'); ?><br />
-				<?php _e('For mysql path, normally is just \'<strong>mysql</strong>\'.', 'wp-dbmanager'); ?>
-			</p>
-			<p>
-				<strong><?php _e('Note', 'wp-dbmanager'); ?></strong><br />
-				<?php _e('The \'Auto Detect\' function does not work for some servers. If it does not work for you, please contact your server administrator for the MYSQL and MYSQL DUMP paths.', 'wp-dbmanager'); ?>
-			</p>
-			<p>&nbsp;</p>
-		</fieldset>
-		<fieldset class="options"> 
-			<legend><?php _e('Automatic Scheduling', 'wp-dbmanager'); ?></legend> 
-			<table class="optiontable"> 
-				<tr>
-					<td valign="top"><strong><?php _e('Automatic Backing Up Of DB:', 'wp-dbmanager'); ?></strong></td>
-					<td>
-						<?php
-							_e('Next backup date: ', 'wp-dbmanager');
-							if(wp_next_scheduled('dbmanager_cron_backup')) {
-								echo '<strong>'.mysql2date(sprintf(__('%s @ %s', 'wp-dbmanager'), get_option('date_format'), get_option('time_format')), gmdate('Y-m-d H:i:s', (wp_next_scheduled('dbmanager_cron_backup') + (get_option('gmt_offset') * 3600)))).'</strong>';
-							} else {
-								_e('N/A', 'wp-dbmanager');
-							}
-						?>
-						<p>
-							<?php _e('Every', 'wp-dbmanager'); ?>&nbsp;<input type="text" name="db_backup" size="3" maxlength="5" value="<?php echo intval($backup_options['backup']); ?>" />&nbsp;
-						<select name="db_backup_period" size="1">
-							<option value="0"<?php selected('0', $backup_options['backup_period']); ?>><?php _e('Disable', 'wp-dbmanager'); ?></option>
-							<option value="3600"<?php selected('3600', $backup_options['backup_period']); ?>><?php _e('Hour(s)', 'wp-dbmanager'); ?></option>
-							<option value="86400"<?php selected('86400', $backup_options['backup_period']); ?>><?php _e('Day(s)', 'wp-dbmanager'); ?></option>
-							<option value="604800"<?php selected('604800', $backup_options['backup_period']); ?>><?php _e('Week(s)', 'wp-dbmanager'); ?></option>
-							<option value="18144000"<?php selected('18144000', $backup_options['backup_period']); ?>><?php _e('Month(s)', 'wp-dbmanager'); ?></option>
-						</select>&nbsp;&nbsp;&nbsp;
-						<?php _e('Gzip', 'wp-dnmanager'); ?>
-						<select name="db_backup_gzip" size="1">
-							<option value="0"<?php selected('0', $backup_options['backup_gzip']); ?>><?php _e('No', 'wp-dbmanager'); ?></option>
-							<option value="1"<?php selected('1', $backup_options['backup_gzip']); ?>><?php _e('Yes', 'wp-dbmanager'); ?></option>
-						</select>
-						</p>
-						<p><?php _e('E-mail backup to:', 'wp-dbmanager'); ?> <input type="text" name="db_backup_email" size="30" maxlength="50" value="<?php echo stripslashes($backup_options['backup_email']) ?>" />&nbsp;&nbsp;&nbsp;<?php _e('(Leave black to disable this feature)', 'wp-dbmanager'); ?></p>
-						<p><?php _e('WP-DBManager can automatically backup your database after a certain period.', 'wp-dbmanager'); ?></p>
-					</td>
-				</tr>
-				<tr>
-					<td valign="top"><strong><?php _e('Automatic Optimizing Of DB:', 'wp-dbmanager'); ?></strong></td>
-					<td>
-						<?php
-							_e('Next optimize date: ', 'wp-dbmanager');
-							if(wp_next_scheduled('dbmanager_cron_optimize')) {
-								echo '<strong>'.mysql2date(sprintf(__('%s @ %s', 'wp-dbmanager'), get_option('date_format'), get_option('time_format')), gmdate('Y-m-d H:i:s', (wp_next_scheduled('dbmanager_cron_optimize') + (get_option('gmt_offset') * 3600)))).'</strong>';
-							} else {
-								_e('N/A', 'wp-dbmanager');
-							}
-						?>
-						<p>
-						<?php _e('Every', 'wp-dbmanager'); ?>&nbsp;<input type="text" name="db_optimize" size="3" maxlength="5" value="<?php echo intval($backup_options['optimize']); ?>" />&nbsp;
-						<select name="db_optimize_period" size="1">
-							<option value="0"<?php selected('0', $backup_options['optimize_period']); ?>><?php _e('Disable', 'wp-dbmanager'); ?></option>
-							<option value="3600"<?php selected('3600', $backup_options['optimize_period']); ?>><?php _e('Hour(s)', 'wp-dbmanager'); ?></option>
-							<option value="86400"<?php selected('86400', $backup_options['optimize_period']); ?>><?php _e('Day(s)', 'wp-dbmanager'); ?></option>
-							<option value="604800"<?php selected('604800', $backup_options['optimize_period']); ?>><?php _e('Week(s)', 'wp-dbmanager'); ?></option>
-							<option value="18144000"<?php selected('18144000', $backup_options['optimize_period']); ?>><?php _e('Month(s)', 'wp-dbmanager'); ?></option>
-						</select>
-						</p>
-						<p><?php _e('WP-DBManager can automatically optimize your database after a certain period.', 'wp-dbmanager'); ?></p>
-					</td>
-				</tr>
-			</table>
-		</fieldset> 
-		<p class="submit">
-			<input type="submit" name="Submit" class="button" value="<?php _e('Update Options &raquo;', 'wp-dbmanager'); ?>" />
-		</p>
-	</form>
-</div>
+	</div>
+</form>
 <?php
 }
 ?>

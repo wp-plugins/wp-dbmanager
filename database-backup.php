@@ -2,8 +2,8 @@
 /*
 +----------------------------------------------------------------+
 |																							|
-|	WordPress 2.1 Plugin: WP-DBManager 2.30								|
-|	Copyright (c) 2007 Lester "GaMerZ" Chan									|
+|	WordPress 2.5 Plugin: WP-DBManager 2.30								|
+|	Copyright (c) 2008 Lester "GaMerZ" Chan									|
 |																							|
 |	File Written By:																	|
 |	- Lester "GaMerZ" Chan															|
@@ -50,8 +50,7 @@ if($_POST['do']) {
 				$backup['filepath'] = $backup['path'].'/'.$backup['filename'];
 				$backup['command'] = $backup['mysqldumppath'].' --host="'.DB_HOST.'" --user="'.DB_USER.'" --password="'.DB_PASSWORD.'" --add-drop-table --skip-lock-tables '.DB_NAME.' > '.$backup['filepath'];
 			}
-			check_backup_files();
-			passthru($backup['command'], $error);
+			$error = execute_backup($backup['command']);
 			if(!is_writable($backup['path'])) {
 				$text = '<font color="red">'.sprintf(__('Database Failed To Backup On \'%s\'. Backup Folder Not Writable.', 'wp-dbmanager'), $current_date).'</font>';
 			} elseif(filesize($backup['filepath']) == 0) {
@@ -84,13 +83,13 @@ $stats_function_disabled = 0;
 	<p>
 		<?php _e('Checking Backup Folder', 'wp-dbmanager'); ?> (<strong><?php echo stripslashes($backup['path']); ?></strong>) ...<br />
 		<?php
-			if(is_dir(stripslashes($backup['path']))) {
+			if(@is_dir(stripslashes($backup['path']))) {
 				echo '<font color="green">'.__('Backup folder exists', 'wp-dbmanager').'</font><br />';
 				$status_count++;
 			} else {
 				echo '<font color="red">'.__('Backup folder does NOT exist. Please create \'backup-db\' folder in \'wp-content\' folder and CHMOD it to \'777\' or change the location of the backup folder under DB Option.', 'wp-dbmanager').'</font><br />';
 			}
-			if(is_writable(stripslashes($backup['path']))) {
+			if(@is_writable(stripslashes($backup['path']))) {
 				echo '<font color="green">'.__('Backup folder is writable', 'wp-dbmanager').'</font>';
 				$status_count++;
 			} else {
@@ -100,7 +99,7 @@ $stats_function_disabled = 0;
 	</p>
 	<p>		
 		<?php			
-			if(file_exists(stripslashes($backup['mysqldumppath']))) {
+			if(@file_exists(stripslashes($backup['mysqldumppath']))) {
 				echo __('Checking MYSQL Dump Path', 'wp-dbmanager').' (<strong>'.stripslashes($backup['mysqldumppath']).'</strong>) ...<br />';
 				echo '<font color="green">'.__('MYSQL dump path exists.', 'wp-dbmanager').'</font>';
 				$status_count++;
@@ -112,7 +111,7 @@ $stats_function_disabled = 0;
 	</p>
 	<p>
 		<?php
-			if(file_exists(stripslashes($backup['mysqlpath']))) {
+			if(@file_exists(stripslashes($backup['mysqlpath']))) {
 				echo __('Checking MYSQL Path', 'wp-dbmanager').' (<strong>'.stripslashes($backup['mysqlpath']).'</strong>) ...<br />';
 				echo '<font color="green">'.__('MYSQL path exists.', 'wp-dbmanager').'</font>';
 				$status_count++;
@@ -160,41 +159,48 @@ $stats_function_disabled = 0;
 	<p><i><?php _e('Note: The checking of backup status is still undergoing testing, it may not be accurate.', 'wp-dbmanager'); ?></i></p>
 </div>
 <!-- Backup Database -->
-<div class="wrap">
-	<h2><?php _e('Backup Database', 'wp-dbmanager'); ?></h2>
-	<form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
-	<table width="100%" cellspacing="3" cellpadding="3" border="0">
-		<tr>
-			<th align="left" scope="row"><?php _e('Database Name:', 'wp-dbmanager'); ?></th>
-			<td><?php echo DB_NAME; ?></td>
-		</tr>
-		<tr style="background-color: #eee;">
-			<th align="left" scope="row"><?php _e('Database Backup To:', 'wp-dbmanager'); ?></th>
-			<td><?php echo stripslashes($backup['path']); ?></td>
-		</tr>
-		<tr>
-			<th align="left" scope="row"><?php _e('Database Backup Date:', 'wp-dbmanager'); ?></th>
-			<td><?php echo mysql2date(sprintf(__('%s @ %s', 'wp-dbmanager'), get_option('date_format'), get_option('time_format')), gmdate('Y-m-d H:i:s', $backup['date'])); ?></td>
-		</tr>
-		<tr style="background-color: #eee;">
-			<th align="left" scope="row"><?php _e('Database Backup File Name:', 'wp-dbmanager'); ?></th>
-			<td><?php echo $backup['filename']; ?></td>
-		</tr>
-		<tr>
-			<th align="left" scope="row"><?php _e('Database Backup Type:', 'wp-dbmanager'); ?></th>
-			<td><?php _e('Full (Structure and Data)', 'wp-dbmanager'); ?></td>
-		</tr>
-		<tr style="background-color: #eee;">
-			<th align="left" scope="row"><?php _e('MYSQL Dump Location:', 'wp-dbmanager'); ?></th>
-			<td><?php echo stripslashes($backup['mysqldumppath']); ?></td>
-		</tr>
-		<tr>
-			<th align="left" scope="row"><?php _e('GZIP Database Backup File?', 'wp-dbmanager'); ?></th>
-			<td><input type="radio" name="gzip" value="1" /><?php _e('Yes', 'wp-dbmanager'); ?>&nbsp;&nbsp;<input type="radio" name="gzip" value="0" checked="checked" /><?php _e('No', 'wp-dbmanager'); ?></td>
-		</tr>
-		<tr>
-			<td colspan="2" align="center"><input type="submit" name="do" value="<?php _e('Backup', 'wp-dbmanager'); ?>" class="button" />&nbsp;&nbsp;<input type="button" name="cancel" value="<?php _e('Cancel', 'wp-dbmanager'); ?>" class="button" onclick="javascript:history.go(-1)" /></td>
-		</tr>
-	</table>
-	</form>
-</div>
+<form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
+	<div class="wrap">
+		<h2><?php _e('Backup Database', 'wp-dbmanager'); ?></h2>
+		<br style="clear" />
+		<table class="widefat">
+			<thead>
+				<tr>
+					<th><?php _e('Option', 'wp-dbmanager'); ?></th>
+					<th><?php _e('Value', 'wp-dbmanager'); ?></th>
+				</tr>
+			</thead>
+			<tr>
+				<th><?php _e('Database Name:', 'wp-dbmanager'); ?></th>
+				<td><?php echo DB_NAME; ?></td>
+			</tr>
+			<tr style="background-color: #eee;">
+				<th><?php _e('Database Backup To:', 'wp-dbmanager'); ?></th>
+				<td><?php echo stripslashes($backup['path']); ?></td>
+			</tr>
+			<tr>
+				<th><?php _e('Database Backup Date:', 'wp-dbmanager'); ?></th>
+				<td><?php echo mysql2date(sprintf(__('%s @ %s', 'wp-dbmanager'), get_option('date_format'), get_option('time_format')), gmdate('Y-m-d H:i:s', $backup['date'])); ?></td>
+			</tr>
+			<tr style="background-color: #eee;">
+				<th><?php _e('Database Backup File Name:', 'wp-dbmanager'); ?></th>
+				<td><?php echo $backup['filename']; ?></td>
+			</tr>
+			<tr>
+				<th><?php _e('Database Backup Type:', 'wp-dbmanager'); ?></th>
+				<td><?php _e('Full (Structure and Data)', 'wp-dbmanager'); ?></td>
+			</tr>
+			<tr style="background-color: #eee;">
+				<th><?php _e('MYSQL Dump Location:', 'wp-dbmanager'); ?></th>
+				<td><?php echo stripslashes($backup['mysqldumppath']); ?></td>
+			</tr>
+			<tr>
+				<th><?php _e('GZIP Database Backup File?', 'wp-dbmanager'); ?></th>
+				<td><input type="radio" id="gzip-yes" name="gzip" value="1" />&nbsp;<label for="gzip-yes"><?php _e('Yes', 'wp-dbmanager'); ?></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" id="gzip-no" name="gzip" value="0" checked="checked" />&nbsp;<label for="gzip-no"><?php _e('No', 'wp-dbmanager'); ?></label></td>
+			</tr>
+			<tr>
+				<td colspan="2" align="center"><input type="submit" name="do" value="<?php _e('Backup', 'wp-dbmanager'); ?>" class="button" />&nbsp;&nbsp;<input type="button" name="cancel" value="<?php _e('Cancel', 'wp-dbmanager'); ?>" class="button" onclick="javascript:history.go(-1)" /></td>
+			</tr>
+		</table>
+	</div>
+</form>

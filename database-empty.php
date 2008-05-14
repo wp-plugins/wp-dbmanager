@@ -2,8 +2,8 @@
 /*
 +----------------------------------------------------------------+
 |																							|
-|	WordPress 2.1 Plugin: WP-DBManager 2.30								|
-|	Copyright (c) 2007 Lester "GaMerZ" Chan									|
+|	WordPress 2.5 Plugin: WP-DBManager 2.30								|
+|	Copyright (c) 2008 Lester "GaMerZ" Chan									|
 |																							|
 |	File Written By:																	|
 |	- Lester "GaMerZ" Chan															|
@@ -75,36 +75,41 @@ $tables = $wpdb->get_col("SHOW TABLES");
 ?>
 <?php if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.$text.'</p></div>'; } ?>
 <!-- Empty/Drop Tables -->
-<div class="wrap">
-	<h2><?php _e('Empty/Drop Tables', 'wp-dbmanager'); ?></h2>
-	<form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
-		<table width="100%" cellspacing="3" cellpadding="3" border="0">
-			<tr class="thead">
-			<th align="left"><?php _e('Tables', 'wp-dbmanager'); ?></th>
-			<th align="left"><?php _e('Empty', 'wp-dbmanager'); ?></th>
-			<th align="left"><?php _e('Drop', 'wp-dbmanager'); ?></th>
-		</tr>
+<form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
+	<div class="wrap">
+		<h2><?php _e('Empty/Drop Tables', 'wp-dbmanager'); ?></h2>	
+		<br style="clear" />
+		<table class="widefat">
+			<thead>
+				<tr>
+					<th><?php _e('Tables', 'wp-dbmanager'); ?></th>
+					<th><?php _e('Empty', 'wp-dbmanager'); ?> <sup><?php _e('1', 'wp-dbmanager'); ?></sup></th>
+					<th><?php _e('Drop', 'wp-dbmanager'); ?> <sup><?php _e('2', 'wp-dbmanager'); ?></sup></th>
+				</tr>
+			</thead>
 				<?php
 					foreach($tables as $table_name) {
 						if($no%2 == 0) {
-							$style = 'style=\'background: none;\'';							
+							$style = '';							
 						} else {
-							$style = 'style=\'background-color: #eee;\'';
+							$style = ' class="alternate"';
 						}
 						$no++;
 						echo "<tr $style><th align=\"left\" scope=\"row\">$table_name</th>\n";
-						echo "<td><input type=\"radio\" name=\"emptydrop[$table_name]\" value=\"empty\" />&nbsp;".__('Empty', 'wp-dbmanager').'</td>';
-						echo "<td><input type=\"radio\" name=\"emptydrop[$table_name]\" value=\"drop\" />&nbsp;".__('Drop', 'wp-dbmanager').'</td></tr>';
+						echo "<td><input type=\"radio\" id=\"$table_name-empty\" name=\"emptydrop[$table_name]\" value=\"empty\" />&nbsp;<label for=\"$table_name-empty\">".__('Empty', 'wp-dbmanager').'</label></td>';
+						echo "<td><input type=\"radio\" id=\"$table_name-drop\" name=\"emptydrop[$table_name]\" value=\"drop\" />&nbsp;<label for=\"$table_name-drop\">".__('Drop', 'wp-dbmanager').'</label></td></tr>';
 					}
 				?>
 			<tr>
 				<td colspan="3">
-					<?php _e('1. DROPPING a table means deleting the table. This action is not REVERSIBLE.', 'wp-dbmanager'); ?><br />
-					<?php _e('2. EMPTYING a table means all the rows in the table will be deleted. This action is not REVERSIBLE.', 'wp-dbmanager'); ?></td>
+					<?php _e('1. EMPTYING a table means all the rows in the table will be deleted. This action is not REVERSIBLE.', 'wp-dbmanager'); ?>
+					<br />
+					<?php _e('2. DROPPING a table means deleting the table. This action is not REVERSIBLE.', 'wp-dbmanager'); ?>				
+				</td>
 			</tr>
 			<tr>
 				<td colspan="3" align="center"><input type="submit" name="do" value="<?php _e('Empty/Drop', 'wp-dbmanager'); ?>" class="button" onclick="return confirm('<?php _e('You Are About To Empty Or Drop The Selected Databases.\nThis Action Is Not Reversible.\n\n Choose [Cancel] to stop, [Ok] to delete.', 'wp-dbmanager'); ?>')" />&nbsp;&nbsp;<input type="button" name="cancel" value="<?php _e('Cancel', 'wp-dbmanager'); ?>" class="button" onclick="javascript:history.go(-1)" /></td>
 			</tr>
 		</table>
-	</form>
-</div>
+	</div>
+</form>

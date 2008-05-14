@@ -2,8 +2,8 @@
 /*
 +----------------------------------------------------------------+
 |																							|
-|	WordPress 2.1 Plugin: WP-DBManager 2.30								|
-|	Copyright (c) 2007 Lester "GaMerZ" Chan									|
+|	WordPress 2.5 Plugin: WP-DBManager 2.30								|
+|	Copyright (c) 2008 Lester "GaMerZ" Chan									|
 |																							|
 |	File Written By:																	|
 |	- Lester "GaMerZ" Chan															|
@@ -41,16 +41,19 @@ $sqlversion = $wpdb->get_var("SELECT VERSION() AS version");
 <!-- Database Information -->
 <div class="wrap">
 	<h2><?php _e('Database Information', 'wp-dbmanager'); ?></h2>
-	<table width="100%" cellspacing="3" cellpadding="3" border="0">
-		<tr class="thead">
-			<th align="left"><?php _e('Setting', 'wp-dbmanager'); ?></th>
-			<th align="left"><?php _e('Value', 'wp-dbmanager'); ?></th>
-		</tr>
+	<br style="clear" />
+	<table class="widefat">
+		<thead>
+			<tr>
+				<th><?php _e('Setting', 'wp-dbmanager'); ?></th>
+				<th><?php _e('Value', 'wp-dbmanager'); ?></th>
+			</tr>
+		</thead>
 		<tr>
 			<td><?php _e('Database Host', 'wp-dbmanager'); ?></td>
 			<td><?php echo DB_HOST; ?></td>
 		</tr>
-		<tr style="background-color: #eee;">
+		<tr class="alternate">
 			<td><?php _e('Database Name', 'wp-dbmanager'); ?></td>
 			<td><?php echo DB_NAME; ?></td>
 		</tr>	
@@ -58,7 +61,7 @@ $sqlversion = $wpdb->get_var("SELECT VERSION() AS version");
 			<td><?php _e('Database User', 'wp-dbmanager'); ?></td>
 			<td><?php echo DB_USER; ?></td>
 		</tr>
-		<tr style="background-color: #eee;">
+		<tr class="alternate">
 			<td><?php _e('Database Type', 'wp-dbmanager'); ?></td>
 			<td>MYSQL</td>
 		</tr>	
@@ -68,29 +71,34 @@ $sqlversion = $wpdb->get_var("SELECT VERSION() AS version");
 		</tr>	
 	</table>
 </div>
+<p>&nbsp;</p>
+
 <div class="wrap">
 	<h2><?php _e('Tables Information', 'wp-dbmanager'); ?></h2>
-	<table width="100%" cellspacing="3" cellpadding="3" border="0">
-		<tr class="thead">
-			<th align="left"><?php _e('No.', 'wp-dbmanager'); ?></th>
-			<th align="left"><?php _e('Tables', 'wp-dbmanager'); ?></th>
-			<th align="left"><?php _e('Records', 'wp-dbmanager'); ?></th>
-			<th align="left"><?php _e('Data Usage', 'wp-dbmanager'); ?></th>
-			<th align="left"><?php _e('Index Usage', 'wp-dbmanager'); ?></th>
-			<th align="left"><?php _e('Overhead', 'wp-dbmanager'); ?></th>
-		</tr>
+	<br style="clear" />
+	<table class="widefat">
+		<thead>
+			<tr>
+				<th><?php _e('No.', 'wp-dbmanager'); ?></th>
+				<th><?php _e('Tables', 'wp-dbmanager'); ?></th>
+				<th><?php _e('Records', 'wp-dbmanager'); ?></th>
+				<th><?php _e('Data Usage', 'wp-dbmanager'); ?></th>
+				<th><?php _e('Index Usage', 'wp-dbmanager'); ?></th>
+				<th><?php _e('Overhead', 'wp-dbmanager'); ?></th>
+			</tr>
+		</thead>
 <?php
 // If MYSQL Version More Than 3.23, Get More Info
 if($sqlversion >= '3.23') {
 	$tablesstatus = $wpdb->get_results("SHOW TABLE STATUS");
 	foreach($tablesstatus as  $tablestatus) {
 		if($no%2 == 0) {
-			$style = 'style=\'background: none;\'';
+			$style = '';
 		} else {
-			$style = 'style=\'background-color: #eee;\'';
+			$style = ' class="alternate"';
 		}
 		$no++;
-		echo "<tr $style>\n";
+		echo "<tr$style>\n";
 		echo "<td>$no</td>\n";
 		echo "<td>$tablestatus->Name</td>\n";
 		echo '<td>'.number_format($tablestatus->Rows).'</td>'."\n";
@@ -104,12 +112,12 @@ if($sqlversion >= '3.23') {
 		echo '</tr>'."\n";
 	}	
 	echo '<tr class="thead">'."\n";
-	echo '<th align="left">'.__('Total:', 'wp-dbmanager').'</th>'."\n";
-	echo '<th align="left">'.$no.' '.__('Tables', 'wp-dbmanager').'</th>'."\n";
-	echo '<th align="left">'.number_format($row_usage).'</th>'."\n";
-	echo '<th align="left">'.format_size($data_usage).'</th>'."\n";
-	echo '<th align="left">'.format_size($index_usage).'</th>'."\n";
-	echo '<th align="left">'.format_size($overhead_usage).'</th>'."\n";
+	echo '<th>'.__('Total:', 'wp-dbmanager').'</th>'."\n";
+	echo '<th>'.$no.' '.__('Tables', 'wp-dbmanager').'</th>'."\n";
+	echo '<th>'.number_format($row_usage).'</th>'."\n";
+	echo '<th>'.format_size($data_usage).'</th>'."\n";
+	echo '<th>'.format_size($index_usage).'</th>'."\n";
+	echo '<th>'.format_size($overhead_usage).'</th>'."\n";
 	echo '</tr>';
 } else {
 	echo '<tr><td colspan="6" align="center"><strong>'.__('Could Not Show Table Status Due To Your MYSQL Version Is Lower Than 3.23.', 'wp-dbmanager').'</strong></td></tr>';

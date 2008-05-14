@@ -2,8 +2,8 @@
 /*
 +----------------------------------------------------------------+
 |																							|
-|	WordPress 2.1 Plugin: WP-DBManager 2.30								|
-|	Copyright (c) 2007 Lester "GaMerZ" Chan									|
+|	WordPress 2.5 Plugin: WP-DBManager 2.30								|
+|	Copyright (c) 2008 Lester "GaMerZ" Chan									|
 |																							|
 |	File Written By:																	|
 |	- Lester "GaMerZ" Chan															|
@@ -81,18 +81,26 @@ if($_POST['do']) {
 ?>
 <?php if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.$text.'</p></div>'; } ?>
 <!-- Run SQL Query -->
-<div class="wrap">
-	<h2><?php _e('Run SQL Query', 'wp-dbmanager'); ?></h2>
-	<form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
-		<p>
+<form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
+	<div class="wrap">
+		<h2><?php _e('Run SQL Query', 'wp-dbmanager'); ?></h2>
+		<br style="clear" />
+		<div>
 			<strong><?php _e('Seperate Multiple Queries With A New Line', 'wp-dbmanager'); ?></strong><br />
 			<font color="green"><?php _e('Use Only INSERT, UPDATE, REPLACE, DELETE, CREATE and ALTER statements.', 'wp-dbmanager'); ?></font>
-		</p>
-		<p align="center"><textarea cols="120" rows="30" name="sql_query"></textarea></p>
-		<p align="center"><input type="submit" name="do" value="<?php _e('Run', 'wp-dbmanager'); ?>" class="button" />&nbsp;&nbsp;<input type="button" name="cancel" value="<?php _e('Cancel', 'wp-dbmanager'); ?>" class="button" onclick="javascript:history.go(-1)" /></p>
+		</div>
+		<table class="form-table">
+			<tr>
+				<td align="center"><textarea cols="120" rows="30" name="sql_query" style="width: 99%;"></textarea></td>
+			</tr>
+			<tr>
+				<td align="center"><input type="submit" name="do" value="<?php _e('Run', 'wp-dbmanager'); ?>" class="button" />&nbsp;&nbsp;<input type="button" name="cancel" value="<?php _e('Cancel', 'wp-dbmanager'); ?>" class="button" onclick="javascript:history.go(-1)" /></td>
+			</tr>
+		</table>
 		<p>
 			<?php _e('1. CREATE statement will return an error, which is perfectly normal due to the database class. To confirm that your table has been created check the Manage Database page.', 'wp-dbmanager'); ?><br />
 			<?php _e('2. UPDATE statement may return an error sometimes due to the newly updated value being the same as the previous value.', 'wp-dbmanager'); ?><br />
-			<?php _e('3. ALTER statement will return an error because there is no value returned.', 'wp-dbmanager'); ?></p>
-	</form>
-</div>
+			<?php _e('3. ALTER statement will return an error because there is no value returned.', 'wp-dbmanager'); ?>
+		</p>
+	</div>
+</form>

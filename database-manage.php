@@ -2,8 +2,8 @@
 /*
 +----------------------------------------------------------------+
 |																							|
-|	WordPress 2.1 Plugin: WP-DBManager 2.30								|
-|	Copyright (c) 2007 Lester "GaMerZ" Chan									|
+|	WordPress 2.5 Plugin: WP-DBManager 2.30								|
+|	Copyright (c) 2008 Lester "GaMerZ" Chan									|
 |																							|
 |	File Written By:																	|
 |	- Lester "GaMerZ" Chan															|
@@ -138,18 +138,20 @@ if($_POST['do']) {
 ?>
 <?php if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.$text.'</p></div>'; } ?>
 <!-- Manage Backup Database -->
-<div class="wrap">
-	<h2><?php _e('Manage Backup Database', 'wp-dbmanager'); ?></h2>
-	<p><?php _e('Choose A Backup Date To E-Mail, Restore, Download Or Delete', 'wp-dbmanager'); ?></p>
-	<form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
-		<table width="100%" cellspacing="3" cellpadding="3" border="0">
-			<tr class="thead">
-				<th align="left"><?php _e('No.', 'wp-dbmanager'); ?></th>
-				<th align="left"><?php _e('Database File', 'wp-dbmanager'); ?></th>
-				<th align="left"><?php _e('Date/Time', 'wp-dbmanager'); ?></th>
-				<th align="left"><?php _e('Size', 'wp-dbmanager'); ?></th>
-				<th align="left"><?php _e('Select', 'wp-dbmanager'); ?></th>
-			</tr>
+<form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
+	<div class="wrap">
+		<h2><?php _e('Manage Backup Database', 'wp-dbmanager'); ?></h2>
+		<p><?php _e('Choose A Backup Date To E-Mail, Restore, Download Or Delete', 'wp-dbmanager'); ?></p>	
+		<table class="widefat">
+			<thead>
+				<tr>
+					<th><?php _e('No.', 'wp-dbmanager'); ?></th>
+					<th><?php _e('Database File', 'wp-dbmanager'); ?></th>
+					<th><?php _e('Date/Time', 'wp-dbmanager'); ?></th>
+					<th><?php _e('Size', 'wp-dbmanager'); ?></th>
+					<th><?php _e('Select', 'wp-dbmanager'); ?></th>
+				</tr>
+			</thead>
 			<?php
 				if(!is_emtpy_folder($backup['path'])) {
 					if ($handle = opendir($backup['path'])) {
@@ -163,15 +165,15 @@ if($_POST['do']) {
 						sort($database_files);
 						for($i = (sizeof($database_files)-1); $i > -1; $i--) {
 							if($no%2 == 0) {
-								$style = 'style=\'background: none\'';								
+								$style = '';								
 							} else {
-								$style = 'style=\'background-color: #eee\'';
+								$style = ' class="alternate"';
 							}
 							$no++;
 							$database_text = substr($database_files[$i], 13);
 							$date_text = mysql2date(sprintf(__('%s @ %s', 'wp-dbmanager'), get_option('date_format'), get_option('time_format')), gmdate('Y-m-d H:i:s', substr($database_files[$i], 0, 10)));
 							$size_text = filesize($backup['path'].'/'.$database_files[$i]);
-							echo "<tr $style>\n<td>$no</td>";
+							echo "<tr$style>\n<td>$no</td>";
 							echo "<td>$database_text</td>";
 							echo "<td>$date_text</td>";
 							echo '<td>'.format_size($size_text).'</td>';
@@ -186,12 +188,14 @@ if($_POST['do']) {
 				}
 			?>
 			<tr class="thead">
-				<th align="left" colspan="3"><?php echo $no; ?> <?php _e('Backup File(s)', 'wp-dbmanager'); ?></th>
-				<th align="left"><?php echo format_size($totalsize); ?></th>
-				<td>&nbsp;</td>
+				<th colspan="3"><?php echo $no; ?> <?php _e('Backup File(s)', 'wp-dbmanager'); ?></th>
+				<th><?php echo format_size($totalsize); ?></th>
+				<th>&nbsp;</th>
 			</tr>
+		</table>
+		<table class="form-table">
 			<tr>
-				<td colspan="5"><?php _e('E-mail database backup file to:', 'wp-dbmanager'); ?> <input type="text" name="email_to" size="30" maxlength="50" value="<?php echo get_option('admin_email'); ?>" />&nbsp;&nbsp;<input type="submit" name="do" value="<?php _e('E-Mail', 'wp-dbmanager'); ?>" class="button" /></td>
+				<td colspan="5" align="center"><label for="email_to"><?php _e('E-mail database backup file to:', 'wp-dbmanager'); ?></label> <input type="text" id="email_to" name="email_to" size="30" maxlength="50" value="<?php echo get_option('admin_email'); ?>" />&nbsp;&nbsp;<input type="submit" name="do" value="<?php _e('E-Mail', 'wp-dbmanager'); ?>" class="button" /></td>
 			</tr>
 			<tr>
 				<td colspan="5" align="center">
@@ -201,5 +205,5 @@ if($_POST['do']) {
 					<input type="button" name="cancel" value="<?php _e('Cancel', 'wp-dbmanager'); ?>" class="button" onclick="javascript:history.go(-1)" /></td>
 			</tr>					
 		</table>
-	</form>
-</div>
+	</div>
+</form>
