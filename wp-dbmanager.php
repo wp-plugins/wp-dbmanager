@@ -205,11 +205,11 @@ function execute_backup($command) {
 if(!function_exists('format_size')) {
 	function format_size($rawSize) {
 		if($rawSize / 1073741824 > 1) 
-			return round($rawSize/1048576, 1) . ' GB';
+			return round($rawSize/1048576, 1) . ' GiB';
 		else if ($rawSize / 1048576 > 1)
-			return round($rawSize/1048576, 1) . ' MB';
+			return round($rawSize/1048576, 1) . ' MiB';
 		else if ($rawSize / 1024 > 1)
-			return round($rawSize/1024, 1) . ' KB';
+			return round($rawSize/1024, 1) . ' KiB';
 		else
 			return round($rawSize, 1) . ' bytes';
 	}
