@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: WP-DBManager
-Plugin URI: http://lesterchan.net/portfolio/programming.php
+Plugin URI: http://lesterchan.net/portfolio/programming/php/
 Description: Manages your Wordpress database. Allows you to optimize database, repair database, backup database, restore database, delete backup database , drop/empty tables and run selected queries. Supports automatic scheduling of backing up and optimizing of database.
 Version: 2.30
 Author: Lester 'GaMerZ' Chan
