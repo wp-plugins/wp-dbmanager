@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP-DBManager 2.30\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-05-30 01:58+0800\n"
-"PO-Revision-Date: 2008-05-30 01:58+0800\n"
+"POT-Creation-Date: 2008-07-02 14:20+0800\n"
+"PO-Revision-Date: 2008-07-02 14:20+0800\n"
 "Last-Translator: Lester Chan <lesterchan@gmail.com>\n"
 "Language-Team: Lester Chan <gamerz84@hotmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -191,16 +191,16 @@ msgid "GZIP Database Backup File?"
 msgstr ""
 
 #: database-backup.php:199
-#: database-optimize.php:86
-#: database-repair.php:82
+#: database-optimize.php:87
+#: database-repair.php:87
 #: database-uninstall.php:124
 #: wp-dbmanager.php:464
 msgid "Yes"
 msgstr ""
 
 #: database-backup.php:199
-#: database-optimize.php:86
-#: database-repair.php:82
+#: database-optimize.php:87
+#: database-repair.php:87
 #: wp-dbmanager.php:463
 msgid "No"
 msgstr ""
@@ -208,8 +208,8 @@ msgstr ""
 #: database-backup.php:202
 #: database-empty.php:111
 #: database-manage.php:205
-#: database-optimize.php:93
-#: database-repair.php:86
+#: database-optimize.php:94
+#: database-repair.php:91
 #: database-run.php:97
 msgid "Cancel"
 msgstr ""
@@ -241,8 +241,8 @@ msgstr ""
 #: database-empty.php:85
 #: database-manager.php:83
 #: database-manager.php:116
-#: database-optimize.php:73
-#: database-repair.php:69
+#: database-optimize.php:74
+#: database-repair.php:74
 msgid "Tables"
 msgstr ""
 
@@ -503,43 +503,48 @@ msgstr ""
 msgid "No Tables Selected"
 msgstr ""
 
-#: database-optimize.php:51
+#: database-optimize.php:52
 #, php-format
 msgid "Table(s) '%s' NOT Optimized"
 msgstr ""
 
-#: database-optimize.php:53
+#: database-optimize.php:54
 #, php-format
 msgid "Table(s) '%s' Optimized"
 msgstr ""
 
-#: database-optimize.php:68
+#: database-optimize.php:69
 msgid "Optimize Database"
 msgstr ""
 
-#: database-optimize.php:74
-#: database-repair.php:70
+#: database-optimize.php:75
+#: database-repair.php:75
 msgid "Options"
 msgstr ""
 
-#: database-optimize.php:90
+#: database-optimize.php:91
 msgid "Database should be optimize once every month."
 msgstr ""
 
-#: database-optimize.php:93
+#: database-optimize.php:94
 msgid "Optimize"
 msgstr ""
 
-#: database-repair.php:50
+#: database-repair.php:52
+#, php-format
+msgid "Table(s) '%s' NOT Repaired"
+msgstr ""
+
+#: database-repair.php:54
 #, php-format
 msgid "Table(s) '%s' Repaired"
 msgstr ""
 
-#: database-repair.php:64
+#: database-repair.php:69
 msgid "Repair Database"
 msgstr ""
 
-#: database-repair.php:86
+#: database-repair.php:91
 msgid "Repair"
 msgstr ""
 

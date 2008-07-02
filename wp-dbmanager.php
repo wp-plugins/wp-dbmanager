@@ -3,7 +3,7 @@
 Plugin Name: WP-DBManager
 Plugin URI: http://lesterchan.net/portfolio/programming/php/
 Description: Manages your Wordpress database. Allows you to optimize database, repair database, backup database, restore database, delete backup database , drop/empty tables and run selected queries. Supports automatic scheduling of backing up and optimizing of database.
-Version: 2.30
+Version: 2.31
 Author: Lester 'GaMerZ' Chan
 Author URI: http://lesterchan.net
 */
@@ -132,7 +132,7 @@ function cron_dbmanager_optimize() {
 		$optimize_tables = array();
 		$tables = $wpdb->get_col("SHOW TABLES");
 			foreach($tables as $table_name) {
-				$optimize_tables[] = $table_name;
+				$optimize_tables[] = '`'.$table_name.'`';
 		}
 		$wpdb->query('OPTIMIZE TABLE '.implode(',', $optimize_tables));
 	}

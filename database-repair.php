@@ -2,7 +2,7 @@
 /*
 +----------------------------------------------------------------+
 |																							|
-|	WordPress 2.5 Plugin: WP-DBManager 2.30								|
+|	WordPress 2.5 Plugin: WP-DBManager 2.31								|
 |	Copyright (c) 2008 Lester "GaMerZ" Chan									|
 |																							|
 |	File Written By:																	|
@@ -38,16 +38,21 @@ if($_POST['do']) {
 			if(!empty($repair)) {
 				foreach($repair as $key => $value) {
 					if($value == 'yes') {
-						$tables_string .=  ', '.$key;
+						$tables_string .=  '`, `'.$key;
 					}
 				}
 			} else {
 				$text = '<font color="red">'.__('No Tables Selected', 'wp-dbmanager').'</font>';
 			}
 			$selected_tables = substr($tables_string, 2);
+			$selected_tables .= '`';
 			if(!empty($selected_tables)) {
 				$repair2 = $wpdb->query("REPAIR TABLE $selected_tables");
-				$text = '<font color="green">'.sprintf(__('Table(s) \'%s\' Repaired', 'wp-dbmanager'), $selected_tables).'</font>';
+				if(!$repair2) {
+					$text = '<font color="red">'.sprintf(__('Table(s) \'%s\' NOT Repaired', 'wp-dbmanager'), str_replace('`', '', $selected_tables)).'</font>';					
+				} else {
+					$text = '<font color="green">'.sprintf(__('Table(s) \'%s\' Repaired', 'wp-dbmanager'), str_replace('`', '', $selected_tables)).'</font>';
+				}
 			}
 			break;
 	}
