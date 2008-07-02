@@ -87,7 +87,7 @@ $stats_function_disabled = 0;
 				echo '<font color="green">'.__('Backup folder exists', 'wp-dbmanager').'</font><br />';
 				$status_count++;
 			} else {
-				echo '<font color="red">'.__('Backup folder does NOT exist. Please create \'backup-db\' folder in \'wp-content\' folder and CHMOD it to \'777\' or change the location of the backup folder under DB Option.', 'wp-dbmanager').'</font><br />';
+				echo '<font color="red">'.sprintf(__('Backup folder does NOT exist. Please create \'backup-db\' folder in \'%s\' folder and CHMOD it to \'777\' or change the location of the backup folder under DB Option.', 'wp-dbmanager'), WP_CONTENT_DIR).'</font><br />';
 			}
 			if(@is_writable(stripslashes($backup['path']))) {
 				echo '<font color="green">'.__('Backup folder is writable', 'wp-dbmanager').'</font>';

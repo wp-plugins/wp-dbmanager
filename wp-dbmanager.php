@@ -28,10 +28,29 @@ Author URI: http://lesterchan.net
 */
 
 
+### Use WordPress 2.6 Constants
+if (!defined('WP_CONTENT_DIR')) {
+	define( 'WP_CONTENT_DIR', ABSPATH.'wp-content');
+}
+if (!defined('WP_CONTENT_URL')) {
+	define('WP_CONTENT_URL', get_option('siteurl').'/wp-content');
+}
+if (!defined('WP_PLUGIN_DIR')) {
+	define('WP_PLUGIN_DIR', WP_CONTENT_DIR.'/plugins');
+}
+if (!defined('WP_PLUGIN_URL')) {
+	define('WP_PLUGIN_URL', WP_CONTENT_URL.'/plugins');
+}
+
+
 ### Create Text Domain For Translations
 add_action('init', 'dbmanager_textdomain');
 function dbmanager_textdomain() {
-	load_plugin_textdomain('wp-dbmanager', 'wp-content/plugins/wp-dbmanager');
+	if (!function_exists('wp_print_styles')) {
+		load_plugin_textdomain('wp-dbmanager', 'wp-content/plugins/wp-dbmanager');
+	} else {
+		load_plugin_textdomain('wp-dbmanager', false, 'wp-dbmanager');
+	}
 }
 
 
@@ -279,7 +298,7 @@ function dbmanager_init() {
 	$backup_options = array();
 	$backup_options['mysqldumppath'] = $auto['mysqldump'];
 	$backup_options['mysqlpath'] = $auto['mysql'];
-	$backup_options['path'] = str_replace('\\', '/', ABSPATH).'wp-content/backup-db';
+	$backup_options['path'] = str_replace('\\', '/', WP_CONTENT_DIR).'/backup-db';
 	$backup_options['max_backup'] = 10;
 	$backup_options['backup'] = 1;
 	$backup_options['backup_gzip'] = 0;
@@ -290,8 +309,8 @@ function dbmanager_init() {
 	add_option('dbmanager_options', $backup_options, 'WP-DBManager Options');
 
 	// Create Backup Folder
-	if(!is_dir(ABSPATH.'wp-content/backup-db')) {
-		mkdir(ABSPATH.'wp-content/backup-db');
+	if(!is_dir(WP_CONTENT_DIR.'/backup-db')) {
+		mkdir(WP_CONTENT_DIR.'/backup-db');
 	}
 
 	// Set 'manage_database' Capabilities To Administrator	
