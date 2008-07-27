@@ -3,7 +3,7 @@
 Plugin Name: WP-DBManager
 Plugin URI: http://lesterchan.net/portfolio/programming/php/
 Description: Manages your Wordpress database. Allows you to optimize database, repair database, backup database, restore database, delete backup database , drop/empty tables and run selected queries. Supports automatic scheduling of backing up and optimizing of database.
-Version: 2.31
+Version: 2.40
 Author: Lester 'GaMerZ' Chan
 Author URI: http://lesterchan.net
 */
@@ -28,29 +28,10 @@ Author URI: http://lesterchan.net
 */
 
 
-### Use WordPress 2.6 Constants
-if (!defined('WP_CONTENT_DIR')) {
-	define( 'WP_CONTENT_DIR', ABSPATH.'wp-content');
-}
-if (!defined('WP_CONTENT_URL')) {
-	define('WP_CONTENT_URL', get_option('siteurl').'/wp-content');
-}
-if (!defined('WP_PLUGIN_DIR')) {
-	define('WP_PLUGIN_DIR', WP_CONTENT_DIR.'/plugins');
-}
-if (!defined('WP_PLUGIN_URL')) {
-	define('WP_PLUGIN_URL', WP_CONTENT_URL.'/plugins');
-}
-
-
 ### Create Text Domain For Translations
 add_action('init', 'dbmanager_textdomain');
 function dbmanager_textdomain() {
-	if (!function_exists('wp_print_styles')) {
-		load_plugin_textdomain('wp-dbmanager', 'wp-content/plugins/wp-dbmanager');
-	} else {
-		load_plugin_textdomain('wp-dbmanager', false, 'wp-dbmanager');
-	}
+	load_plugin_textdomain('wp-dbmanager', false, 'wp-dbmanager');
 }
 
 
@@ -224,13 +205,13 @@ function execute_backup($command) {
 if(!function_exists('format_size')) {
 	function format_size($rawSize) {
 		if($rawSize / 1073741824 > 1) 
-			return round($rawSize/1048576, 1) . ' GiB';
+			return round($rawSize/1048576, 1) . ' '.__('GiB', 'wp-dbmanager');
 		else if ($rawSize / 1048576 > 1)
-			return round($rawSize/1048576, 1) . ' MiB';
+			return round($rawSize/1048576, 1) . ' '.__('MiB', 'wp-dbmanager');
 		else if ($rawSize / 1024 > 1)
-			return round($rawSize/1024, 1) . ' KiB';
+			return round($rawSize/1024, 1) . ' '.__('KiB', 'wp-dbmanager');
 		else
-			return round($rawSize, 1) . ' bytes';
+			return round($rawSize, 1) . ' '.__('bytes', 'wp-dbmanager');
 	}
 }
 
@@ -325,7 +306,7 @@ function dbmanager_init() {
 add_action('init', 'download_database');
 function download_database() {
 	if($_POST['do'] == 'Download' && !empty($_POST['database_file'])) {
-		if(strpos($_SERVER['HTTP_REFERER'], get_option('siteurl').'/wp-admin/admin.php?page=wp-dbmanager/database-manage.php') !== false) {
+		if(strpos($_SERVER['HTTP_REFERER'], admin_url('admin.php?page=wp-dbmanager/database-manage.php')) !== false) {
 			$backup_options = get_option('dbmanager_options');
 			$file_path = $backup_options['path'].'/'.$_POST['database_file'];
 			header("Pragma: public");
@@ -477,7 +458,7 @@ function dbmanager_options() {
 						<option value="604800"<?php selected('604800', $backup_options['backup_period']); ?>><?php _e('Week(s)', 'wp-dbmanager'); ?></option>
 						<option value="18144000"<?php selected('18144000', $backup_options['backup_period']); ?>><?php _e('Month(s)', 'wp-dbmanager'); ?></option>
 					</select>&nbsp;&nbsp;&nbsp;
-					<?php _e('Gzip', 'wp-dnmanager'); ?>
+					<?php _e('Gzip', 'wp-dbmanager'); ?>
 					<select name="db_backup_gzip" size="1">
 						<option value="0"<?php selected('0', $backup_options['backup_gzip']); ?>><?php _e('No', 'wp-dbmanager'); ?></option>
 						<option value="1"<?php selected('1', $backup_options['backup_gzip']); ?>><?php _e('Yes', 'wp-dbmanager'); ?></option>

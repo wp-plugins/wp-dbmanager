@@ -2,7 +2,7 @@
 /*
 +----------------------------------------------------------------+
 |																							|
-|	WordPress 2.5 Plugin: WP-DBManager 2.31								|
+|	WordPress 2.6 Plugin: WP-DBManager 2.40								|
 |	Copyright (c) 2008 Lester "GaMerZ" Chan									|
 |																							|
 |	File Written By:																	|
@@ -188,7 +188,7 @@ if($_POST['do']) {
 				}
 			?>
 			<tr class="thead">
-				<th colspan="3"><?php echo $no; ?> <?php _e('Backup File(s)', 'wp-dbmanager'); ?></th>
+				<th colspan="3"><?php printf(__ngettext('%s Backup File', '%s Backup Files', $no, 'wp-dbmanager'), $no); ?></th>
 				<th><?php echo format_size($totalsize); ?></th>
 				<th>&nbsp;</th>
 			</tr>

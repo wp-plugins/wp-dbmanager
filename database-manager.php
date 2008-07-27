@@ -2,7 +2,7 @@
 /*
 +----------------------------------------------------------------+
 |																							|
-|	WordPress 2.5 Plugin: WP-DBManager 2.31								|
+|	WordPress 2.6 Plugin: WP-DBManager 2.40								|
 |	Copyright (c) 2008 Lester "GaMerZ" Chan									|
 |																							|
 |	File Written By:																	|
@@ -113,8 +113,8 @@ if($sqlversion >= '3.23') {
 	}	
 	echo '<tr class="thead">'."\n";
 	echo '<th>'.__('Total:', 'wp-dbmanager').'</th>'."\n";
-	echo '<th>'.$no.' '.__('Tables', 'wp-dbmanager').'</th>'."\n";
-	echo '<th>'.number_format($row_usage).'</th>'."\n";
+	echo '<th>'.sprintf(__ngettext('%s Table', '%s Tables', $no, 'wp-dbmanager'), $no).'</th>'."\n";
+	echo '<th>'.sprintf(__ngettext('%s Record', '%s Records', number_format($row_usage), 'wp-dbmanager'), number_format($row_usage)).'</th>'."\n";
 	echo '<th>'.format_size($data_usage).'</th>'."\n";
 	echo '<th>'.format_size($index_usage).'</th>'."\n";
 	echo '<th>'.format_size($overhead_usage).'</th>'."\n";
