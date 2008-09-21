@@ -57,18 +57,18 @@ if($_POST['do']) {
 						if (preg_match("/^\\s*(insert|update|replace|delete|create|alter) /i",$sql_query)) {
 							$run_query = $wpdb->query($sql_query);
 							if(!$run_query) {
-								$text .= "<font color=\"red\">$sql_query</font><br />";
+								$text .= "<span dir=\"ltr\"><font color=\"red\">$sql_query</font></span><br />";
 							} else {
 								$successquery++;
-								$text .= "<font color=\"green\">$sql_query</font><br />";
+								$text .= "<span dir=\"ltr\"><font color=\"green\">$sql_query</font></span><br />";
 							}
 							$totalquerycount++;
 						} elseif (preg_match("/^\\s*(select|drop|show|grant) /i",$sql_query)) {
-							$text .= "<font color=\"red\">$sql_query</font><br />";
+							$text .= "<span dir=\"ltr\"><font color=\"red\">$sql_query</font></span><br />";
 							$totalquerycount++;						
 						}
 					}
-					$text .= "<font color=\"blue\">$successquery/$totalquerycount ".__('Query(s) Executed Successfully', 'wp-dbmanager').'</font>';
+					$text .= '<font color="blue">'.number_format_i18n($successquery).'/'.number_format_i18n($totalquerycount).' '.__('Query(s) Executed Successfully', 'wp-dbmanager').'</font>';
 				} else {
 					$text = '<font color="red">'.__('Empty Query', 'wp-dbmanager').'</font>';
 				}
@@ -91,7 +91,7 @@ if($_POST['do']) {
 		</div>
 		<table class="form-table">
 			<tr>
-				<td align="center"><textarea cols="120" rows="30" name="sql_query" style="width: 99%;"></textarea></td>
+				<td align="center"><textarea cols="120" rows="30" name="sql_query" style="width: 99%;" dir="ltr" ></textarea></td>
 			</tr>
 			<tr>
 				<td align="center"><input type="submit" name="do" value="<?php _e('Run', 'wp-dbmanager'); ?>" class="button" />&nbsp;&nbsp;<input type="button" name="cancel" value="<?php _e('Cancel', 'wp-dbmanager'); ?>" class="button" onclick="javascript:history.go(-1)" /></td>

@@ -44,10 +44,11 @@ if($_POST['do']) {
 	switch($_POST['do']) {
 		case __('Restore', 'wp-dbmanager'):
 			if(!empty($database_file)) {
+				$brace = (substr(PHP_OS, 0, 3) == 'WIN') ? '"' : '';
 				if(stristr($database_file, '.gz')) {
-					$backup['command'] = 'gunzip < '.$backup['path'].'/'.$database_file.' | '.$backup['mysqlpath'].' --host="'.DB_HOST.'" --user="'.DB_USER.'" --password="'.DB_PASSWORD.'" '.DB_NAME;
+					$backup['command'] = 'gunzip < '.$brace.$backup['path'].'/'.$database_file.$brace.' | '.$brace.$backup['mysqlpath'].$brace.' --host="'.DB_HOST.'" --user="'.DB_USER.'" --password="'.DB_PASSWORD.'" '.DB_NAME;
 				} else {
-					$backup['command'] = $backup['mysqlpath'].' --host="'.DB_HOST.'" --user="'.DB_USER.'" --password="'.DB_PASSWORD.'" '.DB_NAME.' < '.$backup['path'].'/'.$database_file;
+					$backup['command'] = $brace.$backup['mysqlpath'].$brace.' --host="'.DB_HOST.'" --user="'.DB_USER.'" --password="'.DB_PASSWORD.'" '.DB_NAME.' < '.$brace.$backup['path'].'/'.$database_file.$brace;
 				}
 				passthru($backup['command'], $error);
 				if($error) {
@@ -64,7 +65,7 @@ if($_POST['do']) {
 				// Get And Read The Database Backup File
 				$file_path = $backup['path'].'/'.$database_file;
 				$file_size = format_size(filesize($file_path));
-				$file_date = gmdate(sprintf(__('%s @ %s', 'wp-dbmanager'), get_option('date_format'), get_option('time_format')), substr($database_file, 0, 10));
+				$file_date = $nice_file_date;
 				$file = fopen($file_path,'rb');
 				$file_data = fread($file,filesize($file_path));
 				fclose($file);
@@ -119,7 +120,6 @@ if($_POST['do']) {
 			break;
 		case __('Delete', 'wp-dbmanager'):
 			if(!empty($database_file)) {
-				$nice_file_date = gmdate(sprintf(__('%s @ %s', 'wp-dbmanager'), get_option('date_format'), get_option('time_format')), substr($database_file, 0, 10));
 				if(is_file($backup['path'].'/'.$database_file)) {
 					if(!unlink($backup['path'].'/'.$database_file)) {
 						$text .= '<font color="red">'.sprintf(__('Unable To Delete Database Backup File On \'%s\'', 'wp-dbmanager'), $nice_file_date).'</font><br />';
@@ -173,7 +173,8 @@ if($_POST['do']) {
 							$database_text = substr($database_files[$i], 13);
 							$date_text = mysql2date(sprintf(__('%s @ %s', 'wp-dbmanager'), get_option('date_format'), get_option('time_format')), gmdate('Y-m-d H:i:s', substr($database_files[$i], 0, 10)));
 							$size_text = filesize($backup['path'].'/'.$database_files[$i]);
-							echo "<tr$style>\n<td>$no</td>";
+							echo "<tr$style>\n";
+							echo '<td>'.number_format_i18n($no).'</td>';
 							echo "<td>$database_text</td>";
 							echo "<td>$date_text</td>";
 							echo '<td>'.format_size($size_text).'</td>';
@@ -188,14 +189,14 @@ if($_POST['do']) {
 				}
 			?>
 			<tr class="thead">
-				<th colspan="3"><?php printf(__ngettext('%s Backup File', '%s Backup Files', $no, 'wp-dbmanager'), $no); ?></th>
+				<th colspan="3"><?php printf(__ngettext('%s Backup File', '%s Backup Files', $no, 'wp-dbmanager'), number_format_i18n($no)); ?></th>
 				<th><?php echo format_size($totalsize); ?></th>
 				<th>&nbsp;</th>
 			</tr>
 		</table>
 		<table class="form-table">
 			<tr>
-				<td colspan="5" align="center"><label for="email_to"><?php _e('E-mail database backup file to:', 'wp-dbmanager'); ?></label> <input type="text" id="email_to" name="email_to" size="30" maxlength="50" value="<?php echo get_option('admin_email'); ?>" />&nbsp;&nbsp;<input type="submit" name="do" value="<?php _e('E-Mail', 'wp-dbmanager'); ?>" class="button" /></td>
+				<td colspan="5" align="center"><label for="email_to"><?php _e('E-mail database backup file to:', 'wp-dbmanager'); ?></label> <input type="text" id="email_to" name="email_to" size="30" maxlength="50" value="<?php echo get_option('admin_email'); ?>" dir="ltr" />&nbsp;&nbsp;<input type="submit" name="do" value="<?php _e('E-Mail', 'wp-dbmanager'); ?>" class="button" /></td>
 			</tr>
 			<tr>
 				<td colspan="5" align="center">

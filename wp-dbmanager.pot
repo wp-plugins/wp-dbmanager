@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP-DBManager 2.40\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-11 12:13+0800\n"
-"PO-Revision-Date: 2008-08-11 12:14+0800\n"
+"POT-Creation-Date: 2008-09-21 16:46+0800\n"
+"PO-Revision-Date: 2008-09-21 16:46+0800\n"
 "Last-Translator: Lester Chan <lesterchan@gmail.com>\n"
 "Language-Team: Lester Chan <lesterchan@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -16,10 +16,8 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 
 #: database-backup.php:29
-#: database-backup.php:183
+#: database-backup.php:184
 #: database-manage.php:41
-#: database-manage.php:67
-#: database-manage.php:122
 #: database-manage.php:174
 #: wp-dbmanager.php:66
 #: wp-dbmanager.php:87
@@ -30,168 +28,168 @@ msgid "%s @ %s"
 msgstr ""
 
 #: database-backup.php:42
-#: database-backup.php:202
+#: database-backup.php:203
 msgid "Backup"
 msgstr ""
 
-#: database-backup.php:55
+#: database-backup.php:56
 #, php-format
 msgid "Database Failed To Backup On '%s'. Backup Folder Not Writable."
 msgstr ""
 
-#: database-backup.php:58
+#: database-backup.php:59
 #, php-format
 msgid "Database Failed To Backup On '%s'. Backup File Size Is 0KB."
 msgstr ""
 
-#: database-backup.php:60
+#: database-backup.php:61
 #, php-format
 msgid "Database Failed To Backup On '%s'. Invalid Backup File Path."
 msgstr ""
 
-#: database-backup.php:62
+#: database-backup.php:63
 #, php-format
 msgid "Database Failed To Backup On '%s'."
 msgstr ""
 
-#: database-backup.php:64
+#: database-backup.php:65
 #, php-format
 msgid "Database Backed Up Successfully On '%s'."
 msgstr ""
 
-#: database-backup.php:82
+#: database-backup.php:83
 msgid "Checking Backup Status"
 msgstr ""
 
-#: database-backup.php:84
+#: database-backup.php:85
 msgid "Checking Backup Folder"
 msgstr ""
 
-#: database-backup.php:87
+#: database-backup.php:88
 msgid "Backup folder exists"
 msgstr ""
 
-#: database-backup.php:90
+#: database-backup.php:91
 #, php-format
 msgid "Backup folder does NOT exist. Please create 'backup-db' folder in '%s' folder and CHMOD it to '777' or change the location of the backup folder under DB Option."
 msgstr ""
 
-#: database-backup.php:93
+#: database-backup.php:94
 msgid "Backup folder is writable"
 msgstr ""
 
-#: database-backup.php:96
+#: database-backup.php:97
 msgid "Backup folder is NOT writable. Please CHMOD it to '777'."
 msgstr ""
 
-#: database-backup.php:103
-#: database-backup.php:107
+#: database-backup.php:104
+#: database-backup.php:108
 msgid "Checking MYSQL Dump Path"
 msgstr ""
 
-#: database-backup.php:104
+#: database-backup.php:105
 msgid "MYSQL dump path exists."
 msgstr ""
 
-#: database-backup.php:108
+#: database-backup.php:109
 msgid "MYSQL dump path does NOT exist. Please check your mysqldump path under DB Options. If uncertain, contact your server administrator."
 msgstr ""
 
-#: database-backup.php:115
-#: database-backup.php:119
+#: database-backup.php:116
+#: database-backup.php:120
 msgid "Checking MYSQL Path"
 msgstr ""
 
-#: database-backup.php:116
+#: database-backup.php:117
 msgid "MYSQL path exists."
 msgstr ""
 
-#: database-backup.php:120
+#: database-backup.php:121
 msgid "MYSQL path does NOT exist. Please check your mysql path under DB Options. If uncertain, contact your server administrator."
 msgstr ""
 
-#: database-backup.php:125
+#: database-backup.php:126
 msgid "Checking PHP Functions"
 msgstr ""
 
-#: database-backup.php:125
+#: database-backup.php:126
 msgid "and"
 msgstr ""
 
-#: database-backup.php:128
-#: database-backup.php:135
-#: database-backup.php:141
+#: database-backup.php:129
+#: database-backup.php:136
+#: database-backup.php:142
 msgid "enabled"
 msgstr ""
 
-#: database-backup.php:131
-#: database-backup.php:137
-#: database-backup.php:143
+#: database-backup.php:132
+#: database-backup.php:138
+#: database-backup.php:144
 msgid "disabled"
 msgstr ""
 
-#: database-backup.php:151
+#: database-backup.php:152
 msgid "Excellent. You Are Good To Go."
 msgstr ""
 
-#: database-backup.php:153
+#: database-backup.php:154
 msgid "I'm sorry, your server administrator has disabled passthru(), system() and exec(), thus you cannot use this backup script. You may consider using the default WordPress database backup script instead."
 msgstr ""
 
-#: database-backup.php:155
+#: database-backup.php:156
 msgid "Please Rectify The Error Highlighted In Red Before Proceeding On."
 msgstr ""
 
-#: database-backup.php:159
+#: database-backup.php:160
 msgid "Note: The checking of backup status is still undergoing testing, it may not be accurate."
 msgstr ""
 
-#: database-backup.php:164
+#: database-backup.php:165
 msgid "Backup Database"
 msgstr ""
 
-#: database-backup.php:169
+#: database-backup.php:170
 msgid "Option"
 msgstr ""
 
-#: database-backup.php:170
+#: database-backup.php:171
 #: database-manager.php:49
 msgid "Value"
 msgstr ""
 
-#: database-backup.php:174
+#: database-backup.php:175
 msgid "Database Name:"
 msgstr ""
 
-#: database-backup.php:178
+#: database-backup.php:179
 msgid "Database Backup To:"
 msgstr ""
 
-#: database-backup.php:182
+#: database-backup.php:183
 msgid "Database Backup Date:"
 msgstr ""
 
-#: database-backup.php:186
+#: database-backup.php:187
 msgid "Database Backup File Name:"
 msgstr ""
 
-#: database-backup.php:190
+#: database-backup.php:191
 msgid "Database Backup Type:"
 msgstr ""
 
-#: database-backup.php:191
+#: database-backup.php:192
 msgid "Full (Structure and Data)"
 msgstr ""
 
-#: database-backup.php:194
+#: database-backup.php:195
 msgid "MYSQL Dump Location:"
 msgstr ""
 
-#: database-backup.php:198
+#: database-backup.php:199
 msgid "GZIP Database Backup File?"
 msgstr ""
 
-#: database-backup.php:199
+#: database-backup.php:200
 #: database-optimize.php:87
 #: database-repair.php:87
 #: database-uninstall.php:124
@@ -199,16 +197,16 @@ msgstr ""
 msgid "Yes"
 msgstr ""
 
-#: database-backup.php:199
+#: database-backup.php:200
 #: database-optimize.php:87
 #: database-repair.php:87
 #: wp-dbmanager.php:463
 msgid "No"
 msgstr ""
 
-#: database-backup.php:202
+#: database-backup.php:203
 #: database-empty.php:111
-#: database-manage.php:205
+#: database-manage.php:206
 #: database-optimize.php:94
 #: database-repair.php:91
 #: database-run.php:97
@@ -281,90 +279,91 @@ msgid ""
 msgstr ""
 
 #: database-manage.php:45
-#: database-manage.php:203
+#: database-manage.php:204
 msgid "Restore"
 msgstr ""
 
-#: database-manage.php:54
+#: database-manage.php:55
 #, php-format
 msgid "Database On '%s' Failed To Restore"
 msgstr ""
 
-#: database-manage.php:56
+#: database-manage.php:57
 #, php-format
 msgid "Database On '%s' Restored Successfully"
 msgstr ""
 
-#: database-manage.php:59
-#: database-manage.php:112
-#: database-manage.php:117
+#: database-manage.php:60
+#: database-manage.php:113
+#: database-manage.php:118
 #: database-manage.php:133
 msgid "No Backup Database File Selected"
 msgstr ""
 
-#: database-manage.php:62
-#: database-manage.php:198
+#: database-manage.php:63
+#: database-manage.php:199
 msgid "E-Mail"
 msgstr ""
 
-#: database-manage.php:78
+#: database-manage.php:79
 #: wp-dbmanager.php:93
 #, php-format
 msgid "%s Database Backup File For %s"
 msgstr ""
 
-#: database-manage.php:87
+#: database-manage.php:88
 #: wp-dbmanager.php:102
 msgid "Website Name:"
 msgstr ""
 
-#: database-manage.php:88
+#: database-manage.php:89
 #: wp-dbmanager.php:103
 msgid "Website URL:"
 msgstr ""
 
-#: database-manage.php:89
+#: database-manage.php:90
 #: wp-dbmanager.php:104
 msgid "Backup File Name:"
 msgstr ""
 
-#: database-manage.php:90
+#: database-manage.php:91
 #: wp-dbmanager.php:105
 msgid "Backup File Date:"
 msgstr ""
 
-#: database-manage.php:91
+#: database-manage.php:92
 #: wp-dbmanager.php:106
 msgid "Backup File Size:"
 msgstr ""
 
-#: database-manage.php:92
+#: database-manage.php:93
 #: wp-dbmanager.php:107
 msgid "With Regards,"
 msgstr ""
 
-#: database-manage.php:93
+#: database-manage.php:94
 #: wp-dbmanager.php:108
 msgid "Administrator"
 msgstr ""
 
-#: database-manage.php:107
+#: database-manage.php:108
 #, php-format
 msgid "Database Backup File For '%s' Successfully E-Mailed To '%s'"
 msgstr ""
 
-#: database-manage.php:109
+#: database-manage.php:110
 #, php-format
 msgid "Unable To E-Mail Database Backup File For '%s' To '%s'"
 msgstr ""
 
-#: database-manage.php:115
-#: database-manage.php:202
+#: database-manage.php:116
+#: database-manage.php:203
+#: wp-dbmanager.php:308
 msgid "Download"
 msgstr ""
 
-#: database-manage.php:120
-#: database-manage.php:204
+#: database-manage.php:121
+#: database-manage.php:205
 msgid "Delete"
 msgstr ""
 
@@ -412,23 +411,23 @@ msgstr ""
 msgid "Select"
 msgstr ""
 
-#: database-manage.php:184
-#: database-manage.php:187
+#: database-manage.php:185
+#: database-manage.php:188
 msgid "There Are No Database Backup Files Available."
 msgstr ""
 
-#: database-manage.php:191
+#: database-manage.php:192
 #, php-format
 msgid "%s Backup File"
 msgid_plural "%s Backup Files"
 msgstr[0] ""
 msgstr[1] ""
 
-#: database-manage.php:198
+#: database-manage.php:199
 msgid "E-mail database backup file to:"
 msgstr ""
 
-#: database-manage.php:203
+#: database-manage.php:204
 msgid ""
 "You Are About To Restore A Database.\\n"
 "This Action Is Not Reversible.\\n"
@@ -437,7 +436,7 @@ msgid ""
 " Choose [Cancel] to stop, [Ok] to restore."
 msgstr ""
 
-#: database-manage.php:204
+#: database-manage.php:205
 msgid ""
 "You Are About To Delete The Selected Database Backup Files.\\n"
 "This Action Is Not Reversible.\\n"

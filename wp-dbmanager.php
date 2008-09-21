@@ -48,7 +48,7 @@ function dbmanager_menu() {
 		add_submenu_page('wp-dbmanager/database-manager.php', __('Repair DB', 'wp-dbmanager'), __('Repair DB', 'wp-dbmanager'), 'manage_database', 'wp-dbmanager/database-repair.php');
 		add_submenu_page('wp-dbmanager/database-manager.php', __('Empty/Drop Tables', 'wp-dbmanager'), __('Empty/Drop Tables', 'wp-dbmanager'), 'manage_database', 'wp-dbmanager/database-empty.php');
 		add_submenu_page('wp-dbmanager/database-manager.php', __('Run SQL Query', 'wp-dbmanager'), __('Run SQL Query', 'wp-dbmanager'), 'manage_database', 'wp-dbmanager/database-run.php');
-		add_submenu_page('wp-dbmanager/database-manager.php',  __('DB Options', 'wp-dbmanager'),  __('DB Options', 'wp-dbmanager'), 'manage_database', 'wp-dbmanager/wp-dbmanager.php', 'dbmanager_options');
+		add_submenu_page('wp-dbmanager/database-manager.php', __('DB Options', 'wp-dbmanager'),  __('DB Options', 'wp-dbmanager'), 'manage_database', 'wp-dbmanager/wp-dbmanager.php', 'dbmanager_options');
 		add_submenu_page('wp-dbmanager/database-manager.php', __('Uninstall WP-DBManager', 'wp-dbmanager'), __('Uninstall WP-DBManager', 'wp-dbmanager'), 'manage_database', 'wp-dbmanager/database-uninstall.php');
 	}
 }
@@ -205,13 +205,13 @@ function execute_backup($command) {
 if(!function_exists('format_size')) {
 	function format_size($rawSize) {
 		if($rawSize / 1073741824 > 1) 
-			return round($rawSize/1048576, 1) . ' '.__('GiB', 'wp-dbmanager');
+			return number_format_i18n($rawSize/1048576, 1) . ' '.__('GiB', 'wp-dbmanager');
 		else if ($rawSize / 1048576 > 1)
-			return round($rawSize/1048576, 1) . ' '.__('MiB', 'wp-dbmanager');
+			return number_format_i18n($rawSize/1048576, 1) . ' '.__('MiB', 'wp-dbmanager');
 		else if ($rawSize / 1024 > 1)
-			return round($rawSize/1024, 1) . ' '.__('KiB', 'wp-dbmanager');
+			return number_format_i18n($rawSize/1024, 1) . ' '.__('KiB', 'wp-dbmanager');
 		else
-			return round($rawSize, 1) . ' '.__('bytes', 'wp-dbmanager');
+			return number_format_i18n($rawSize, 0) . ' '.__('bytes', 'wp-dbmanager');
 	}
 }
 
@@ -305,7 +305,7 @@ function dbmanager_init() {
 ### Function: Download Database
 add_action('init', 'download_database');
 function download_database() {
-	if($_POST['do'] == 'Download' && !empty($_POST['database_file'])) {
+	if($_POST['do'] == __('Download', 'wp-dbmanager') && !empty($_POST['database_file'])) {
 		if(strpos($_SERVER['HTTP_REFERER'], admin_url('admin.php?page=wp-dbmanager/database-manage.php')) !== false) {
 			$backup_options = get_option('dbmanager_options');
 			$file_path = $backup_options['path'].'/'.$_POST['database_file'];
@@ -384,21 +384,21 @@ function dbmanager_options() {
 			<tr>
 				<td width="20%" valign="top"><strong><?php _e('Path To mysqldump:', 'wp-dbmanager'); ?></strong></td>
 				<td width="80%">
-					<input type="text" id="db_mysqldumppath" name="db_mysqldumppath" size="60" maxlength="100" value="<?php echo stripslashes($backup_options['mysqldumppath']); ?>" />&nbsp;&nbsp;<input type="button" value="<?php _e('Auto Detect', 'wp-dbmanager'); ?>" onclick="mysqldumppath();" />
+					<input type="text" id="db_mysqldumppath" name="db_mysqldumppath" size="60" maxlength="100" value="<?php echo stripslashes($backup_options['mysqldumppath']); ?>" dir="ltr" />&nbsp;&nbsp;<input type="button" value="<?php _e('Auto Detect', 'wp-dbmanager'); ?>" onclick="mysqldumppath();" />
 					<p><?php _e('The absolute path to mysqldump without trailing slash. If unsure, please email your server administrator about this.', 'wp-dbmanager'); ?></p>
 				</td>
 			</tr>
 			<tr>
 				<td valign="top"><strong><?php _e('Path To mysql:', 'wp-dbmanager'); ?></strong></td>
 				<td>
-					<input type="text" id="db_mysqlpath" name="db_mysqlpath" size="60" maxlength="100" value="<?php echo stripslashes($backup_options['mysqlpath']); ?>" />&nbsp;&nbsp;<input type="button" value="<?php _e('Auto Detect', 'wp-dbmanager'); ?>" onclick="mysqlpath();" />
+					<input type="text" id="db_mysqlpath" name="db_mysqlpath" size="60" maxlength="100" value="<?php echo stripslashes($backup_options['mysqlpath']); ?>" dir="ltr" />&nbsp;&nbsp;<input type="button" value="<?php _e('Auto Detect', 'wp-dbmanager'); ?>" onclick="mysqlpath();" />
 					<p><?php _e('The absolute path to mysql without trailing slash. If unsure, please email your server administrator about this.', 'wp-dbmanager'); ?></p>
 				</td>
 			</tr>
 			<tr>
 				<td valign="top"><strong><?php _e('Path To Backup:', 'wp-dbmanager'); ?></strong></td>
 				<td>
-					<input type="text" name="db_path" size="60" maxlength="100" value="<?php echo stripslashes($backup_options['path']); ?>" />
+					<input type="text" name="db_path" size="60" maxlength="100" value="<?php echo stripslashes($backup_options['path']); ?>" dir="ltr" />
 					<p><?php _e('The absolute path to your database backup folder without trailing slash. Make sure the folder is writable.', 'wp-dbmanager'); ?></p>
 				</td>
 			</tr>
@@ -464,7 +464,7 @@ function dbmanager_options() {
 						<option value="1"<?php selected('1', $backup_options['backup_gzip']); ?>><?php _e('Yes', 'wp-dbmanager'); ?></option>
 					</select>
 					</p>
-					<p><?php _e('E-mail backup to:', 'wp-dbmanager'); ?> <input type="text" name="db_backup_email" size="30" maxlength="50" value="<?php echo stripslashes($backup_options['backup_email']) ?>" />&nbsp;&nbsp;&nbsp;<?php _e('(Leave black to disable this feature)', 'wp-dbmanager'); ?></p>
+					<p><?php _e('E-mail backup to:', 'wp-dbmanager'); ?> <input type="text" name="db_backup_email" size="30" maxlength="50" value="<?php echo stripslashes($backup_options['backup_email']) ?>" dir="ltr" />&nbsp;&nbsp;&nbsp;<?php _e('(Leave black to disable this feature)', 'wp-dbmanager'); ?></p>
 					<p><?php _e('WP-DBManager can automatically backup your database after a certain period.', 'wp-dbmanager'); ?></p>
 				</td>
 			</tr>

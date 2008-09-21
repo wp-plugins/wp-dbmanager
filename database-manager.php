@@ -99,9 +99,9 @@ if($sqlversion >= '3.23') {
 		}
 		$no++;
 		echo "<tr$style>\n";
-		echo "<td>$no</td>\n";
+		echo '<td>'.number_format_i18n($no).'</td>'."\n";
 		echo "<td>$tablestatus->Name</td>\n";
-		echo '<td>'.number_format($tablestatus->Rows).'</td>'."\n";
+		echo '<td>'.number_format_i18n($tablestatus->Rows).'</td>'."\n";
 		echo '<td>'.format_size($tablestatus->Data_length).'</td>'."\n";
 		echo '<td>'.format_size($tablestatus->Index_length).'</td>'."\n";;
 		echo '<td>'.format_size($tablestatus->Data_free).'</td>'."\n";
@@ -113,8 +113,8 @@ if($sqlversion >= '3.23') {
 	}	
 	echo '<tr class="thead">'."\n";
 	echo '<th>'.__('Total:', 'wp-dbmanager').'</th>'."\n";
-	echo '<th>'.sprintf(__ngettext('%s Table', '%s Tables', $no, 'wp-dbmanager'), $no).'</th>'."\n";
-	echo '<th>'.sprintf(__ngettext('%s Record', '%s Records', $row_usage, 'wp-dbmanager'), number_format($row_usage)).'</th>'."\n";
+	echo '<th>'.sprintf(__ngettext('%s Table', '%s Tables', $no, 'wp-dbmanager'), number_format_i18n($no)).'</th>'."\n";
+	echo '<th>'.sprintf(__ngettext('%s Record', '%s Records', $row_usage, 'wp-dbmanager'), number_format_i18n($row_usage)).'</th>'."\n";
 	echo '<th>'.format_size($data_usage).'</th>'."\n";
 	echo '<th>'.format_size($index_usage).'</th>'."\n";
 	echo '<th>'.format_size($overhead_usage).'</th>'."\n";
