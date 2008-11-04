@@ -39,7 +39,7 @@ function dbmanager_textdomain() {
 add_action('admin_menu', 'dbmanager_menu');
 function dbmanager_menu() {
 	if (function_exists('add_menu_page')) {
-		add_menu_page(__('Database', 'wp-dbmanager'), __('Database', 'wp-dbmanager'), 'manage_database', 'wp-dbmanager/database-manager.php');
+		add_menu_page(__('Database', 'wp-dbmanager'), __('Database', 'wp-dbmanager'), 'manage_database', 'wp-dbmanager/database-manager.php', '', plugins_url('wp-dbmanager/images/database.png'));
 	}
 	if (function_exists('add_submenu_page')) {
 		add_submenu_page('wp-dbmanager/database-manager.php', __('Backup DB', 'wp-dbmanager'), __('Backup DB', 'wp-dbmanager'), 'manage_database', 'wp-dbmanager/database-backup.php');
