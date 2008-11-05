@@ -138,7 +138,7 @@ function cron_dbmanager_optimize() {
 	}
 	return;
 }
-function cron_dbmanager_reccurences() {
+function cron_dbmanager_reccurences($schedules) {
 	$backup_options = get_option('dbmanager_options');
 	$backup = intval($backup_options['backup'])*intval($backup_options['backup_period']);
 	$optimize = intval($backup_options['optimize'])*intval($backup_options['optimize_period']);
@@ -148,10 +148,9 @@ function cron_dbmanager_reccurences() {
 	if($optimize == 0) {
 		$optimize = 31536000;
 	}
-	return array(
-		'dbmanager_backup' => array('interval' => $backup, 'display' => __('WP-DBManager Backup Schedule', 'wp-dbmanager')),
-		'dbmanager_optimize' => array('interval' => $optimize, 'display' => __('WP-DBManager Optimize Schedule', 'wp-dbmanager'))
-	);
+   $schedules['dbmanager_backup'] = array('interval' => $backup, 'display' => __('WP-DBManager Backup Schedule', 'wp-dbmanager'));
+   $schedules['dbmanager_optimize'] = array('interval' => $optimize, 'display' => __('WP-DBManager Optimize Schedule', 'wp-dbmanager'));
+   return $schedules;
 }
 
 
