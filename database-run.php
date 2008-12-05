@@ -83,6 +83,7 @@ if($_POST['do']) {
 <!-- Run SQL Query -->
 <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
 	<div class="wrap">
+		<div id="icon-wp-dbmanager" class="icon32"><br /></div>
 		<h2><?php _e('Run SQL Query', 'wp-dbmanager'); ?></h2>
 		<br style="clear" />
 		<div>

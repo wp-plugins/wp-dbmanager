@@ -77,6 +77,7 @@ $tables = $wpdb->get_col("SHOW TABLES");
 <!-- Empty/Drop Tables -->
 <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
 	<div class="wrap">
+		<div id="icon-wp-dbmanager" class="icon32"><br /></div>
 		<h2><?php _e('Empty/Drop Tables', 'wp-dbmanager'); ?></h2>	
 		<br style="clear" />
 		<table class="widefat">

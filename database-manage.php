@@ -140,6 +140,7 @@ if($_POST['do']) {
 <!-- Manage Backup Database -->
 <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
 	<div class="wrap">
+		<div id="icon-wp-dbmanager" class="icon32"><br /></div>
 		<h2><?php _e('Manage Backup Database', 'wp-dbmanager'); ?></h2>
 		<p><?php _e('Choose A Backup Date To E-Mail, Restore, Download Or Delete', 'wp-dbmanager'); ?></p>	
 		<table class="widefat">

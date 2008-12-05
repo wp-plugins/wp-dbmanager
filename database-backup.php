@@ -80,7 +80,9 @@ $stats_function_disabled = 0;
 <?php if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.$text.'</p></div>'; } ?>
 <!-- Checking Backup Status -->
 <div class="wrap">
-	<h2><?php _e('Checking Backup Status', 'wp-dbmanager'); ?></h2>
+	<div id="icon-wp-dbmanager" class="icon32"><br /></div>
+	<h2><?php _e('Backup Database', 'wp-dbmanager'); ?></h2>
+	<h3><?php _e('Checking Backup Status', 'wp-dbmanager'); ?></h3>
 	<p>
 		<?php _e('Checking Backup Folder', 'wp-dbmanager'); ?> <span dir="ltr">(<strong><?php echo stripslashes($backup['path']); ?></strong>)</span> ...<br />
 		<?php
@@ -162,7 +164,7 @@ $stats_function_disabled = 0;
 <!-- Backup Database -->
 <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
 	<div class="wrap">
-		<h2><?php _e('Backup Database', 'wp-dbmanager'); ?></h2>
+		<h3><?php _e('Backup Database', 'wp-dbmanager'); ?></h3>
 		<br style="clear" />
 		<table class="widefat">
 			<thead>

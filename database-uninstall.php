@@ -75,6 +75,7 @@ switch($mode) {
 				$deactivate_url = wp_nonce_url($deactivate_url, 'deactivate-plugin_wp-dbmanager/wp-dbmanager.php');
 			}
 			echo '<div class="wrap">';
+			echo '<div id="icon-wp-dbmanager" class="icon32"><br /></div>';
 			echo '<h2>'.__('Uninstall WP-DBManager', 'wp-dbmanager').'</h2>';
 			echo '<p><strong>'.sprintf(__('<a href="%s">Click Here</a> To Finish The Uninstallation And WP-DBManager Will Be Deactivated Automatically.', 'wp-dbmanager'), $deactivate_url).'</strong></p>';
 			echo '</div>';
@@ -85,6 +86,7 @@ switch($mode) {
 <!-- Uninstall WP-DBManager -->
 <form action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']); ?>" method="post">
 	<div class="wrap">
+		<div id="icon-wp-dbmanager" class="icon32"><br /></div>
 		<h2><?php _e('Uninstall WP-DBManager', 'wp-dbmanager'); ?></h2>
 		<p>
 			<?php _e('Deactivating WP-DBManager plugin does not remove any data that may have been created, such as the database options. To completely remove this plugin, you can uninstall it here.', 'wp-dbmanager'); ?>

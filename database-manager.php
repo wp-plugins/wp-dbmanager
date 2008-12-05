@@ -40,7 +40,9 @@ $sqlversion = $wpdb->get_var("SELECT VERSION() AS version");
 <?php if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.$text.'</p></div>'; } ?>
 <!-- Database Information -->
 <div class="wrap">
-	<h2><?php _e('Database Information', 'wp-dbmanager'); ?></h2>
+	<div id="icon-wp-dbmanager" class="icon32"><br /></div>
+	<h2><?php _e('Database', 'wp-dbmanager'); ?></h2>
+	<h3><?php _e('Database Information', 'wp-dbmanager'); ?></h3>
 	<br style="clear" />
 	<table class="widefat">
 		<thead>
@@ -74,7 +76,7 @@ $sqlversion = $wpdb->get_var("SELECT VERSION() AS version");
 <p>&nbsp;</p>
 
 <div class="wrap">
-	<h2><?php _e('Tables Information', 'wp-dbmanager'); ?></h2>
+	<h3><?php _e('Tables Information', 'wp-dbmanager'); ?></h3>
 	<br style="clear" />
 	<table class="widefat">
 		<thead>

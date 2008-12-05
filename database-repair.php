@@ -66,6 +66,7 @@ $tables = $wpdb->get_col("SHOW TABLES");
 <!-- Repair Database -->
 <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
 	<div class="wrap">
+		<div id="icon-wp-dbmanager" class="icon32"><br /></div>
 		<h2><?php _e('Repair Database', 'wp-dbmanager'); ?></h2>
 		<br style="clear" />
 		<table class="widefat">
