@@ -2,8 +2,8 @@
 /*
 +----------------------------------------------------------------+
 |																							|
-|	WordPress 2.7 Plugin: WP-DBManager 2.40								|
-|	Copyright (c) 2008 Lester "GaMerZ" Chan									|
+|	WordPress 2.8 Plugin: WP-DBManager 2.50								|
+|	Copyright (c) 2009 Lester "GaMerZ" Chan									|
 |																							|
 |	File Written By:																	|
 |	- Lester "GaMerZ" Chan															|
