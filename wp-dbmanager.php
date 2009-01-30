@@ -376,10 +376,10 @@ function dbmanager_options() {
 <script type="text/javascript">
 /* <![CDATA[*/
 	function mysqlpath() {
-		document.getElementById('db_mysqlpath').value = '<?php echo $path['mysql']; ?>';
+		jQuery("#db_mysqlpath").val('<?php echo $path['mysql']; ?>');
 	}
 	function mysqldumppath() {
-		document.getElementById('db_mysqldumppath').value = '<?php echo $path['mysqldump']; ?>';
+		jQuery("#db_mysqldumppath").val('<?php echo $path['mysqldump']; ?>');
 	}
 /* ]]> */
 </script>
