@@ -422,9 +422,13 @@
 					Open <strong>wp-content/backup-db</strong> Folder
 				</li>
 				<li>
-					Put:
-					<blockquote>File: .htaccess</blockquote>
-					<p>The script will automatically create a folder called <strong>backup-db</strong> in wp-content folder if that folder is writable. If it is not created, please create it and CHMOD it to 777.</p>
+					The script will automatically create a folder called <strong>backup-db</strong> in the wp-content folder if that folder is writable. If it is not created, please create it and CHMOD it to 777
+				</li>
+				<li>
+					Move the <strong>.htaccess</strong> file from:
+					<blockquote>Folder: wp-content/plugins/wp-dbmanager</blockquote>
+					to:
+					<blockquote>Folder: wp-content/backup-db</blockquote>
 				</li>
 				<li>
 					Refer To <strong>Usage</strong> For Further Instructions
