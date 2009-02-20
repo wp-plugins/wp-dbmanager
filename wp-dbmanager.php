@@ -164,6 +164,16 @@ function cron_dbmanager_reccurences($schedules) {
 }
 
 
+### Function: Ensure .htaccess Is In The Backup Folder
+add_action('admin_notices', 'dbmanager_admin_notices');
+function dbmanager_admin_notices() {
+	$backup_options = get_option('dbmanager_options');
+	if(!@file_exists($backup_options['path'].'/.htaccess')) {
+		echo '<div class="error" style="text-align: center;"><p style="color: red; font-size: 14px; font-weight: bold;">'.__('Your backup folder MIGHT be visible to the public', 'wp-postratings').'</p><p>'.sprintf(__('To correct this issue, move the <strong>.htaccess</strong> file from <strong>wp-content/plugins/wp-dbmanager</strong> to <strong>%s</strong>', 'wp-postratings'), $backup_options['path']).'</p></div>';
+	}
+}
+
+
 ### Function: Auto Detect MYSQL and MYSQL Dump Paths
 function detect_mysql() {
 	global $wpdb;
