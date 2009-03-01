@@ -162,7 +162,7 @@ $stats_function_disabled = 0;
 	<p><i><?php _e('Note: The checking of backup status is still undergoing testing, it may not be accurate.', 'wp-dbmanager'); ?></i></p>
 </div>
 <!-- Backup Database -->
-<form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
+<form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?page=<?php echo plugin_basename(__FILE__); ?>">
 	<div class="wrap">
 		<h3><?php _e('Backup Database', 'wp-dbmanager'); ?></h3>
 		<br style="clear" />

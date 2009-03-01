@@ -138,7 +138,7 @@ if($_POST['do']) {
 ?>
 <?php if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.$text.'</p></div>'; } ?>
 <!-- Manage Backup Database -->
-<form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
+<form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?page=<?php echo plugin_basename(__FILE__); ?>">
 	<div class="wrap">
 		<div id="icon-wp-dbmanager" class="icon32"><br /></div>
 		<h2><?php _e('Manage Backup Database', 'wp-dbmanager'); ?></h2>
@@ -190,7 +190,7 @@ if($_POST['do']) {
 				}
 			?>
 			<tr class="thead">
-				<th colspan="3"><?php printf(__ngettext('%s Backup File', '%s Backup Files', $no, 'wp-dbmanager'), number_format_i18n($no)); ?></th>
+				<th colspan="3"><?php printf(_n('%s Backup File', '%s Backup Files', $no, 'wp-dbmanager'), number_format_i18n($no)); ?></th>
 				<th><?php echo format_size($totalsize); ?></th>
 				<th>&nbsp;</th>
 			</tr>
