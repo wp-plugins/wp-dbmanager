@@ -311,6 +311,7 @@ function dbmanager_init() {
 	// Create Backup Folder
 	if(!is_dir(WP_CONTENT_DIR.'/backup-db')) {
 		mkdir(WP_CONTENT_DIR.'/backup-db');
+		chmod(WP_CONTENT_DIR.'/backup-db', 0750);
 	}
 
 	// Set 'manage_database' Capabilities To Administrator	
