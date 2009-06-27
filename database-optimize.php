@@ -34,7 +34,7 @@ if($_POST['do']) {
 
 	// Decide What To Do
 	switch($_POST['do']) {
-		case 'Optimize':
+		case __('Optimize', 'wp-dbmanager'):
 			if(!empty($optimize)) {
 				foreach($optimize as $key => $value) {
 					if($value == 'yes') {
