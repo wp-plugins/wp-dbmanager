@@ -2,7 +2,7 @@
 /*
 +----------------------------------------------------------------+
 |																							|
-|	WordPress 2.8 Plugin: WP-DBManager 2.50								|
+|	WordPress 2.8 Plugin: WP-DBManager 2.60								|
 |	Copyright (c) 2009 Lester "GaMerZ" Chan									|
 |																							|
 |	File Written By:																	|
@@ -34,7 +34,7 @@ if($_POST['do']) {
 
 	// Decide What To Do
 	switch($_POST['do']) {
-		case 'Repair':
+		case __('Repair', 'wp-dbmanager'):
 			if(!empty($repair)) {
 				foreach($repair as $key => $value) {
 					if($value == 'yes') {
