@@ -5,7 +5,7 @@ Tags: database, manage, wp-dbmanager, manager, table, optimize, backup, queries,
 Requires at least: 2.8
 Stable tag: 2.50
 
-Manages your WordPress database.
+Manages your Wordpress database. Allows you to optimize database, repair database, backup database, restore database, delete backup database , drop/empty tables and run selected queries. Supports automatic scheduling of backing up and optimizing of database.
 
 == Description ==
 
