@@ -32,6 +32,7 @@ $backup['date'] = current_time('timestamp');
 $backup['mysqldumppath'] = $backup_options['mysqldumppath'];
 $backup['mysqlpath'] = $backup_options['mysqlpath'];
 $backup['path'] = $backup_options['path'];
+$backup['password'] = str_replace('$', '\$', DB_PASSWORD);
 
 
 ### Form Processing 
@@ -46,9 +47,9 @@ if($_POST['do']) {
 			if(!empty($database_file)) {
 				$brace = (substr(PHP_OS, 0, 3) == 'WIN') ? '"' : '';
 				if(stristr($database_file, '.gz')) {
-					$backup['command'] = 'gunzip < '.$brace.$backup['path'].'/'.$database_file.$brace.' | '.$brace.$backup['mysqlpath'].$brace.' --host="'.DB_HOST.'" --user="'.DB_USER.'" --password="'.DB_PASSWORD.'" '.DB_NAME;
+					$backup['command'] = 'gunzip < '.$brace.$backup['path'].'/'.$database_file.$brace.' | '.$brace.$backup['mysqlpath'].$brace.' --host="'.DB_HOST.'" --user="'.DB_USER.'" --password="'.$backup['password'].'" '.DB_NAME;
 				} else {
-					$backup['command'] = $brace.$backup['mysqlpath'].$brace.' --host="'.DB_HOST.'" --user="'.DB_USER.'" --password="'.DB_PASSWORD.'" '.DB_NAME.' < '.$brace.$backup['path'].'/'.$database_file.$brace;
+					$backup['command'] = $brace.$backup['mysqlpath'].$brace.' --host="'.DB_HOST.'" --user="'.DB_USER.'" --password="'.$backup['password'].'" '.DB_NAME.' < '.$brace.$backup['path'].'/'.$database_file.$brace;
 				}
 				passthru($backup['command'], $error);
 				if($error) {
