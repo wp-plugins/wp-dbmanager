@@ -2,7 +2,7 @@
 /*
 +----------------------------------------------------------------+
 |																							|
-|	WordPress 2.8 Plugin: WP-DBManager 2.60								|
+|	WordPress 2.8 Plugin: WP-DBManager 2.62								|
 |	Copyright (c) 2009 Lester "GaMerZ" Chan									|
 |																							|
 |	File Written By:																	|
@@ -40,6 +40,7 @@ if($_POST['do']) {
 	// Decide What To Do
 	switch($_POST['do']) {
 		case __('Backup', 'wp-dbmanager'):
+			check_admin_referer('wp-dbmanager_backup');
 			$brace = (substr(PHP_OS, 0, 3) == 'WIN') ? '"' : '';
 			$gzip = intval($_POST['gzip']);
 			if($gzip == 1) {
@@ -163,6 +164,7 @@ $stats_function_disabled = 0;
 </div>
 <!-- Backup Database -->
 <form method="post" action="<?php echo admin_url('admin.php?page='.plugin_basename(__FILE__)); ?>">
+	<?php wp_nonce_field('wp-dbmanager_backup'); ?>
 	<div class="wrap">
 		<h3><?php _e('Backup Database', 'wp-dbmanager'); ?></h3>
 		<br style="clear" />

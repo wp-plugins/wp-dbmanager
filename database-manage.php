@@ -2,7 +2,7 @@
 /*
 +----------------------------------------------------------------+
 |																							|
-|	WordPress 2.8 Plugin: WP-DBManager 2.60								|
+|	WordPress 2.8 Plugin: WP-DBManager 2.62								|
 |	Copyright (c) 2009 Lester "GaMerZ" Chan									|
 |																							|
 |	File Written By:																	|
@@ -37,6 +37,7 @@ $backup['password'] = str_replace('$', '\$', DB_PASSWORD);
 
 ### Form Processing 
 if($_POST['do']) {
+	check_admin_referer('wp-dbmanager_manage');
 	// Lets Prepare The Variables
 	$database_file = trim($_POST['database_file']);
 	$nice_file_date = mysql2date(sprintf(__('%s @ %s', 'wp-dbmanager'), get_option('date_format'), get_option('time_format')), gmdate('Y-m-d H:i:s', substr($database_file, 0, 10)));
@@ -77,8 +78,8 @@ if($_POST['do']) {
 				} else {
 					$mail_to = get_option('admin_email');
 				}
-				$mail_subject = sprintf(__('%s Database Backup File For %s', 'wp-dbmanager'), get_bloginfo('name'), $file_date);
-				$mail_header = 'From: '.get_bloginfo('name').' Administrator <'.get_option('admin_email').'>';
+				$mail_subject = sprintf(__('%s Database Backup File For %s', 'wp-dbmanager'), wp_specialchars_decode(get_option('blogname')), $file_date);
+				$mail_header = 'From: '.wp_specialchars_decode(get_option('blogname')).' Administrator <'.get_option('admin_email').'>';
 				// MIME Boundary
 				$random_time = md5(time());
 				$mime_boundary = "==WP-DBManager- $random_time";
@@ -86,13 +87,13 @@ if($_POST['do']) {
 				$mail_header .= "\nMIME-Version: 1.0\n" .
 										"Content-Type: multipart/mixed;\n" .
 										" boundary=\"{$mime_boundary}\"";
-				$mail_message = __('Website Name:', 'wp-dbmanager').' '.get_bloginfo('name')."\n".
+				$mail_message = __('Website Name:', 'wp-dbmanager').' '.wp_specialchars_decode(get_option('blogname'))."\n".
 										__('Website URL:', 'wp-dbmanager').' '.get_bloginfo('siteurl')."\n".
 										__('Backup File Name:', 'wp-dbmanager').' '.$database_file."\n".
 										__('Backup File Date:', 'wp-dbmanager').' '.$file_date."\n".
 										__('Backup File Size:', 'wp-dbmanager').' '.$file_size."\n\n".
 										__('With Regards,', 'wp-dbmanager')."\n".
-										get_bloginfo('name').' '. __('Administrator', 'wp-dbmanager')."\n".
+										wp_specialchars_decode(get_option('blogname')).' '. __('Administrator', 'wp-dbmanager')."\n".
 										get_bloginfo('siteurl');
 				$mail_message = "This is a multi-part message in MIME format.\n\n" .
 										"--{$mime_boundary}\n" .
@@ -140,6 +141,7 @@ if($_POST['do']) {
 <?php if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.$text.'</p></div>'; } ?>
 <!-- Manage Backup Database -->
 <form method="post" action="<?php echo admin_url('admin.php?page='.plugin_basename(__FILE__)); ?>">
+	<?php wp_nonce_field('wp-dbmanager_manage'); ?>
 	<div class="wrap">
 		<div id="icon-wp-dbmanager" class="icon32"><br /></div>
 		<h2><?php _e('Manage Backup Database', 'wp-dbmanager'); ?></h2>
