@@ -3,7 +3,7 @@ Contributors: GamerZ
 Donate link: http://lesterchan.net/site/donation/
 Tags: database, manage, wp-dbmanager, manager, table, optimize, backup, queries, query, drop, empty, tables, table, run, repair, cron, schedule, scheduling, automatic
 Requires at least: 2.8
-Tested up to: 3.1.1
+Tested up to: 3.3.1
 Stable tag: trunk
 
 Manages your WordPress database.
