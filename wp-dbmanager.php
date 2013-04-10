@@ -6,6 +6,7 @@ Description: Manages your WordPress database. Allows you to optimize database, r
 Version: 2.63
 Author: Lester 'GaMerZ' Chan
 Author URI: http://lesterchan.net
+Text Domain: wp-dbmanager
 */
 
 
