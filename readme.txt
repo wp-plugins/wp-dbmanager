@@ -2,9 +2,9 @@
 Contributors: GamerZ  
 Donate link: http://lesterchan.net/site/donation/  
 Tags: database, manage, wp-dbmanager, manager, table, optimize, backup, queries, query, drop, empty, tables, table, run, repair, cron, schedule, scheduling, automatic  
-Requires at least: 2.8  
-Tested up to: 3.7  
-Stable tag: trunk  
+Requires at least: 3.9  
+Tested up to: 3.9  
+Stable tag: 2.70  
 
 Manages your WordPress database.
 
@@ -12,20 +12,11 @@ Manages your WordPress database.
 
 Allows you to optimize database, repair database, backup database, restore database, delete backup database , drop/empty tables and run selected queries. Supports automatic scheduling of backing up, optimizing and repairing of database.
 
-= Previous Versions =
-* [WP-DBManager 2.40 For WordPress 2.7.x](http://downloads.wordpress.org/plugin/wp-dbmanager.2.40.zip "WP-DBManager 2.40 For WordPress 2.7.x")
-* [WP-DBManager 2.31 For WordPress 2.1.x To 2.6.x](http://downloads.wordpress.org/plugin/wp-dbmanager.2.31.zip "WP-DBManager 2.31 For WordPress 2.1.x To 2.6.x")
-* [WP-DBManager 2.05 For WordPress 2.0.x](http://downloads.wordpress.org/plugin/wp-dbmanager.2.05.zip "WP-DBManager 2.05 For WordPress 2.0.x")
-* [WP-DBManager 1.00 For WordPress 1.5.2](http://downloads.wordpress.org/plugin/wp-dbmanager.1.00.zip "WP-DBManager 1.00 For WordPress 1.5.2")
-
 = Development =
-* [http://dev.wp-plugins.org/browser/wp-dbmanager/](http://dev.wp-plugins.org/browser/wp-dbmanager/ "http://dev.wp-plugins.org/browser/wp-dbmanager/")
+* [https://github.com/lesterchan/wp-dbmanager](https://github.com/lesterchan/wp-dbmanager "https://github.com/lesterchan/wp-dbmanager")
 
 = Translations =
 * [http://dev.wp-plugins.org/browser/wp-dbmanager/i18n/](http://dev.wp-plugins.org/browser/wp-dbmanager/i18n/ "http://dev.wp-plugins.org/browser/wp-dbmanager/i18n/")
-
-= Support Forums =
-* [http://forums.lesterchan.net/index.php?board=11.0](http://forums.lesterchan.net/index.php?board=11.0 "http://forums.lesterchan.net/index.php?board=11.0")
 
 = Credits =
 * __ngetext() by [Anna Ozeritskaya](http://hweia.ru/ "Anna Ozeritskaya")
@@ -35,6 +26,16 @@ Allows you to optimize database, repair database, backup database, restore datab
 * I spent most of my free time creating, updating, maintaining and supporting these plugins, if you really love my plugins and could spare me a couple of bucks, I will really appericiate it. If not feel free to use it without any obligations.
 
 == Changelog ==
+== Version 2.70 ==
+* New: Uses WordPress 3.9 Dashicons
+* NEW: Allow you to hide admin notices in the DB Options page
+* NEW: Allow Multisite Network Activate
+* NEW: Uses WordPress uninstall.php file to uninstall the plugin
+* NEW: Uses wp_mail() to send email instead of PHP mail()
+* NEW: New From E-mail, From Name & Subject template
+* FIXED: Issues with email from field if site title contains , (comma)
+* FIXED: Notices
+
 = Version 2.65 =
 * FIXED: Set default character set to UTF-8. Props Karsonito
 
@@ -188,4 +189,4 @@ N/A
 
 = Why do I get the message "Warning: Your backup folder MIGHT be visible to the public!"? =
 * Ensure that you have renamed `htaccess.txt` to `.htaccess` and placed it in your backup folder (defaults to `wp-content/backup-db/`)
-* If you are 100% sure you have did that and have verfied that the folder no longer is accessible to the public by visiting the URL `http://yousite.com/wp-content/backup-db/`, you can safely remove it by deleting `add_action('admin_notices', 'dbmanager_admin_notices');` on `line 204` in `wp-dbmanager.php`.
+* If you are 100% sure you have did that and have verfied that the folder no longer is accessible to the public by visiting the URL `http://yousite.com/wp-content/backup-db/`, you can safely disable the notice by going to `WP-Admin -> Database -> DB Options` and set `Hide Admin Notices` to `Yes`.
